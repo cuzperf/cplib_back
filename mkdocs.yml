@@ -1,0 +1,114 @@
+# prepare (need venv if default python is python2)
+
+# pip install mkdocs mkdocs-bootswatch python-markdown-math pymdown-extensions
+# pip install mkdocs-material mkdocs-rss-plugin
+
+# Personal info
+site_name: cuzperf
+site_author: cuzperf
+site_url: https://cuzperf.github.io/cplib
+
+repo_name: cuzperf/cplib
+repo_url: https://github.com/cuzperf/cplib
+
+copyright: Copyright © 2022 cuzperf
+
+# Contents
+nav:
+  - Home: index.md
+  - about: about.md
+  # - Math:
+  #   - basic: math/basic.md
+  #   - builtin: math/builtin.md
+  #   - primary: math/primary.md
+  #   - numberTheory: math/numberTheory.md
+  #   - mod: math/mod.md
+  #   - poly: math/poly.md
+  #   - mixed: math/mixed.md
+  #   - geometry: math/geometry.md
+  # - Constexpr: constexpr.md
+  # - Data Structure: dataStructure.md
+  # - Graph Theory: graph.md
+  # - String: string.md
+  # - CN: cn.md
+
+theme:
+  name: material
+  language: zh
+  custom_dir: docs/theme
+  highlightjs: true
+  icon:
+    repo: fontawesome/brands/git-alt
+  logo: img/favicon.ico
+  favicon: img/cuzperf.png
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+    - scheme: slate
+      primary: deep purple
+      accent: blue
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/cuzperf/cplib
+    - icon: fontawesome/solid/rss
+      link: feed_rss_updated.xml
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - meta
+  - mdx_math:
+      enable_dollar_delimiter: True
+  - pymdownx.caret
+  - pymdownx.tabbed
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      preserve_tabs: true
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.fence_mathjax_format
+  - pymdownx.inlinehilite:
+      custom_inline:
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.inline_mathjax_format
+  - codehilite:
+      guess_lang: false
+      linenums: true
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+
+extra_javascript:
+# mathjax2
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML
+
+extra_css:
+  - https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css
+
+plugins:
+  - search
