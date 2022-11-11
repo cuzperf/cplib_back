@@ -30,7 +30,6 @@ $$
 ``` C++
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
-using LL = long long;
 #include "../cpplib/math/mixed.hpp"
 int main() {
 	//freopen("in", "r", stdin);
@@ -43,8 +42,6 @@ int main() {
 }
 ```
 
-
-
 ## 折叠测试
 
 ??? note "代码折叠测试"
@@ -53,9 +50,8 @@ int main() {
 	#define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 	#define print(x) std::cout << (x) << std::endl
 	#define println std::cout << std::endl
-	using LL = long long;
 	using pii = std::pair<int, int>;
-	using pll = std::pair<LL, LL>;
+	using pll = std::pair<int64_t, int64_t>;
 
 	int main() {
 		//freopen("in","r",stdin);

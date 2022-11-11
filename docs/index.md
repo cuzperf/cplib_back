@@ -7,7 +7,8 @@
 ## Note
 
 - algorithm name end with `S` means simple and slow,
-- Non-constant member variables are terminated with `_` to distinguish local variables
+- non-constant member variables are terminated with `_` to distinguish local variables
+- an alternative [bits/stdc++.h](https://paste.ubuntu.com/p/Nw3pSFTtVN/) for MacOS
 
 ## commom ideals
 
