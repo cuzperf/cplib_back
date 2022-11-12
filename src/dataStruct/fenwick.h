@@ -16,67 +16,44 @@ struct Bitree {
   // https://codeforces.com/blog/entry/59305
   Bitree(const std::vector<T>& a) : s_(a) {
     n_ = s_.size();
-    for (int i = n_; i > 0; --i) s_[i - 1] -= s_[i - lowbit(i) - 1];
+    for (int i = n_; i > 1; --i) s_[i - 1] -= s_[i - lowbit(i) - 1];
   }
   std::vector<T> getOrigin() const {
     auto a = s_;
-    int n = s_.size() - 1;
-    for (int i = 1; i <= n; ++i) a[i] += a[i - lowbit(i) - 1];
-    std::vector<T> ans(n);
-    for (int i = n - 1; i >= 0; --i) ans[i] = a[i + 1] - a[i];
-    return ans;
+    for (int i = 2; i <= n_; ++i) a[i - 1] += a[i - lowbit(i) - 1];
+    for (int i = n_ - 1; i > 0; --i) a[i] -= a[i - 1];
+    return a;
   }
   void add(int id, T p) {
-    int ns = s_.size();
-    while (id < ns) {
-      s_[id] += p;
-      id += lowbit(id);
+    for (int i = id; i <= n_; i += lowbit(i)) {
+      s_[i - 1] += p;
     }
   }
+  // sum of [0, id)
   T sum(int id) {
     T r = 0;
-    while (id) {
-      r += s_[id];
-      id -= lowbit(id);
+    for (int i = id; i; i -= lowbit(i)) {
+      r += s_[i - 1];
     }
     return r;
   }
-  T sum(int l, int r) { return sum(r) - sum(l - 1); }
-  T at(int id) { return sum(id, id);}
-  // val must monic increase
-  int lower_bound(T x) {
-    int l = 1, r = s_.size() - 1;
-    while (l <= r) {
-      int m = (l + r) / 2;
-      if (at(m) >= x) r = m - 1;
-      else l = m + 1;
-    }
-    return l;
-  }
-  // val must monic increase
-  int upper_bound(T x) {
-    int l = 1, r = s_.size() - 1;
-    while (l <= r) {
-      int m = (l + r) / 2;
-      if (at(m) > x) r = m - 1;
-      else l = m + 1;
-    }
-    return l;
-  }
+  // sum of [l, r]
+  T sum(int l, int r) { return sum(r) - sum(l); }
+  T at(int id) { return sum(id, id + 1);}
   // find minimal index s.t. sum(id) >= x, sum must be increased
   int search(T val) {
     T sum = 0;
     int id = 0;
-    for (int i = lg32(s_.size()); ~i; --i) {
-      if (id + (1 << i) < (int)s_.size() && sum + s_[id + (1 << i)] < val) {
+    for (int i = lg32(n_); ~i; --i) {
+      if (id + (1 << i) <= n_ && sum + s_[id + (1 << i) - 1] < val) {
         id += (1 << i);
-        sum += s_[id];
+        sum += s_[id - 1];
       }
     }
     return ++id;
   }
 };
-// see https://codeforces.com/contest/1635/submission/147077087 for more elegent impl
+// see https://codeforces.com/contest/1635/submission/147077087 for more use
 
 template<typename T>
 class BitreePlus {

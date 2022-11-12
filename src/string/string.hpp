@@ -1,6 +1,5 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "template.hpp"
 using LL = long long;
 
 // Trie build by lowercase characters(change charToInt for other charset)

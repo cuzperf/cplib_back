@@ -1,5 +1,7 @@
 # cplib by cuzperf
 
+> InProgress
+
 C++17 template for competitive programming contest, which contains numerous math algorithms.
 
 - Aims: build a stable, fast, easy-to-read C++ template (the more you use it, the more reliable it is)
@@ -10,3 +12,8 @@ C++17 template for competitive programming contest, which contains numerous math
 - Reference(Chinese): [OI-wiki](https://oi-wiki.org/) and [LuoGu](https://www.luogu.com.cn/)
 
 > Sorry, it's really hard to for me to give a reference for every algorithm.
+
+
+- 中文可以表露一下心扉
+- 别人不会在乎你的细节，头文件一经过尽可能的简单
+- 别人 copy 代码是不想在两个地方进行 copy 的！（所以类是否应该放在两个地方有待商榷），但是如果写两份又有维护的问题！

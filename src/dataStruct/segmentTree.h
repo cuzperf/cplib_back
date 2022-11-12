@@ -2,6 +2,8 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
+namespace cuzperf {
+
 // all you need is provide data in Info and operator +
 struct Info {
   friend Info operator+(const Info& A, const Info& B) {
@@ -315,3 +317,4 @@ class BitPstSegTree {
   }
 };
 // https://www.luogu.com.cn/problem/P2617
+}  // namespace cuzperf
