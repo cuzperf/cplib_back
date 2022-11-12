@@ -1,17 +1,13 @@
 #pragma once
-#include <bits/stdc++.h>
-#include "fenwick.hpp"
-using LL = long long;
 
-// CDQ divided and conquer for partial order of dimension 3
-struct cdqNode {
-  int x, y, z, id, w;
-  bool operator<(const cdqNode& A) const {
-    if (x == A.x) return y == A.y ? z < A.z : y < A.y;
-    return x < A.x;
-  }
-};
-// ans[i] is the number of element less or equal to a[i]
+#include "cdqConquer.h"
+
+#include <algorithm>
+
+#include "fenwick.h"
+
+namespace cuzperf {
+
 std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   // sort by y
   std::vector<int> ans(a.size());
@@ -35,7 +31,7 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
     a[i].w = 0;
   }
   a.back().w = (int)a.size() - last;
-  Bitree<LL> A(k);
+  Bitree<int64_t> A(k);
   auto cmpy = [](const cdqNode& lhs, const cdqNode& rhs) {
     return lhs.y < rhs.y;
   };
@@ -60,3 +56,4 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   return ans;
 }
 // https://www.luogu.com.cn/problem/P3810
+}  // namespace cuzperf

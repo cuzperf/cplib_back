@@ -1,78 +1,31 @@
 #pragma once
-#include <bits/stdc++.h>
-#include "../template.hpp"
 
-// Bit Tree Maximal version
+#include <vector>
+#include <map>
+#include "../math/builtin.h"
+
+namespace cuzperf {
+
 template<typename T>
-struct BitreeMax {
-  std::vector<T> s_;
-  BitreeMax() {}
-  BitreeMax(int n) : s_(n + 1, std::numeric_limits<T>::min()) {}
-  static int lowbit(int n) { return n & (-n); }
-  void modify(int id, T p) {
-    int ns = s_.size();
-    while (id < ns) {
-      s_[id] = std::max(s_[id], p);
-      id += lowbit(id);
-    }
-  }
-  // cal maximal value in [1, id]
-  T max(int id) {
-    T r = std::numeric_limits<T>::min();
-    while (id) {
-      r = std::max(r, s_[id]);
-      id -= lowbit(id);
-    }
-    return r;
-  }
-};
-
-// Bit Tree Minimal version
-template<typename T, typename enable = IntegerT<T>>
-struct BitreeMin {
-  std::vector<T> s_;
-  BitreeMin() {}
-  BitreeMin(int n) : s_(n + 1, std::numeric_limits<T>::max()) {}
-  static int lowbit(int n) { return n & (-n); }
-  void modify(int id, T p) {
-    int ns = s_.size();
-    while (id < ns) {
-      s_[id] = std::min(s_[id], p);
-      id += lowbit(id);
-    }
-  }
-  // cal minimal value in [1, id]
-  T min(int id) {
-    T r = std::numeric_limits<T>::max();
-    while (id) {
-      r = std::min(r, s_[id]);
-      id -= lowbit(id);
-    }
-    return r;
-  }
-};
-// see https://codeforces.com/contest/1635/submission/147077087 for more elegent impl
-
-template<typename T, typename enable = IntegerT<T>>
 struct Bitree {
+  static int lowbit(int n) { return n & (-n); }
   std::vector<T> s_;
+  int n_;
   Bitree() {}
-  Bitree(int n) : s_(n + 1) {}
+  Bitree(int n) : n_(n), s_(n) {}
   // https://codeforces.com/blog/entry/59305
-  Bitree(const std::vector<T>& a) : s_(a.size() + 1) {
-    int n = a.size();
-    for (int i = 0; i < n; ++i) s_[i + 1] = s_[i] + a[i];
-    for (int i = n; i > 0; --i) s_[i] -= s_[i - lowbit(i)];
+  Bitree(const std::vector<T>& a) : s_(a) {
+    n_ = s_.size();
+    for (int i = n_; i > 0; --i) s_[i - 1] -= s_[i - lowbit(i) - 1];
   }
   std::vector<T> getOrigin() const {
     auto a = s_;
     int n = s_.size() - 1;
-    for (int i = 1; i <= n; ++i) a[i] += a[i - lowbit(i)];
+    for (int i = 1; i <= n; ++i) a[i] += a[i - lowbit(i) - 1];
     std::vector<T> ans(n);
     for (int i = n - 1; i >= 0; --i) ans[i] = a[i + 1] - a[i];
     return ans;
   }
-  static int lowbit(int n) { return n & (-n); }
   void add(int id, T p) {
     int ns = s_.size();
     while (id < ns) {
@@ -114,7 +67,7 @@ struct Bitree {
   int search(T val) {
     T sum = 0;
     int id = 0;
-    for (int i = std::__lg(s_.size()); ~i; --i) {
+    for (int i = lg32(s_.size()); ~i; --i) {
       if (id + (1 << i) < (int)s_.size() && sum + s_[id + (1 << i)] < val) {
         id += (1 << i);
         sum += s_[id];
@@ -123,8 +76,9 @@ struct Bitree {
     return ++id;
   }
 };
+// see https://codeforces.com/contest/1635/submission/147077087 for more elegent impl
 
-template<typename T, typename enable = IntegerT<T>>
+template<typename T>
 class BitreePlus {
   int n_;
   // c[i] = a[i] - a[i - 1], b_i = (i - 1) * c_i
@@ -167,7 +121,7 @@ class BitreePlus {
   int search(T val) {
     T sumB = 0, sumC = 0;
     int id = 0;
-    for (int i = std::__lg(n_); ~i; --i)
+    for (int i = lg32(n_); ~i; --i)
       if (int idi = id + (1 << i); idi <= n_) {
         if (idi * (sumC + C.s[idi]) - B.s[idi] - sumB < val) {
           id = idi;
@@ -245,3 +199,4 @@ struct Bitree2V {
   int n_, m_;
   std::vector<std::vector<int>> mp_;
 };
+}  // namespace cuzperf

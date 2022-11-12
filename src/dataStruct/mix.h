@@ -1,32 +1,13 @@
 #pragma once
-#include <bits/stdc++.h>
-#include "basic.hpp"
-#include "fenwick.hpp"
 
-using LL = long long;
+#include <vector>
+
 
 // a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
-bool nextBinom(std::vector<int>& a, int mx) {
-  int n = (int)a.size(), i = 1;
-  while (i <= n && a[n - i] == mx - i) ++i;
-  if (i > n) return false;
-  ++a[n - i];
-  for (int j = 1; j < i; ++j) {
-    a[n - j] = a[n - i] + (i - j);
-  }
-  return true;
-}
+bool nextBinom(std::vector<int>& a, int mx);
 
 // total number binom{mx}{n}
-void bruteForceBinom(int n, int mx) {
-  std::vector<int> a(n);
-  std::iota(a.begin(), a.end(), 0);
-  do {
-    // do something
-    for (auto x : a) std::cout << x << ' ';
-    std::cout << '\n';
-  } while (nextBinom(a, mx));
-}
+void bruteForceBinom(int n, int mx);
 
 // Error Correction Code: O(n_ m_ + k_^k_ n_)
 class ECC {
@@ -37,7 +18,7 @@ class ECC {
   void updateMxId(int i) {
     if (bad_[i].size() > bad_[mxId_].size()) mxId_ = i;
   }
-  bool dfs(int c) {  // remain time that current answer can change
+  bool dfs(int c); {  // remain time that current answer can change
     auto bd = bad_[mxId_];
     if ((int)bd.size() <= k_) return true;
     if ((int)bd.size() - k_ > c) return false;
@@ -99,29 +80,9 @@ class ECC {
 
 
 // length of longest increasing subsquence
-int LIS(std::vector<int>& a) {
-  std::vector<int> b;
-  for (auto x : a) {
-    if (auto it = std::lower_bound(b.begin(), b.end(), x); it == b.end()) {
-      b.emplace_back(x);
-    } else {
-      *it = x;
-    }
-  }
-  return b.size();
-}
+int LIS(std::vector<int>& a);
 // length of longest non-decreasing subsquence
-int LNDS(std::vector<int>& a) {
-  std::vector<int> b;
-  for (auto x : a) {
-    if (auto it = std::upper_bound(b.begin(), b.end(), x); it == b.end()) {
-      b.emplace_back(x);
-    } else {
-      *it = x;
-    }
-  }
-  return b.size();
-}
+int LNDS(std::vector<int>& a);
 
 // longest non-decreasing subsquence, return choosen index
 template<typename T>
@@ -159,33 +120,10 @@ auto LISP(const std::vector<T>& a) {
 }
 
 // monicDeque: index of every max element of SubInterval of length m
-std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
-  std::vector<int> r;
-  std::deque<int> Q;
-  for (int i = 0, na = (int)a.size(); i < na; ++i) {
-    if (!Q.empty() && i - Q.front() >= m) Q.pop_front();
-    // change > to < if you want monicDequeMin
-    while (!Q.empty() && a[i] > a[Q.back()]) Q.pop_back();
-    Q.push_back(i);
-    if (i >= m - 1) r.emplace_back(Q.front());
-  }
-  return r;
-}
+std::vector<int> monicDequeMax(std::vector<int>& a, int m);
 
 // f is index of a such that $a_{f_0} < a_{f_1} < a_{f_m}$
-std::vector<int> monicStack(const std::vector<int>& a) {
-  int n = (int)a.size();
-  std::vector<int> f(n);
-  std::stack<int> S;
-  for (int i = 0; i < n; ++i) {
-    while (!S.empty() && a[S.top()] < a[i]) {
-      f[S.top()] = i;
-      S.pop();
-    }
-    S.push(i);
-  }
-  return f;
-}
+std::vector<int> monicStack(const std::vector<int>& a);
 // https://www.luogu.com.cn/problem/P5788
 
 // Cartesian Tree
@@ -195,29 +133,10 @@ struct cNode {
     id = _id, val = _val, par = _par, ch[0] = ch[1] = 0;
   }
 };
-int cartesian_build(std::vector<cNode>& tree, int n) {
-  for (int i = 1; i <= n; ++i) {
-    int k = i - 1;
-    while (tree[k].val < tree[i].val) k = tree[k].par;
-    tree[i].ch[0] = tree[k].ch[1];
-    tree[k].ch[1] = i;
-    tree[i].par = k;
-    tree[tree[i].ch[0]].par = i;
-  }
-  return tree[0].ch[1];
-}
+int cartesian_build(std::vector<cNode>& tree, int n);
 // https://codeforces.com/contest/1490/problem/D
 
 
 // we can only use the ideal of merge sort
-LL inverseOrderCount(std::vector<int> a) {
-  discrete(a);
-  Bitree<int> A(*std::max_element(a.begin(), a.end()) + 1);
-  LL ans = 0;
-  for (int i = (int)a.size() - 1; i >= 0; --i) {
-    ans += A.sum(a[i]);
-    A.add(a[i] + 1, 1);
-  }
-  return ans;
-}
+int64_t inverseOrderCount(std::vector<int> a);
 // https://codeforces.com/contest/1602/problem/E

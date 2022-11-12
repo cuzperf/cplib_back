@@ -1,12 +1,16 @@
 #pragma once
-#include <bits/stdc++.h>
+
+#include <vector>
+#include <numeric>
+
+namespace cuzperf {
 
 // Disjoint Set Union
 class DSU {
   std::vector<int> p_;
   // std::vector<int> sz_;
  public:
-  DSU(int n) : p_(n) { iota(p_.begin(), p_.end(), 0); }
+  DSU(int n) : p_(n) { std::iota(p_.begin(), p_.end(), 0); }
   int find(int x) {
     return x == p_[x] ? x : p_[x] = find(p_[x]);
     // other impl not recomand
@@ -20,3 +24,5 @@ class DSU {
     return true;
   }
 };
+}  // namespace cuzperf
+

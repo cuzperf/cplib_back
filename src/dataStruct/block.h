@@ -1,5 +1,9 @@
 #pragma once
-#include <bits/stdc++.h>
+
+#include <vector>
+#include <numeric>
+
+namespace cuzperf {
 
 // Second Block abs version(online)
 class BlockAbs {
@@ -104,3 +108,4 @@ class BlockMinus {
   }
 };
 // https://codeforces.com/contest/896/problem/E
+}  // namespace cuzperf
