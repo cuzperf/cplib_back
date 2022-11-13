@@ -113,4 +113,5 @@ class RingBuffer {
   }
 };
 // https://codeforces.com/gym/103274/problem/G
+
 }  // namespace cuzperf

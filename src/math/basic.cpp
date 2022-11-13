@@ -46,6 +46,4 @@ std::pair<int64_t, int64_t> crt(int a1, int m1, int a2, int m2) {
 }
 // https://www.luogu.com.cn/problem/P1495
 
-
-
 }  // namespace cuzperf

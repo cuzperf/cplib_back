@@ -208,4 +208,5 @@ int64_t inverseOrderCount(std::vector<int> a) {
   return ans;
 }
 // https://codeforces.com/contest/1602/problem/E
+
 }  // namespace cuzperf

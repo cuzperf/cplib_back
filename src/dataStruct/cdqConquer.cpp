@@ -56,4 +56,5 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   return ans;
 }
 // https://www.luogu.com.cn/problem/P3810
+
 }  // namespace cuzperf

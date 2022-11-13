@@ -109,4 +109,5 @@ class BlockMinus {
   }
 };
 // https://codeforces.com/contest/896/problem/E
+
 }  // namespace cuzperf

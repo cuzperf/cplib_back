@@ -74,26 +74,6 @@ class BitreePlus {
   T sum(int id) { return id * C.sum(id) - B.sum(id); }
   T sum(int l, int r) { return sum(r) - sum(l - 1); }
   T at(int id) { return sum(id, id); }
-  // val must monic increase
-  int lower_bound(T x) {
-    int l = 1, r = n_;
-    while (l <= r) {
-      int m = (l + r) / 2;
-      if (at(m) >= x) r = m - 1;
-      else l = m + 1;
-    }
-    return l;
-  }
-  // val must monic increase
-  int upper_bound(T x) {
-    int l = 1, r = n_;
-    while (l <= r) {
-      int m = (l + r) / 2;
-      if (at(m) > x) r = m - 1;
-      else l = m + 1;
-    }
-    return l;
-  }
   // find minimal index s.t. sum(id) >= x, sum must be increased
   int search(T val) {
     T sumB = 0, sumC = 0;
@@ -176,4 +156,5 @@ struct Bitree2V {
   int n_, m_;
   std::vector<std::vector<int>> mp_;
 };
+
 }  // namespace cuzperf
