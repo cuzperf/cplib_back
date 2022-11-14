@@ -1,0 +1,35 @@
+template("agora_test") {
+  executable(target_name) {
+    forward_variables_from(invoker, "*")
+    testonly = true
+    if (!defined(invoker.deps)) {
+      deps = []
+    }
+    deps += [ "//third_party/gtest:gtest" ]
+    if (!defined(invoker.configs)) {
+      configs = []
+    }
+    configs += [ "//:agora_config" ]
+    configs += [ "//:agora_test_config" ]
+  }
+}
+
+source_set("math_source") {
+  testonly = true
+  sources = [
+    "test/test_base/log_test_util.cpp",
+    "test/test_base/log_test_util.h",
+  ]
+  configs = [
+    ":agora_test_config",
+    "utils:agora_utility_config",
+  ]
+  public_deps = [
+    "utils:agora_utility_library",
+  ]
+}
+
+# math_source
+# graph_source
+# ds_source
+# string_source

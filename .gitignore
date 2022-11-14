@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
-site/
 .gn
-.gnfiles/
+.gnfiles
+out/
 
+site/
