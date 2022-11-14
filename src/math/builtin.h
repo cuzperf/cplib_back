@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __BUILTIN__
+#define __BUILTIN__
 
 // slow than __builtin_ctz and __builtin_ctzll but funny, you may use -Wno-narrowing when complier
 int ctz32(unsigned x);
@@ -38,3 +39,5 @@ bool parityMITll(unsigned long long n);
 float acosFast(float x);
 float asinFast(float x);
 // https://developer.download.nvidia.cn/cg
+
+#endif //  __BUILTIN__

@@ -1,8 +1,8 @@
 // Main reference: https://www.luogu.com.cn/blog/command-block/sheng-cheng-han-shuo-za-tan
 #pragma once
 #include <bits/stdc++.h>
-#include "basic.hpp"
-#include "mod.hpp"
+#include "../basic.h"
+#include "../mod.h"
 using LL = long long;
 
 // many function will fail for the case n > mod
@@ -336,7 +336,7 @@ class Poly : public T {
     }
     return h;
   }; // https://www.luogu.com.cn/problem/P5667
-  
+
   static Poly Lagrange(std::vector<valT> x, std::vector<valT> y) {
     std::function<Poly(int l, int r)> mulP = [&](int l, int r) -> Poly {
       if (r - l == 1) return Poly({-x[l], 1});

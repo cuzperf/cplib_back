@@ -64,7 +64,7 @@ class PolyS : public std::vector<int> {
     int n = (int)size();
     std::reverse(begin() + 1, end());
     dft();
-    // not that n is power of 2, and M = 1 + c 2^x 
+    // not that n is power of 2, and M = 1 + c 2^x
     int invN = M - (M - 1) / n;
     for (int i = 0; i < n; ++i) {
       (*this)[i] = 1LL * (*this)[i] * invN % M;

@@ -54,7 +54,6 @@ class MexS {
   }
 };
 
-
 class MEX {
   // B may need to be bigger
   static inline constexpr int B = 20;

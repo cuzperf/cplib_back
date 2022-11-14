@@ -77,7 +77,11 @@ std::tuple<T, T, T> exGcd(T a, T b) {
 // @param $n \geq 0$ and $M \geq 0$
 int powMod(int x, int n, int M);
 
-// slightly faster than std::gcd
+// @return x such that $1 \equiv ax \mod n$
+// @param gcd(a, n) = 1
+int inv(int a, int n);
+
+// slightly faster than std::gcd, but not recommend
 int64_t gcd(int64_t a, int64_t b);
 // https://cp-algorithms.com/algebra/euclid-algorithm.html
 
@@ -94,6 +98,5 @@ std::vector<int> nsf(int N);
 
 // $O(N)$ none square factor using spf
 std::vector<int> nsfS(int N);
-
 
 }  // namespace cuzperf
