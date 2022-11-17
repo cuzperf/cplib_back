@@ -3,6 +3,7 @@
 - Useage: `C++17` is required, `O2` is suggested
 - Categories: math, date structure, graph theory, geometry, mixed
 - Index: all index begin with 0
+- Interval: all intervals are left close right open
 
 ## Note
 

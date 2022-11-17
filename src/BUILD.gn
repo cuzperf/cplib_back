@@ -1,0 +1,27 @@
+static_library("cp_builtin") {
+  sources = [
+    "base/builtin.c",
+    "base/builtin.h",
+  ]
+}
+
+static_library("cp_ds") {
+  sources = [
+    "ds/basic.h",
+    "ds/block.h",
+    "ds/cdqConquer.cpp",
+    "ds/cdqConquer.h",
+    "ds/dsu.h",
+    "ds/fenwick.h",
+    "ds/mix.cpp",
+    "ds/mix.h",
+    "ds/segmentTree.h",
+  ]
+  include_dirs = [
+    ".",
+    "src",
+  ]
+  public_deps = [
+    ":cp_builtin"
+  ]
+}

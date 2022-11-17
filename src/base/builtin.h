@@ -1,6 +1,8 @@
 #ifndef __BUILTIN__
 #define __BUILTIN__
 
+#include <stdbool.h>
+
 // slow than __builtin_ctz and __builtin_ctzll but funny, you may use -Wno-narrowing when complier
 int ctz32(unsigned x);
 int ctz64(unsigned long long x);

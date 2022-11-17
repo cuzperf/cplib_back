@@ -1,7 +1,9 @@
 .DS_Store
 .vscode
+.cache
 .gn
 .gnfiles
 out/
-
 site/
+compile_commands.json
+project.code-workspace

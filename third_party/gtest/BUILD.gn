@@ -1,7 +1,4 @@
-import("../../agora.gni")
-
-agora_static_library("gtest") {
-  testonly = true
+static_library("gtest") {
   sources = [
     "googletest/include/gtest/internal/custom/gtest-port.h",
     "googletest/include/gtest/internal/custom/gtest-printers.h",
@@ -43,7 +40,7 @@ agora_static_library("gtest") {
   ]
 }
 
-agora_test("gtest_main") {
+executable("gtest_main") {
   sources = [
     "googletest/src/gtest_main.cc",
   ]
