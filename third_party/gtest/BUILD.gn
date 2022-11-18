@@ -1,4 +1,6 @@
-static_library("gtest") {
+import("//cp.gni")
+
+cp_static_library("gtest") {
   sources = [
     "googletest/include/gtest/internal/custom/gtest-port.h",
     "googletest/include/gtest/internal/custom/gtest-printers.h",
@@ -40,7 +42,7 @@ static_library("gtest") {
   ]
 }
 
-executable("gtest_main") {
+cp_executable("gtest_main") {
   sources = [
     "googletest/src/gtest_main.cc",
   ]

@@ -1,6 +1,7 @@
 #include "cdqConquer.h"
 
 #include <algorithm>
+#include <functional>
 
 #include "fenwick.h"
 

@@ -79,14 +79,14 @@ class FenwickPlus {
   int search(T val) {
     T sumB = 0, sumC = 0;
     int id = 0;
-    for (int i = lg32(n_); ~i; --i)
-      if (int idi = id + (1 << i); idi <= n_) {
-        if (idi * (sumC + C.s[idi]) - B.s[idi] - sumB < val) {
-          id = idi;
-          sumB += B.s[id];
-          sumC += C.s[id];
-        }
+    for (int i = lg32(n_); ~i; --i) {
+      int idi = id + (1 << i);
+      if ( idi <= n_ && idi * (sumC + C.s[idi]) - B.s[idi] - sumB < val) {
+        id = idi;
+        sumB += B.s[id];
+        sumC += C.s[id];
       }
+    }
     return ++id;
   }
 };

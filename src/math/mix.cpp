@@ -1,7 +1,5 @@
 #include "mix.h"
 
-#include <bits/stdc++.h>
-
 namespace cuzperf {
 
 constexpr int MAXN = 100000;

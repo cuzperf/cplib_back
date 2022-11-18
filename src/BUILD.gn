@@ -1,11 +1,40 @@
-static_library("cp_builtin") {
+import("//cp.gni")
+
+cp_static_library("cp_builtin") {
   sources = [
     "base/builtin.c",
     "base/builtin.h",
   ]
 }
 
-static_library("cp_ds") {
+# static_library("cp_math") {
+#   sources = [
+#     "math/basic.cpp",
+#     "math/basic.h",
+#     "math/binom.h",
+#     "math/fft.cpp",
+#     "math/fft.h",
+#     "math/fmt.cpp",
+#     "math/fmt.h",
+#     "math/geometry.h",
+#     "math/matrix.h",
+#     "math/mes.h",
+#     "math/mix.cpp",
+#     "math/mix.h",
+#     "math/mod.h",
+#     "math/ntt.hpp",
+#     "math/numberTheory.hpp",
+#   ]
+#   include_dirs = [
+#     ".",
+#     "src",
+#   ]
+#   public_deps = [
+#     ":cp_builtin"
+#   ]
+# }
+
+cp_static_library("cp_ds") {
   sources = [
     "ds/basic.h",
     "ds/block.h",
@@ -16,10 +45,6 @@ static_library("cp_ds") {
     "ds/mix.cpp",
     "ds/mix.h",
     "ds/segmentTree.h",
-  ]
-  include_dirs = [
-    ".",
-    "src",
   ]
   public_deps = [
     ":cp_builtin"
