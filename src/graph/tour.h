@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <stack>
 #include <set>
+#include <stack>
+#include <vector>
 
 namespace cuzperf {
 // dfs order of rooted tree
@@ -10,17 +10,22 @@ class DfsTour {
   int n_, cnt_;
   std::vector<int> l_, r_;
   std::vector<std::vector<int>> e_;
+
  public:
   DfsTour(int n) : n_(n), cnt_(0), l_(n), r_(n), e_(n) {}
   void addEdge(int u, int v) {
-    if (u == v) return;
+    if (u == v) {
+      return;
+    }
     e_[u].emplace_back(v);
     e_[v].emplace_back(u);
   }
   void dfs(int u, int fa) {
     l_[u] = ++cnt_;
-    for (auto v : e_[u]) if (v != fa) {
-      dfs(v, u);
+    for (auto v : e_[u]) {
+      if (v != fa) {
+        dfs(v, u);
+      }
     }
     r_[u] = cnt_;
   }

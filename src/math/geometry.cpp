@@ -1,21 +1,21 @@
 #include "geometry.h"
 
 #include <algorithm>
-#include <utility>
 #include <bitset>
 #include <cmath>
 #include <limits>
+#include <utility>
 
 namespace cuzperf {
 
 namespace Geomerty {
 double cross(const Point& op, const Point& sp, const Point& ep) {
-  return (sp.first - op.first) * (ep.second - op.second)
-  - (sp.second - op.second) * (ep.first - op.first);
+  return (sp.first - op.first) * (ep.second - op.second) -
+         (sp.second - op.second) * (ep.first - op.first);
 }
 bool crossLeft(const Point& op, const Point& sp, const Point& ep) {
-  return (sp.first - op.first) * (ep.second - op.second)
-  <= (sp.second - op.second) * (ep.first - op.first);
+  return (sp.first - op.first) * (ep.second - op.second) <=
+         (sp.second - op.second) * (ep.first - op.first);
 }
 double dist2(const Point& p, const Point& q) {
   double x = q.first - p.first, y = q.second - p.second;
@@ -29,18 +29,22 @@ double dist(const Point& p, const Point& q) {
 std::vector<Point> convexHull(std::vector<Point> p) {
   // note: parameter passing for argument of type 'std::pair<double, double>'
   // when C++17 is enabled changed to match C++14 in GCC 10.1
-  std::sort(p.begin(), p.end()); // compare with double stl_heap.h will change
+  std::sort(p.begin(), p.end());  // compare with double stl_heap.h will change
   p.erase(std::unique(p.begin(), p.end()), p.end());
   int n = (int)p.size();
   std::vector<Point> q(n + 1);
   int top = 0;
   for (int i = 0; i < n; ++i) {
-    while (top > 1 && crossLeft(q[top - 1], p[i], q[top - 2])) --top;
+    while (top > 1 && crossLeft(q[top - 1], p[i], q[top - 2])) {
+      --top;
+    }
     q[top++] = p[i];
   }
   int len = top;
   for (int i = n - 2; i >= 0; --i) {
-    while (top > len && crossLeft(q[top - 1], p[i], q[top - 2])) --top;
+    while (top > len && crossLeft(q[top - 1], p[i], q[top - 2])) {
+      --top;
+    }
     q[top++] = p[i];
   }
   top -= n > 1;
@@ -50,13 +54,19 @@ std::vector<Point> convexHull(std::vector<Point> p) {
 
 double diameter(std::vector<Point> p) {
   auto q = convexHull(p);
-  if (q.size() < 2) return 0;
-  if (q.size() == 2) return dist2(q[0], q[1]);
+  if (q.size() < 2) {
+    return 0;
+  }
+  if (q.size() == 2) {
+    return dist2(q[0], q[1]);
+  }
   int n = (int)q.size();
   q.emplace_back(q[0]);
   double ans = 0;
   for (int i = 0, j = 2; i < n; ++i) {
-    while (cross(q[i], q[i + 1], q[j]) < cross(q[i], q[i + 1], q[j + 1])) j = (j + 1) % n;
+    while (cross(q[i], q[i + 1], q[j]) < cross(q[i], q[i + 1], q[j + 1])) {
+      j = (j + 1) % n;
+    }
     ans = std::max({ans, dist2(q[i], q[j]), dist2(q[i + 1], q[j])});
   }
   return std::sqrt(ans);
@@ -65,10 +75,14 @@ double diameter(std::vector<Point> p) {
 double minDist(std::vector<Point> a) {
   double d = std::numeric_limits<double>::max();
   int n = (int)a.size();
-  if (n <= 1) return d;
+  if (n <= 1) {
+    return d;
+  }
   std::sort(a.begin(), a.end());
   std::function<void(int, int)> merge = [&](int l, int r) {
-    if (r - l <= 1) return;
+    if (r - l <= 1) {
+      return;
+    }
     if (r - l == 2) {
       d = std::min(d, dist(a[l], a[l + 1]));
       return;
@@ -93,37 +107,49 @@ double minDist(std::vector<Point> a) {
   merge(0, n);
   return d;
 }
-} // namespace Geomerty
+}  // namespace Geomerty
 
 std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
   int k = (int)a.size(), n = a[0].size();
   using Node = std::vector<std::pair<int, int>>;
   std::vector<Node> f(k, Node(n));
   for (int i = 0; i < k; ++i) {
-    for (int j = 0; j < n; ++j) f[i][j] = {a[i][j], j};
+    for (int j = 0; j < n; ++j) {
+      f[i][j] = {a[i][j], j};
+    }
     std::sort(f[i].begin(), f[i].end());
   }
   int sn = std::sqrt(n);
   constexpr int N = 4e4 + 2;
   using Data = std::vector<std::bitset<N>>;
-  std::vector<Data> bs(k, Data(n / sn + 1));;
+  std::vector<Data> bs(k, Data(n / sn + 1));
+  ;
   for (int i = 0; i < k; ++i) {
     std::bitset<N> now;
     for (int j = 0; j < n; ++j) {
-      if (j % sn == 0) bs[i][j / sn] = now;
+      if (j % sn == 0) {
+        bs[i][j / sn] = now;
+      }
       now.set(f[i][j].second);
     }
-    if (n % sn == 0) bs[i][n / sn] = now;
+    if (n % sn == 0) {
+      bs[i][n / sn] = now;
+    }
   }
   auto getbst = [&](int i, int val) -> std::bitset<N> {
-    int j = std::lower_bound(f[i].begin(), f[i].end(), std::make_pair(val, std::numeric_limits<int>::max())) - f[i].begin();
+    int j = std::lower_bound(f[i].begin(), f[i].end(),
+                             std::make_pair(val, std::numeric_limits<int>::max())) -
+            f[i].begin();
     std::bitset<N> r = bs[i][j / sn];
-    for (int t = j / sn * sn; t < j; ++t) r.set(f[i][t].second);
+    for (int t = j / sn * sn; t < j; ++t) {
+      r.set(f[i][t].second);
+    }
     return r;
   };
   std::vector<int> r(n);
   for (int j = 0; j < n; ++j) {
-    std::bitset<N> now; now.set();
+    std::bitset<N> now;
+    now.set();
     for (int i = 0; i < k; ++i) {
       now &= getbst(i, a[i][j]);
     }
@@ -154,6 +180,6 @@ int64_t rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectan
   }
   return ans;
 }
-} // namespace rectangleUnion
+}  // namespace rectangleUnion
 
 }  // namespace cuzperf

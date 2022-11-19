@@ -1,8 +1,9 @@
 #pragma once
 
 #include <stdint.h>
-#include <vector>
+
 #include <utility>
+#include <vector>
 
 namespace cuzperf {
 

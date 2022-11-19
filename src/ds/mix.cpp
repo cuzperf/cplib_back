@@ -1,7 +1,7 @@
 #include "mix.h"
 
-#include <numeric>
 #include <iostream>
+#include <numeric>
 #include <vector>
 
 #include "basic.hpp"
@@ -9,11 +9,16 @@
 
 namespace cuzperf {
 
-// a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
+// a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} <
+// mx$
 bool nextBinom(std::vector<int>& a, int mx) {
   int n = (int)a.size(), i = 1;
-  while (i <= n && a[n - i] == mx - i) ++i;
-  if (i > n) return false;
+  while (i <= n && a[n - i] == mx - i) {
+    ++i;
+  }
+  if (i > n) {
+    return false;
+  }
   ++a[n - i];
   for (int j = 1; j < i; ++j) {
     a[n - j] = a[n - i] + (i - j);
@@ -27,7 +32,9 @@ void bruteForceBinom(int n, int mx) {
   std::iota(a.begin(), a.end(), 0);
   do {
     // do something
-    for (auto x : a) std::cout << x << ' ';
+    for (auto x : a) {
+      std::cout << x << ' ';
+    }
     std::cout << '\n';
   } while (nextBinom(a, mx));
 }
@@ -70,14 +77,18 @@ std::stack<int> LISP(const std::vector<int>& a) {
   for (int i = 0; i < n; ++i) {
     auto it = std::upper_bound(b.begin(), b.end(), a[i]);
     if (it == b.end()) {
-      if (!q.empty()) p[i] = q.back();
+      if (!q.empty()) {
+        p[i] = q.back();
+      }
       b.emplace_back(a[i]);
       q.emplace_back(i);
     } else {
       *it = a[i];
       auto t = it - b.begin();
       q[t] = i;
-      if (t > 0) p[i] = q[t - 1];
+      if (t > 0) {
+        p[i] = q[t - 1];
+      }
     }
   }
   std::stack<int> c;
@@ -95,11 +106,17 @@ std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
   std::vector<int> r;
   std::deque<int> Q;
   for (int i = 0, na = (int)a.size(); i < na; ++i) {
-    if (!Q.empty() && i - Q.front() >= m) Q.pop_front();
+    if (!Q.empty() && i - Q.front() >= m) {
+      Q.pop_front();
+    }
     // change > to < if you want monicDequeMin
-    while (!Q.empty() && a[i] > a[Q.back()]) Q.pop_back();
+    while (!Q.empty() && a[i] > a[Q.back()]) {
+      Q.pop_back();
+    }
     Q.push_back(i);
-    if (i >= m - 1) r.emplace_back(Q.front());
+    if (i >= m - 1) {
+      r.emplace_back(Q.front());
+    }
   }
   return r;
 }
@@ -123,7 +140,9 @@ std::vector<int> monicStack(const std::vector<int>& a) {
 int cartesian_build(std::vector<cNode>& tree, int n) {
   for (int i = 1; i <= n; ++i) {
     int k = i - 1;
-    while (tree[k].val < tree[i].val) k = tree[k].par;
+    while (tree[k].val < tree[i].val) {
+      k = tree[k].par;
+    }
     tree[i].ch[0] = tree[k].ch[1];
     tree[k].ch[1] = i;
     tree[i].par = k;

@@ -50,3 +50,4 @@ gn 构建可以向 agoralite 学习，要不要使用相对路径呢？
 把 Handbook of MathFunction 好好翻一翻用来提升性能（当然了不可能完全没有代价）
 std::numeric_limits<int>::max() replace std::numeric_limits<int>::max()
 msvc int128 的支持
+clang-tidy

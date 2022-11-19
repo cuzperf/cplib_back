@@ -18,16 +18,21 @@ class CutEdge {
       if (dfs[v] == 0) {
         Tarjan(v, i);
         low[u] = std::min(low[u], low[v]);
-        if (low[v] > dfs[u]) flag[i] = flag[i ^ 1] = 1;
+        if (low[v] > dfs[u]) {
+          flag[i] = flag[i ^ 1] = 1;
+        }
       } else if ((i ^ 1) != inEdgeNum) {
         low[u] = std::min(low[u], dfs[v]);
       }
     }
   }
+
  public:
   CutEdge(int n) : n_(n), cnt_(0), g_(n), dfs(n), low(n) {}
   void addEdge(int u, int v) {
-    if (u == v) return;
+    if (u == v) {
+      return;
+    }
     g_[u].emplace_back(e.size());
     e.emplace_back(v);
     flag.emplace_back(0);
@@ -36,9 +41,15 @@ class CutEdge {
     flag.emplace_back(0);
   }
   int solve() {
-    for (int i = 0; i < n_; ++i) if (dfs[i] == 0) Tarjan(i, -1);
+    for (int i = 0; i < n_; ++i) {
+      if (dfs[i] == 0) {
+        Tarjan(i, -1);
+      }
+    }
     int r = 0;
-    for (auto x : flag) r += x;
+    for (auto x : flag) {
+      r += x;
+    }
     return r / 2;
   }
 };

@@ -1,16 +1,18 @@
 #pragma once
 
+#include <assert.h>
 #include <stdint.h>
-#include <vector>
+
+#include <algorithm>
 #include <numeric>
 #include <queue>
-#include <assert.h>
-#include <algorithm>
 #include <stack>
+#include <vector>
 
 namespace cuzperf {
 
-// a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
+// a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} <
+// mx$
 bool nextBinom(std::vector<int>& a, int mx);
 
 // total number binom{mx}{n}
@@ -34,9 +36,7 @@ std::vector<int> monicStack(const std::vector<int>& a);
 // Cartesian Tree
 struct cNode {
   int id, val, par, ch[2];
-  void init(int _id, int _val, int _par) {
-    id = _id, val = _val, par = _par, ch[0] = ch[1] = 0;
-  }
+  void init(int _id, int _val, int _par) { id = _id, val = _val, par = _par, ch[0] = ch[1] = 0; }
 };
 int cartesian_build(std::vector<cNode>& tree, int n);
 // https://codeforces.com/contest/1490/problem/D
@@ -48,18 +48,24 @@ int64_t inverseOrderCount(std::vector<int> a);
 
 // Error Correction Code: O(n_ m_ + k_^k_ n_)
 class ECC {
-  std::vector<std::vector<int>> a_;   // origin data: n rows, m cols.
-  int k_;                             // Maximum number of differences allowed
-  std::vector<std::vector<int>> bad_; // difference with current answer
+  std::vector<std::vector<int>> a_;    // origin data: n rows, m cols.
+  int k_;                              // Maximum number of differences allowed
+  std::vector<std::vector<int>> bad_;  // difference with current answer
   int n_, m_, mxId_;
   void updateMxId(int i) {
-    if (bad_[i].size() > bad_[mxId_].size()) mxId_ = i;
+    if (bad_[i].size() > bad_[mxId_].size()) {
+      mxId_ = i;
+    }
   }
   bool dfs(int c) {
-      auto bd = bad_[mxId_];
-  if ((int)bd.size() <= k_) return true;
-  if ((int)bd.size() - k_ > c) return false;
-  // Note that bd is O(k_) instead of O(m_)
+    auto bd = bad_[mxId_];
+    if ((int)bd.size() <= k_) {
+      return true;
+    }
+    if ((int)bd.size() - k_ > c) {
+      return false;
+    }
+    // Note that bd is O(k_) instead of O(m_)
     std::vector<int> f(bd.size() - k_);
     std::iota(f.begin(), f.end(), 0);
     int tMxId = mxId_;
@@ -73,22 +79,24 @@ class ECC {
             bad_[i].emplace_back(bd[x]);
           }
           if (a_[i][bd[x]] == a_[mxId_][bd[x]]) {
-            bad_[i].erase(
-              std::find(bad_[i].begin(), bad_[i].end(), bd[x]));
+            bad_[i].erase(std::find(bad_[i].begin(), bad_[i].end(), bd[x]));
           }
         }
         r_[bd[x]] = a_[mxId_][bd[x]];
       }
-      for (int i = 0; i < n_; ++i) updateMxId(i);
-      if (dfs(c - f.size())) return true;
+      for (int i = 0; i < n_; ++i) {
+        updateMxId(i);
+      }
+      if (dfs(c - f.size())) {
+        return true;
+      }
       for (auto x : f) {
         for (int i = 0; i < n_; ++i) {
           if (a_[i][bd[x]] == r_[bd[x]]) {
             bad_[i].emplace_back(bd[x]);
           }
           if (a_[i][bd[x]] == tmp.front()) {
-            bad_[i].erase(
-              std::find(bad_[i].begin(), bad_[i].end(), bd[x]));
+            bad_[i].erase(std::find(bad_[i].begin(), bad_[i].end(), bd[x]));
           }
         }
         r_[bd[x]] = tmp.front();
@@ -97,8 +105,9 @@ class ECC {
     } while (nextBinom(f, bd.size()));
     return false;
   }
+
  public:
-  std::vector<int> r_;   // m_ cols vector, current answer
+  std::vector<int> r_;  // m_ cols vector, current answer
   ECC(const std::vector<std::vector<int>>& a) : a_(a) {
     n_ = a_.size();
     assert(n_ > 0);
@@ -107,10 +116,11 @@ class ECC {
     bad_.resize(n_);
     mxId_ = 0;
     for (int i = 0; i < n_; ++i) {
-      for (int j = 0; j < m_; ++j)
+      for (int j = 0; j < m_; ++j) {
         if (a_[i][j] != r_[j]) {
           bad_[i].emplace_back(j);
         }
+      }
       updateMxId(i);
     }
   }

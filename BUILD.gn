@@ -45,16 +45,23 @@ config("cp_test_config") {
 cp_test("unit_test") {
   sources = [
     "test/unit_test/ds_test.cpp",
+    "test/unit_test/graph_test.cpp",
+    "test/unit_test/math_test.cpp",
+    "test/unit_test/string_test.cpp",
     "test/main.cpp",
   ]
   deps = [
     "src:cp",
-    # "src:cp_ds",
   ]
 }
 
-
-# math_source
-# graph_source
-# ds_source
-# string_source
+cp_test("smoke_test") {
+  sources = [
+    "test/smoke_test/cf.cpp",
+    "test/smoke_test/luogu.cpp",
+    "test/main.cpp",
+  ]
+  deps = [
+    "src:cp",
+  ]
+}

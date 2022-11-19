@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <utility>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 namespace cuzperf {
 
@@ -11,7 +11,7 @@ namespace Floyd {
 void Floyd(int n);
 std::vector<int> getPath(int x, int y);
 
-} // namespace Floyd
+}  // namespace Floyd
 
 using edge = std::vector<std::pair<int, int>>;
 using Edge = std::tuple<int, int, int>;

@@ -1,0 +1,28 @@
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+BasedOnStyle: Google
+Language: Cpp
+ColumnLimit: 100
+InsertBraces: true
+FixNamespaceComments: true
+DerivePointerAlignment: false
+PointerAlignment: Left
+UseTab: Never
+TabWidth: 2
+IndentWidth: 2
+AlignAfterOpenBracket: Align
+SpacesInSquareBrackets: false
+SpacesInParentheses: false
+SpacesInCStyleCastParentheses: false
+SpacesInAngles: false
+SpacesBeforeTrailingComments: 2
+SpaceInEmptyParentheses: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceAfterTemplateKeyword: true
+MaxEmptyLinesToKeep: 2
+FixNamespaceComments: true
+BreakBeforeBraces: Attach
+IndentCaseLabels: false
+AlignConsecutiveAssignments: None
+
+# find dir -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' | xargs clang-format -i -style=file
+# don't apply to third_party and interface!

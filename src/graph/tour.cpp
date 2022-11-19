@@ -9,9 +9,11 @@ std::vector<int> EulerTour(std::vector<std::vector<int>>& e, int rt) {
   std::vector<int> r;
   std::function<void(int, int)> dfs = [&](int u, int fa) -> void {
     r.emplace_back(u);
-    for (auto v : e[u]) if (v != fa) {
-      dfs(v, u);
-      r.emplace_back(u);
+    for (auto v : e[u]) {
+      if (v != fa) {
+        dfs(v, u);
+        r.emplace_back(u);
+      }
     }
   };
   dfs(rt, rt);
@@ -19,10 +21,10 @@ std::vector<int> EulerTour(std::vector<std::vector<int>>& e, int rt) {
 }
 
 std::stack<int> EulerPathS(std::vector<std::multiset<int>> e) {
-  int cnt = std::count_if(e.begin(), e.end(), [](auto x) {
-    return x.size() & 1;
-  });
-  if (cnt > 2) return std::stack<int>();
+  int cnt = std::count_if(e.begin(), e.end(), [](auto x) { return x.size() & 1; });
+  if (cnt > 2) {
+    return std::stack<int>();
+  }
   std::stack<int> ans;
   std::function<void(int)> Hierholzer = [&](int u) {
     while (!e[u].empty()) {
@@ -62,8 +64,16 @@ std::vector<int> TopSort(std::vector<std::set<int>>& e) {
   std::priority_queue<int> Q;
   int n = (int)e.size();
   std::vector<int> in(n);
-  for (auto& x : e) for (auto i : x) ++in[i];
-  for (int i = 0; i < n; ++i) if (in[i] == 0) Q.push(-i);
+  for (auto& x : e) {
+    for (auto i : x) {
+      ++in[i];
+    }
+  }
+  for (int i = 0; i < n; ++i) {
+    if (in[i] == 0) {
+      Q.push(-i);
+    }
+  }
   while (!Q.empty()) {
     int u = -Q.top();
     r.emplace_back(u);

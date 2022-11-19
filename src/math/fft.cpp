@@ -33,8 +33,10 @@ void dft(std::vector<C>& a) {
       ++k;
     }
   }
-  for (int i = 0; i < n; ++i) if (rev[i] < i) {
-    std::swap(a[i], a[rev[i]]);
+  for (int i = 0; i < n; ++i) {
+    if (rev[i] < i) {
+      std::swap(a[i], a[rev[i]]);
+    }
   }
   for (int k = 1; k < n; k *= 2) {
     for (int i = 0; i < n; i += 2 * k) {
@@ -50,7 +52,9 @@ void idft(std::vector<C>& a) {
   int n = (int)a.size();
   std::reverse(a.begin() + 1, a.end());
   dft(a);
-  for (auto& x : a) x /= n;
+  for (auto& x : a) {
+    x /= n;
+  }
 }
-} // namespace FFT
+}  // namespace FFT
 }  // namespace cuzperf

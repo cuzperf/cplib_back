@@ -8,8 +8,11 @@ std::vector<std::string> duval(const std::string& s) {
   while (i < n) {
     int j = i + 1, k = i;
     while (j < n && s[k] <= s[j]) {
-      if (s[k] < s[j]) k = i;
-      else ++k;
+      if (s[k] < s[j]) {
+        k = i;
+      } else {
+        ++k;
+      }
       ++j;
     }
     while (i <= k) {

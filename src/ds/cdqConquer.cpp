@@ -13,8 +13,7 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   std::sort(a.begin(), a.end());
   int last = 0;
   for (int i = 1, na = (int)a.size(); i < na; ++i) {
-    if (a[i].x != a[i - 1].x || a[i].y != a[i - 1].y ||
-      a[i].z != a[i - 1].z) {
+    if (a[i].x != a[i - 1].x || a[i].y != a[i - 1].y || a[i].z != a[i - 1].z) {
       int t = i - last - 1;
       for (int j = last; j < i; ++j) {
         ans[a[j].id] = t;
@@ -31,11 +30,11 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   }
   a.back().w = (int)a.size() - last;
   Fenwick<int64_t> A(k);
-  auto cmpy = [](const cdqNode& lhs, const cdqNode& rhs) {
-    return lhs.y < rhs.y;
-  };
+  auto cmpy = [](const cdqNode& lhs, const cdqNode& rhs) { return lhs.y < rhs.y; };
   std::function<void(int, int)> divide = [&](int l, int r) {
-    if (r - l <= 1) return;
+    if (r - l <= 1) {
+      return;
+    }
     int m = (l + r) / 2;
     divide(l, m);
     divide(m, r);
@@ -49,7 +48,9 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
       }
       ans[a[i].id] += A.sum(a[i].z);
     }
-    for (int i = l; i < t; ++i) A.add(a[i].z, -a[i].w);
+    for (int i = l; i < t; ++i) {
+      A.add(a[i].z, -a[i].w);
+    }
   };
   divide(0, a.size());
   return ans;

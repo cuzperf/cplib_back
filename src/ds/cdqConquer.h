@@ -8,7 +8,9 @@ namespace cuzperf {
 struct cdqNode {
   int x, y, z, id, w;
   bool operator<(const cdqNode& A) const {
-    if (x == A.x) return y == A.y ? z < A.z : y < A.y;
+    if (x == A.x) {
+      return y == A.y ? z < A.z : y < A.y;
+    }
     return x < A.x;
   }
 };

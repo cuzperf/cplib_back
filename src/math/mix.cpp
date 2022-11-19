@@ -8,17 +8,26 @@ constexpr int MAXN = 100000;
 // -fconstexpr-ops-limit  (default: 1<<25=33554432)
 // -fconstexpr-depth      (default:  1<<9=512)
 // -ftemplate-depth       (default: 900)
-// g++ main.cpp -std=c++17 -fconstexpr-loop-limit=12345678 -fconstexpr-ops-limit=1234567890 -fconstexpr-depth=100000 -ftemplate-depth=100000
+// g++ main.cpp -std=c++17 -fconstexpr-loop-limit=12345678 -fconstexpr-ops-limit=1234567890
+// -fconstexpr-depth=100000 -ftemplate-depth=100000
 bool fast_is_prime(int n) {
   static constexpr Sieve<MAXN> s;
   return s.isP[n];
 }
 constexpr bool isPrime(int n) {
-  if (n < 2) return false;
-  if (n < 4) return true;
-  if (n % 2 == 0) return false;
+  if (n < 2) {
+    return false;
+  }
+  if (n < 4) {
+    return true;
+  }
+  if (n % 2 == 0) {
+    return false;
+  }
   for (int i = 3; i * i <= n; i += 2) {
-    if (n % i == 0) return false;
+    if (n % i == 0) {
+      return false;
+    }
   }
   return true;
 };

@@ -1,8 +1,8 @@
-#include <vector>
-#include <numeric>
-#include "gtest/gtest.h"
-
 #include "ds/ds.h"
+
+#include <bits/stdc++.h>
+
+#include "gtest/gtest.h"
 
 namespace cuzperf {
 
@@ -33,8 +33,6 @@ TEST(DS, fenwick) {
   }
 }
 
-TEST(DS, fenwick_min) {
-
-}
+TEST(DS, fenwick_min) {}
 
 }  // namespace cuzperf

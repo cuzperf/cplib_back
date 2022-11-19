@@ -15,15 +15,27 @@ std::vector<int> cutVertex(std::vector<std::vector<int>>& e) {
         ++ch;
         Tarjan(v, u);
         low[u] = std::min(low[u], low[v]);
-        if (u != fa && low[v] >= dfs[u]) flag[u] = 1;
+        if (u != fa && low[v] >= dfs[u]) {
+          flag[u] = 1;
+        }
       } else if (v != fa) {
         low[u] = std::min(low[u], dfs[v]);
       }
     }
-    if (u == fa && ch > 1) flag[u] = 1;
+    if (u == fa && ch > 1) {
+      flag[u] = 1;
+    }
   };
-  for (int i = 0; i < n; ++i) if (dfs[i] == 0) Tarjan(i, i);
-  for (int i = 0; i < n; ++i) if (flag[i]) r.emplace_back(i);
+  for (int i = 0; i < n; ++i) {
+    if (dfs[i] == 0) {
+      Tarjan(i, i);
+    }
+  }
+  for (int i = 0; i < n; ++i) {
+    if (flag[i]) {
+      r.emplace_back(i);
+    }
+  }
   return r;
 }
 

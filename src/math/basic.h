@@ -1,13 +1,14 @@
 #pragma once
 
 #include <stdio.h>
+
+#include <tuple>
 #include <utility>
 #include <vector>
-#include <tuple>
 
 namespace cuzperf {
 
-template<typename T>
+template <typename T>
 T floor(T a, T n) {
   if (n < 0) {
     n = -n;
@@ -15,7 +16,7 @@ T floor(T a, T n) {
   }
   return a < 0 ? (a - n + 1) / n : a / n;
 }
-template<typename T>
+template <typename T>
 T ceil(T a, T n) {
   if (n < 0) {
     n = -n;
@@ -25,52 +26,63 @@ T ceil(T a, T n) {
 }
 
 // never mixed it with cin and cout, useful for int128
-template<typename T>
+template <typename T>
 class FastIntIO {
  public:
-  static T read(){
+  static T read() {
     T x = 0;
     bool negative = false;
     // you may use buffer instead for speed
     char ch = getchar();
-    while (ch < '0' || ch > '9'){
-      if (ch == '-') negative = true;
+    while (ch < '0' || ch > '9') {
+      if (ch == '-') {
+        negative = true;
+      }
       ch = getchar();
     }
     while (ch >= '0' && ch <= '9') {
       x = x * 10 + ch - '0';
       ch = getchar();
     }
-    return negative ?  -x : x;
+    return negative ? -x : x;
   }
-  static void print(T x){
+  static void print(T x) {
     if (x < 0) {
       putchar('-');
       x = -x;
     }
     printCore(x);
   }
+
  private:
-  static void printCore(T x){
-    if (x > 9) printCore(x / 10);
+  static void printCore(T x) {
+    if (x > 9) {
+      printCore(x / 10);
+    }
     putchar(x % 10 + '0');
   }
 };
 
 // return [d, x, y] such that d = ax + by = gcd(a, b) with |x| <= b and |y| <= a if a, b > 0
 namespace {
-template<typename T>
+template <typename T>
 std::tuple<T, T, T> exGcd_(T a, T b) {
-  if (b == 0) return {a, 1, 0};
+  if (b == 0) {
+    return {a, 1, 0};
+  }
   auto [d, y, x] = exGcd_(b, a % b);
   return {d, x, y - a / b * x};
 }
-}
-template<typename T>
+}  // namespace
+template <typename T>
 std::tuple<T, T, T> exGcd(T a, T b) {
   auto [d, x, y] = exGcd_(std::abs(a), std::abs(b));
-  if (a < 0) { x = -x; }
-  if (b < 0) { y = -y; }
+  if (a < 0) {
+    x = -x;
+  }
+  if (b < 0) {
+    y = -y;
+  }
   return {d, x, y};
 }
 
