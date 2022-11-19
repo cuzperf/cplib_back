@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <assert.h>
 #include <vector>
 #include <string>
 
@@ -18,6 +20,9 @@
 
 // absolute value should less than $2^{2^{25}} \simeq 10^{10^7}$
 // thus the length of decimal representation should less than $10^7$
+
+namespace cuzperf {
+
 class BigInt10 : public std::vector<int> {
 	static inline constexpr int g = 11, M = 754974721; // 1 +  2^24 * 45
 	static inline std::vector<int> rev, roots{0, 1};
@@ -91,7 +96,7 @@ public:
 	BigInt10(const long long &x) {
 		ngt = (x < 0);
 		if (x == 0) return;
-		auto now = abs(x);
+		auto now = std::abs(x);
 		while (now) {
 			auto tmp = now / 10;
 			emplace_back(now - tmp * 10);
@@ -371,3 +376,4 @@ private:
 		return ans;
 	}
 };
+}  // namespace cuzperf

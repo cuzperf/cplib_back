@@ -1,9 +1,14 @@
 #pragma once
-#include "fft.hpp"
-#include "mod.hpp"
+
+#include "math/fft.h"
+#include "math/mod.hpp"
 #include "poly.hpp"
 
+#include <cmath>
+
 #include "base/builtin.h"
+
+namespace cuzperf {
 
 // do not use it if T = ModLL
 template<typename T>
@@ -35,9 +40,9 @@ class PolyBaseFFT : public PolyBase<T> {
     std::vector<T> ans(tot), A1B2(tot), A1B1(tot);
     // It will lose a lot of precision
     for (int i = 0; i < tot; ++i) {
-      A1B2[i] = llround(B[i].imag());
-      A1B1[i] = llround(B[i].real() * 0.5 + C[i].real() * 0.5);
-      ans[i] = llround(C[i].real() * 0.5 - B[i].real() * 0.5);
+      A1B2[i] = static_cast<int64_t>(std::llround(B[i].imag()));
+      A1B1[i] = static_cast<int64_t>(std::llround(B[i].real() * 0.5 + C[i].real() * 0.5));
+      ans[i] = static_cast<int64_t>(std::llround(C[i].real() * 0.5 - B[i].real() * 0.5));
     }
     for (auto& x : ans) x <<= bit;
     for (int i = 0; i < tot; ++i) ans[i] += A1B2[i];
@@ -54,25 +59,4 @@ using PolyFFTDynamic = Poly<PolyBaseFFT<ModInt>, ModInt>;
 // The following are not recommented
 using PolyFFTLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 
-
-// $O(\sqrt{n} \log^2 n)$ base on multi-evaluation
-int factorialS(int n, int p) {
-  if (n >= p) return 0;
-  if (n <= 1) return 1;
-  ModInt::setMod(p);
-  if (n > p - 1 - n) {
-    int ans = ModInt(factorialS(p - 1 - n, p)).inv();
-    return (p - n) & 1 ? p - ans : ans;
-  }
-  ModInt::setMod(p);
-  int sn = std::sqrt(n);
-  auto A = PolyFFTDynamic::prod(sn);
-  std::vector<ModInt> x;
-  x.reserve(n  / sn);
-  for (int i = sn; i <= n; i += sn) x.emplace_back(i - sn + 1);
-  auto y = A.evals(x);
-  ModInt r(1);
-  for (auto t : y) r *= t;
-  for (int i = n / sn * sn + 1; i <= n; ++i) r *= ModInt::raw(i);
-  return r;
-}
+}  // namespace cuzperf

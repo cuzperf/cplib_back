@@ -1,7 +1,11 @@
 #pragma once
-#include "mod.hpp"
+
 #include "poly.hpp"
+#include "math/mod.hpp"
+#include "math/ntt.hpp"
 #include "base/builtin.h"
+
+namespace cuzperf {
 
 template<int N>
 class PolyBaseNTT : public PolyBase<MInt<N>> {
@@ -25,3 +29,5 @@ class PolyBaseNTT : public PolyBase<MInt<N>> {
 
 const constexpr int NTTM = 998244353;
 using PolyNTT = Poly<PolyBaseNTT<NTTM>, MInt<NTTM>>;
+
+}  // namespace cuzperf

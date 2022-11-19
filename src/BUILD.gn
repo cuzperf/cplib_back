@@ -9,17 +9,30 @@ cp_static_library("cp_builtin") {
 
 cp_static_library("cp_math") {
   sources = [
+    # poly
+    "math/poly/factorial.cpp",
+    "math/poly/factorial.h",
+    "math/poly/poly.hpp",
+    "math/poly/polyA.hpp",
+    "math/poly/polyFFT.hpp",
+    "math/poly/polyMTT.hpp",
+    "math/poly/polyNTT.hpp",
+    "math/poly/polyOrigin.hpp",
+    "math/poly/polyS.hpp",
+
     "math/binom.hpp",
     "math/matrix.hpp",
     "math/mes.hpp",
     "math/mod.hpp",
     "math/ntt.hpp",
-    "math/numberTheory.hpp",
+    "math/bigInt.hpp",
 
     "math/geometry.cpp",
     "math/geometry.h",
     "math/basic.cpp",
     "math/basic.h",
+    "math/numberTheory.cpp",
+    "math/numberTheory.h",
     "math/fft.cpp",
     "math/fft.h",
     "math/fmt.cpp",

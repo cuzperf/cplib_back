@@ -89,15 +89,4 @@ int64_t gcd(int64_t a, int64_t b);
 // Chinese remainder theorem: $x = ai \mod mi, m_i > 0$
 std::pair<int64_t, int64_t> crt(int a1, int m1, int a2, int m2);
 
-// $O(N \log N)$ smalleset prime factor(may be faster)
-std::vector<int> spfS(int N);
-// $O(N)$ smallest prime factor
-std::vector<int> spf(int N);
-
-// $O(N)$ none square factor
-std::vector<int> nsf(int N);
-
-// $O(N)$ none square factor using spf
-std::vector<int> nsfS(int N);
-
 }  // namespace cuzperf

@@ -6,8 +6,9 @@
 #include <cmath>
 #include <limits>
 
+namespace cuzperf {
+
 namespace Geomerty {
-using Point = std::pair<double, double>;
 double cross(const Point& op, const Point& sp, const Point& ep) {
   return (sp.first - op.first) * (ep.second - op.second)
   - (sp.second - op.second) * (ep.first - op.first);
@@ -132,70 +133,7 @@ std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
 }
 
 namespace rectangleUnion {
-class SegTree {
-  static inline const int INF = 1e9 + 2;
-  struct Node {
-    int l = 0, r = 0, val = 0, mn = 0;
-  };
-  std::vector<Node> tree;
-  int newNode() {
-    int sz = tree.size();
-    tree.emplace_back(Node());
-    return sz;
-  }
-  void pushUp(int p) {
-    tree[p].mn = std::min(tree[tree[p].l].mn, tree[tree[p].r].mn);
-  }
-  void updateNode(int p, int x) {
-    tree[p].val += x;
-    tree[p].mn += x;
-  }
-  void pushDown(int p) {
-    if (tree[p].l) updateNode(tree[p].l, tree[p].val);
-    if (tree[p].r) updateNode(tree[p].r, tree[p].val);
-    tree[p].val = 0;
-  }
-  void add(int L, int R, int val, int l, int r, int p) {
-    if (L <= l && r <= R) {
-      updateNode(p, val);
-      return;
-    }
-    auto m = (l + r) / 2;
-    if (m > L) {
-      if (tree[p].l == 0) tree[p].l = newNode();
-      add(L, R, val, l, m, tree[p].l);
-    }
-    if (m < R) {
-      if (tree[p].r == 0) tree[p].r = newNode();
-      add(L, R, val, m, r, tree[p].r);
-    }
-  }
-  int query(int l, int r, int p) {
-    if (tree[p].mn) return r - l;
-    auto m = (l + r) / 2;
-    int ans = 0;
-    if (tree[p].l) ans += query(l, m, tree[p].l);
-    if (tree[p].r) ans += query(m, r, tree[p].r);
-    return ans;
-  }
- public:
-  SegTree() {
-    newNode();
-  }
-  void add(int L, int R, int val) {
-    add(L, R, val, -INF, INF, 0);
-  }
-  int query() {
-    return query(-INF, INF, 0);
-  }
-};
 
-struct Edge {
-  int x, l, r, val;
-  bool operator<(const Edge& A) const {
-    return x < A.x;
-  }
-};
 int64_t rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectangle) {
   std::vector<Edge> a;
   a.reserve(2 * rectangle.size());
@@ -217,3 +155,5 @@ int64_t rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectan
   return ans;
 }
 } // namespace rectangleUnion
+
+}  // namespace cuzperf

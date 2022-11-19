@@ -1,6 +1,12 @@
 #pragma once
 
+#include <vector>
+#include <stdint.h>
+#include <algorithm>
+
 #include "base/builtin.h"
+
+namespace cuzperf {
 
 class PolyS : public std::vector<int> {
   static inline std::vector<int> rev_, roots_{0, 1};
@@ -284,3 +290,5 @@ class PolyS : public std::vector<int> {
     return ans;
   } // https://www.luogu.com.cn/problem/P5050
 }; // https://www.luogu.com.cn/training/3015#information
+
+}  // namespace cuzperf

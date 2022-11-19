@@ -1,6 +1,9 @@
 #pragma once
-#include "mod.hpp"
+
+#include "math/mod.hpp"
 #include "poly.hpp"
+
+namespace cuzperf {
 
 template<typename T>
 class PolyBaseOrigin : public PolyBase<T> {
@@ -24,3 +27,5 @@ class PolyBaseOrigin : public PolyBase<T> {
 constexpr int ORGM = 1e9 + 7;
 using PolyOrigin = Poly<PolyBaseOrigin<MInt<ORGM>>, MInt<ORGM>>;
 using PolyOriginDynamic = Poly<PolyBaseOrigin<ModInt>, ModInt>;
+
+}  // namespace cuzperf

@@ -1,5 +1,9 @@
 #pragma once
 
+#include <assert.h>
+#include <stdint.h>
+#include <iostream>
+
 #include "basic.h"
 
 namespace cuzperf {

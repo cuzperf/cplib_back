@@ -4,7 +4,6 @@
 
 #include "base/builtin.h"
 
-
 namespace cuzperf {
 
 namespace FMT {

@@ -1,9 +1,12 @@
 #pragma once
-#include "mod.hpp"
-#include "ntt.hpp"
+
+#include "math/mod.hpp"
+#include "math/ntt.hpp"
 #include "poly.hpp"
 
 #include "base/builtin.h"
+
+namespace cuzperf {
 
 class PolyBaseMFT4 : public PolyBase<ModLL> {
  public:
@@ -56,35 +59,4 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
 // 4-module NTT, Module can be up to 1e14 since N < 1e6 in general
 using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 
-// $O(\sqrt{n} \log n)$ (assume n < 1e12)
-int64_t factorial(int64_t n, int64_t p) {
-  if (n >= p) return 0;
-  if (n <= 1) return 1;
-  int s = std::sqrt(n);
-  PolyMFT::setMod(p, s + 1);
-  if (n > p - 1 - n) {
-    auto ans = ModLL(factorial(p - 1 - n, p)).inv();
-    return (p - n) & 1 ? -ans : ans;
-  }
-  std::vector<ModLL> h{1, s + 1};
-  for (int bit = lg32(s) - 1, d = 1; bit >= 0; --bit) {
-    auto nh1 = PolyMFT::valToVal(h, ModLL(d + 1), d);
-    auto nh2 = PolyMFT::valToVal(h, ModLL(s).inv() * ModLL(d), 2 * d + 1);
-    h.insert(h.end(), nh1.begin(), nh1.end());
-    d *= 2;
-    for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
-    if (s >> bit & 1) {
-      ++d;
-      int64_t tmp = d;
-      for (int i = 0; i < d; ++i, tmp += s) h[i] *= ModLL::raw(tmp);
-      ModLL last(1), tj = 1LL * s * d;
-      for (int i = 0; i < d; ++i) ++tj, last *= tj;
-      h.emplace_back(last);
-    }
-  }
-  ModLL ans = 1;
-  for (int i = 0; i < s; ++i) ans *= h[i];
-  for (int64_t i = 1LL * s * s + 1; i <= n; ++i) ans *= ModLL::raw(i);
-  return ans;
-}
-// https://vjudge.net/problem/SPOJ-FACTMODP
+}  // namespace cuzperf

@@ -1,12 +1,18 @@
 // Main reference: https://www.luogu.com.cn/blog/command-block/sheng-cheng-han-shuo-za-tan
 #pragma once
-#include "../basic.h"
-#include "../mod.h"
 
+#include <cmath>
+#include <functional>
+
+#include "math/basic.h"
+#include "math/binom.hpp"
+#include "math/mod.hpp"
+
+namespace cuzperf {
 
 // many function will fail for the case n > mod
 // using valT = decltype(T::a)::value_type;template<typename T, typename valT>
-template<typename T, typename valT, typename enable = ModT<valT>>
+template<typename T, typename valT>
 class Poly : public T {
   static inline const valT INV2 = (valT::mod() + 1) / 2;
   static inline const int MAXN = 1e6 + 2;  // assume size(a) < MAXN
@@ -467,7 +473,7 @@ class Poly : public T {
 }; // https://www.luogu.com.cn/training/3015#information
 
 
-template<typename valT, typename enable = ModT<valT>>
+template<typename valT>
 class PolyBase : public std::vector<valT> {
  protected:
   void standard() {
@@ -488,6 +494,7 @@ class PolyBase : public std::vector<valT> {
   }
 };
 
+}  // namespace cuzperf
 
 // There will be `PolyNTT`, `PolyFFT`, `PolyFFTDynamic`, `PolyMFT` provided to suit for different module $M$.
 

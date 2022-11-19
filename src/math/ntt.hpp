@@ -1,13 +1,21 @@
 #pragma once
 
+#include <algorithm>
+#include <vector>
+
+#include "mod.hpp"
+
+namespace cuzperf {
+
 // assume M is NTT-friendly and 3 is a primitive root of N
 template<int M>
 class NTT {
+  using mod = MInt<M>;
   std::vector<int> rev_;
-  std::vector<MInt<M>> roots_{0, 1};
+  std::vector<mod> roots_{0, 1};
  public:
-  static inline const MInt<M> g = 3;
-  void dft(std::vector<MInt<M>>& a) {
+  static inline const mod g = 3;
+  void dft(std::vector<mod>& a) {
     int n = (int)a.size();
     if ((int)rev_.size() != n) {
       int k = __builtin_ctz(n) - 1;
@@ -41,12 +49,14 @@ class NTT {
       }
     }
   }
-  void idft(std::vector<MInt<M>>& a) {
+  void idft(std::vector<mod>& a) {
     int n = (int)a.size();
     std::reverse(a.begin() + 1, a.end());
     dft(a);
     // not that n is power of 2, and M = 1 + c 2^x
-    auto inv = MInt<M>::raw(M - (M - 1) / n);
+    auto inv = mod::raw(M - (M - 1) / n);
     for (auto& x : a) x *= inv;
   }
 };
+
+}  // namespace cuzperf
