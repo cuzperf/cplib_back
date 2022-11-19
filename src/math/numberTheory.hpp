@@ -522,7 +522,7 @@ int babyStepGiantStep(int a, int b, int p) {
 // https://www.luogu.com.cn/problem/P4195
 
 // find $x$ s.t. $x^2 = a \mod p$, or $-1$ in $O(\log^2 p)$ Tonelli-Shanks
-int sqrtModpS(int a, int p) { // 0 <= a < p < INT_MAX
+int sqrtModpS(int a, int p) { // 0 <= a < p < std::numeric_limits<int>::max()
   if (a == 0 || p == 2) return a;
   auto power = [p](int x, int n) {
     int r = 1;

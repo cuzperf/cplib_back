@@ -100,14 +100,14 @@ int64_t Prim(const std::vector<edge>& e) {
       Q.push({-c, v});
     }
   }
-  return cnt == n ? r : INT64_MAX;
+  return cnt == n ? r : std::numeric_limits<int64_t>::min();
 }
 
 // LiuZhu: Minimum tree diagram
 int64_t LiuZhu(std::vector<Edge> e, int n, int rt) { // e has no self-loop
   int64_t ans = 0;
   while (1) {
-    std::vector<int> in(n, INT_MAX), pre(n, -1);
+    std::vector<int> in(n, std::numeric_limits<int>::max()), pre(n, -1);
     for (auto [u, v, w] : e) if (u != v && in[v] > w) {
       in[v] = w;
       pre[v] = u;
@@ -238,7 +238,7 @@ std::vector<int> getPath(int x, int y) {
 
 std::vector<int64_t> Dijkstra(const std::vector<edge>& e, int s) {
   std::priority_queue<std::pair<int64_t, int>> Q;
-  std::vector<int64_t> d(e.size(), INT64_MAX);
+  std::vector<int64_t> d(e.size(), std::numeric_limits<int64_t>::min());
   d[s] = 0;
   Q.push({0, s});
   while (!Q.empty()) {
@@ -254,11 +254,11 @@ std::vector<int64_t> Dijkstra(const std::vector<edge>& e, int s) {
 }
 
 bool BellmanFord(std::vector<Edge>& e, int n, int s = 0) {
-  std::vector<int> dist(n + 1, INT_MAX);
+  std::vector<int> dist(n + 1, std::numeric_limits<int>::max());
   dist[s] = 0;
   for (int i = 0; i <= n; ++i) {
     bool judge = false;
-    for (auto [u, v, w] : e) if (dist[u] != INT_MAX) {
+    for (auto [u, v, w] : e) if (dist[u] != std::numeric_limits<int>::max()) {
       if (dist[v] > dist[u] + w) {
         dist[v] = dist[u] + w;
         judge = true;
@@ -272,7 +272,7 @@ bool BellmanFord(std::vector<Edge>& e, int n, int s = 0) {
 bool spfa(std::vector<edge>& e, int s = 0) {
   int n = (int)e.size();
   std::queue<int> Q;
-  std::vector<int> dist(n, INT_MAX), cnt(n), inQ(n);
+  std::vector<int> dist(n, std::numeric_limits<int>::max()), cnt(n), inQ(n);
   Q.push(s);
   inQ[s] = 1;
   dist[s] = 0;
@@ -500,7 +500,7 @@ class Dinic {
     int64_t r = 0;
     while (bfs(s, t)) {
       cur_.assign(n_, 0);
-      r += dfs(s, t, INT64_MAX);
+      r += dfs(s, t, std::numeric_limits<int64_t>::min());
     }
     return r;
   }
@@ -569,7 +569,7 @@ class HLPP {
       }
       return true;
     };
-    ex_[s] = INT64_MAX;
+    ex_[s] = std::numeric_limits<int64_t>::min();
     push(s);
     h_[s] = n_;
     vis[s] = vis[t] = 1;
@@ -628,12 +628,12 @@ class StoerWagner {
       }
       return d[t];
     };
-    int s = 0, t = 0, r = INT_MAX;
+    int s = 0, t = 0, r = std::numeric_limits<int>::max();
     for (int i = n_ - 1; i > 0; --i) {
       r = std::min(r, f(i, s, t));
       merge(s, t);
     }
-    return r == INT_MAX ? 0 : r;
+    return r == std::numeric_limits<int>::max() ? 0 : r;
   }
 };
 // https://www.luogu.com.cn/problem/P5632
@@ -641,7 +641,7 @@ class StoerWagner {
 // Minimum cost maximum flow
 
 class Flow {
-  static inline constexpr int64_t INF = INT64_MAX >> 1;
+  static inline constexpr int64_t INF = std::numeric_limits<int64_t>::min() >> 1;
   int n_;
   // e_[i] = {endPoint, conpacity} and e_[i ^ 1] is opposite edge of e_[i]
   // g_[u] = {edges start from u}
@@ -688,7 +688,7 @@ class Flow {
   std::pair<int64_t, int64_t> maxFlow(int s, int t) {
     int64_t flow = 0, cost = 0;
     while (Dijkstra(s, t)) {
-      int f = INT_MAX, now = t;
+      int f = std::numeric_limits<int>::max(), now = t;
       std::vector<int> r;
       while (now != s) {
         r.emplace_back(path_[now]);
@@ -707,7 +707,7 @@ class Flow {
 };
 // https://www.luogu.com.cn/problem/P3381
 
-// $O(m \sqrt{m})$, we will get TLE if the answer greater than INT_MAX
+// $O(m \sqrt{m})$, we will get TLE if the answer greater than std::numeric_limits<int>::max()
 int circle3count(const std::vector<std::pair<int, int>>& edge, int n) {
   std::vector<int> d(n), vis(n, -1);
   for (auto [u, v] : edge) ++d[u], ++d[v];

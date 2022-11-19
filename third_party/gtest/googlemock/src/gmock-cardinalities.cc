@@ -108,17 +108,17 @@ void BetweenCardinalityImpl::DescribeTo(::std::ostream* os) const {
   if (min_ == 0) {
     if (max_ == 0) {
       *os << "never called";
-    } else if (max_ == INT_MAX) {
+    } else if (max_ == std::numeric_limits<int>::max()) {
       *os << "called any number of times";
     } else {
       *os << "called at most " << FormatTimes(max_);
     }
   } else if (min_ == max_) {
     *os << "called " << FormatTimes(min_);
-  } else if (max_ == INT_MAX) {
+  } else if (max_ == std::numeric_limits<int>::max()) {
     *os << "called at least " << FormatTimes(min_);
   } else {
-    // 0 < min_ < max_ < INT_MAX
+    // 0 < min_ < max_ < std::numeric_limits<int>::max()
     *os << "called between " << min_ << " and " << max_ << " times";
   }
 }
@@ -136,7 +136,7 @@ void Cardinality::DescribeActualCallCountTo(int actual_call_count,
 }
 
 // Creates a cardinality that allows at least n calls.
-GTEST_API_ Cardinality AtLeast(int n) { return Between(n, INT_MAX); }
+GTEST_API_ Cardinality AtLeast(int n) { return Between(n, std::numeric_limits<int>::max()); }
 
 // Creates a cardinality that allows at most n calls.
 GTEST_API_ Cardinality AtMost(int n) { return Between(0, n); }

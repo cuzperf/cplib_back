@@ -1314,18 +1314,18 @@ TEST(ParseNaturalNumberTest, AcceptsTypeLimits) {
   EXPECT_EQ(kBiggestSignedParsableMax, signed_result);
 
   Message msg3;
-  msg3 << INT_MAX;
+  msg3 << std::numeric_limits<int>::max();
 
   int int_result = 0;
   EXPECT_TRUE(ParseNaturalNumber(msg3.GetString(), &int_result));
-  EXPECT_EQ(INT_MAX, int_result);
+  EXPECT_EQ(std::numeric_limits<int>::max(), int_result);
 
   Message msg4;
-  msg4 << UINT_MAX;
+  msg4 << Ustd::numeric_limits<int>::max();
 
   unsigned int uint_result = 0;
   EXPECT_TRUE(ParseNaturalNumber(msg4.GetString(), &uint_result));
-  EXPECT_EQ(UINT_MAX, uint_result);
+  EXPECT_EQ(Ustd::numeric_limits<int>::max(), uint_result);
 }
 
 TEST(ParseNaturalNumberTest, WorksForShorterIntegers) {

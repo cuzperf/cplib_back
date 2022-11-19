@@ -48,4 +48,4 @@ gn 构建可以向 agoralite 学习，要不要使用相对路径呢？
 深究一下为啥底版本支持 project.code-workspace 而高版本反而不支持呢？（利用 gn 的源代码来看），实在不行的话，自己手写一个好了
 
 把 Handbook of MathFunction 好好翻一翻用来提升性能（当然了不可能完全没有代价）
-std::numeric_limits<int>::max() replace INT_MAX
+std::numeric_limits<int>::max() replace std::numeric_limits<int>::max()

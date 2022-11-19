@@ -56,7 +56,7 @@ TEST(CommandLineFlagsTest, CanBeAccessedInCodeOnceGTestHIsIncluded) {
   EXPECT_TRUE(dummy || !dummy);  // Suppresses warning that dummy is unused.
 }
 
-#include <limits.h>  // For INT_MAX.
+#include <limits.h>  // For std::numeric_limits<int>::max().
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -3987,7 +3987,7 @@ enum {
 
 # else
 
-  kCaseB = INT_MAX,
+  kCaseB = std::numeric_limits<int>::max(),
 
 # endif  // GTEST_OS_LINUX
 

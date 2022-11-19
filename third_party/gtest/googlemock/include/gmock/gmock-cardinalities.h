@@ -68,7 +68,7 @@ class CardinalityInterface {
   // Conservative estimate on the lower/upper bound of the number of
   // calls allowed.
   virtual int ConservativeLowerBound() const { return 0; }
-  virtual int ConservativeUpperBound() const { return INT_MAX; }
+  virtual int ConservativeUpperBound() const { return std::numeric_limits<int>::max(); }
 
   // Returns true if and only if call_count calls will satisfy this
   // cardinality.

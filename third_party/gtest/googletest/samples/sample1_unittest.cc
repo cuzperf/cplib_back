@@ -118,7 +118,7 @@ TEST(IsPrimeTest, Negative) {
 
   EXPECT_FALSE(IsPrime(-1));
   EXPECT_FALSE(IsPrime(-2));
-  EXPECT_FALSE(IsPrime(INT_MIN));
+  EXPECT_FALSE(IsPrime(std::numeric_limits<int>::min()));
 }
 
 // Tests some trivial cases.

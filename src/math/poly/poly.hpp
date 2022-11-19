@@ -491,7 +491,7 @@ class PolyBase : public std::vector<valT> {
 
 // There will be `PolyNTT`, `PolyFFT`, `PolyFFTDynamic`, `PolyMFT` provided to suit for different module $M$.
 
-// - PolyMFT: $M > \text{INT_MAX}$
+// - PolyMFT: $M > \text{std::numeric_limits<int>::max()}$
 // - PolyFFTDynamic: else if $M$ is uncertain.
 // - PolyNTT: else if $M$ is fixed NTT-friendly, such as $M = 998244353$
 // - PolyFFT: else

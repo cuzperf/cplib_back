@@ -126,7 +126,7 @@ TEST(AnyNumber, Works) {
 TEST(AnyNumberTest, HasCorrectBounds) {
   const Cardinality c = AnyNumber();
   EXPECT_EQ(0, c.ConservativeLowerBound());
-  EXPECT_EQ(INT_MAX, c.ConservativeUpperBound());
+  EXPECT_EQ(std::numeric_limits<int>::max(), c.ConservativeUpperBound());
 }
 
 // Tests AtLeast(n).
@@ -181,7 +181,7 @@ TEST(AtLeastTest, OnPositiveNumber) {
 TEST(AtLeastTest, HasCorrectBounds) {
   const Cardinality c = AtLeast(2);
   EXPECT_EQ(2, c.ConservativeLowerBound());
-  EXPECT_EQ(INT_MAX, c.ConservativeUpperBound());
+  EXPECT_EQ(std::numeric_limits<int>::max(), c.ConservativeUpperBound());
 }
 
 // Tests AtMost(n).
