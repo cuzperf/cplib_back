@@ -39,6 +39,8 @@ cp_static_library("cp_math") {
     "math/fmt.h",
     "math/mix.cpp",
     "math/mix.h",
+    # all head file
+    "math/math.h"
   ]
   include_dirs = [
     ".",
@@ -61,17 +63,62 @@ cp_static_library("cp_ds") {
     "ds/cdqConquer.h",
     "ds/mix.cpp",
     "ds/mix.h",
+    # all head file
+    "ds/ds.h"
   ]
   public_deps = [
     ":cp_builtin"
   ]
 }
 
+cp_static_library("cp_string") {
+  sources = [
+    "string/automaton.hpp",
+    "string/duval.cpp",
+    "string/duval.h",
+    "string/kmp.cpp",
+    "string/kmp.h",
+    "string/manacher.cpp",
+    "string/manacher.h",
+    "string/minPresent.hpp",
+    "string/suffixArray.cpp",
+    "string/suffixArray.h",
+    "string/trie.hpp",
+    # all head file
+    "string/string.h",
+  ]
+}
+
+cp_static_library("cp_graph") {
+  sources = [
+    "graph/circleCount.cpp",
+    "graph/circleCount.h",
+    "graph/cut.cpp",
+    "graph/cut.h",
+    "graph/flow.hpp",
+    "graph/kosaraju.hpp",
+    "graph/lca.hpp",
+    "graph/miniSpanTree.cpp",
+    "graph/miniSpanTree.h",
+    "graph/shortestPath.cpp",
+    "graph/shortestPath.h",
+    "graph/tour.cpp",
+    "graph/tour.h",
+    # all head file
+    "graph/graph.h",
+  ]
+}
 
 cp_static_library("cp") {
+  sources = [
+    "timer.hpp",
+    "all.h",
+  ]
   public_deps = [
     ":cp_builtin",
     ":cp_math",
     ":cp_ds",
+    ":cp_string",
+    ":cp_graph",
   ]
 }

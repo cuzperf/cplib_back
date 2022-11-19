@@ -1,7 +1,8 @@
 #include <vector>
 #include <numeric>
-#include "ds/fenwick.hpp"
 #include "gtest/gtest.h"
+
+#include "ds/ds.h"
 
 namespace cuzperf {
 

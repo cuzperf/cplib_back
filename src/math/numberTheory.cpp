@@ -1,5 +1,7 @@
 #include "numberTheory.h"
 
+#include "base/builtin.h"
+
 namespace cuzperf {
 
 std::vector<int> spfS(int N) {
@@ -193,7 +195,7 @@ bool rabin(int64_t n) {
   if (n == 2) return true;
   if (n % 2 == 0) return false;
   int64_t m = n - 1;
-  int t = __builtin_ctzll(m);
+  int t = ctz64(m);
   m >>= t;
   for (int cnt = 0; cnt < TIMES; ++cnt) {
     int64_t a = rnd64() % (n - 1) + 1;
@@ -274,7 +276,7 @@ int sqrtModpS(int a, int p) {
   int b; // find a non-quadratic residue
   std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
   while (power(b = rnd() % (p - 1) + 1, q) == 1);
-  int c = __builtin_ctz(q);
+  int c = ctz32(q);
   q >>= c; // p - 1 = q << (c + 1)
   b = power(b, q);
   int x = power(a, (q + 1) / 2), t = power(a, q);

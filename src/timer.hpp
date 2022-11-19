@@ -1,5 +1,13 @@
 #pragma once
 
+#include <chrono>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+namespace cuzperf {
+
 class Timer final {
   std::chrono::high_resolution_clock::time_point start_;
   std::string name_;
@@ -52,3 +60,5 @@ class Timer final {
     return sstream.str();
   }
 };
+
+}  // namespace cupzerf
