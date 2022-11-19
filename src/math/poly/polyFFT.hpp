@@ -3,13 +3,15 @@
 #include "mod.hpp"
 #include "poly.hpp"
 
+#include "base/builtin.h"
+
 // do not use it if T = ModLL
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
  protected:
   PolyBaseFFT mul(const PolyBaseFFT& rhs) const {
     int tot = std::max(1, int((int)this->size() + rhs.size() - 1));
-    int sz = 1 << std::__lg(tot * 2 - 1);
+    int sz = 1 << lg32(tot * 2 - 1);
     // Must be split to ensure accuracy (or use skill '3 times to 2 times')
     auto A1(*this), A2(*this), B1(rhs), B2(rhs);
     static constexpr int bit = 15, msk = (1LL << bit) - 1;

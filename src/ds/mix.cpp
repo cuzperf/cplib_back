@@ -4,8 +4,8 @@
 #include <iostream>
 #include <vector>
 
-#include "basic.h"
-#include "fenwick.h"
+#include "basic.hpp"
+#include "fenwick.hpp"
 
 namespace cuzperf {
 

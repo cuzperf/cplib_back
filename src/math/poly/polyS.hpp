@@ -1,26 +1,25 @@
 #pragma once
-#include <bits/stdc++.h>
-using LL = long long;
+
+#include "base/builtin.h"
 
 class PolyS : public std::vector<int> {
   static inline std::vector<int> rev_, roots_{0, 1};
-  using ULL = unsigned long long;
   static unsigned powMod(unsigned x, unsigned n) {
     static const unsigned m = 998244353U;
     static const unsigned mr = 998244351U;
     static const unsigned m1 = 301989884U;
     static const unsigned m1inv = 232013824U;
-    unsigned xx = (ULL(x) << 32) % m, rr = m1;
+    unsigned xx = (uint64_t(x) << 32) % m, rr = m1;
     while (n) {
       if (n & 1) {
-        ULL t = ULL(rr) * xx;
-        rr = (t + ULL(unsigned(t) * mr) * m) >> 32;
+        uint64_t t = uint64_t(rr) * xx;
+        rr = (t + uint64_t(unsigned(t) * mr) * m) >> 32;
       }
-      ULL t = ULL(xx) * xx;
-      xx = (t + ULL(unsigned(t) * mr) * m) >> 32;
+      uint64_t t = uint64_t(xx) * xx;
+      xx = (t + uint64_t(unsigned(t) * mr) * m) >> 32;
       n >>= 1;
     }
-    return ULL(rr) * m1inv % m;
+    return uint64_t(rr) * m1inv % m;
   }
   void dft() {
     int n = (int)size();
@@ -127,7 +126,7 @@ class PolyS : public std::vector<int> {
   }
   PolyS& operator*=(PolyS&& rhs) {
     int n = (int)size(), m = rhs.size(), tot = std::max(1, n + m - 1);
-    int sz = 1 << std::__lg(tot * 2 - 1);
+    int sz = 1 << lg32(tot * 2 - 1);
     resize(sz);
     rhs.resize(sz);
     dft();

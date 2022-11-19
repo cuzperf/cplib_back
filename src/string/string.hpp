@@ -1,6 +1,4 @@
 #pragma once
-#include <bits/stdc++.h>
-using LL = long long;
 
 // Trie build by lowercase characters(change charToInt for other charset)
 class Trie {
@@ -411,7 +409,7 @@ std::vector<int> getHeight(const std::string& s) {
   return ht;
 }
 
-LL diffSubstringCount(const std::string& s) {
+int64_t diffSubstringCount(const std::string& s) {
   int n = (int)s.size();
   auto ht = getHeight(s);
   return 1LL * (n + 1) * n / 2 - std::accumulate(ht.begin(), ht.end(), 0LL);

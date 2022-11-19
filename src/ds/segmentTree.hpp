@@ -1,6 +1,4 @@
 #pragma once
-#include <bits/stdc++.h>
-using LL = long long;
 
 namespace cuzperf {
 
@@ -22,7 +20,7 @@ class SegmentTreeT {
     }
   }
  public:
-  SegmentTreeT(int n) : n_(n), info_(4 << std::__lg(n)) {}
+  SegmentTreeT(int n) : n_(n), info_(4 << lg32(n)) {}
   SegmentTreeT(const std::vector<T>& a) : SegmentTreeT(a.size()) {
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {
@@ -55,9 +53,9 @@ using SegmentTreeInfo = SegmentTreeT<Info>;
 // sum version is simple, the class blow is an example
 class SegmentTree {
   int n_;
-  std::vector<LL> sm, tag;
+  std::vector<int64_t> sm, tag;
   void pull(int p) { sm[p] = sm[p << 1] + sm[p << 1 | 1]; }
-  void pushTag(LL x, int l, int r, int p) {
+  void pushTag(int64_t x, int l, int r, int p) {
     tag[p] += x;
     sm[p] += x * (r - l);
   }
@@ -69,7 +67,7 @@ class SegmentTree {
       tag[p] = 0;
     }
   }
-  void rangeAdd(int L, int R, LL x, int l, int r, int p) {
+  void rangeAdd(int L, int R, int64_t x, int l, int r, int p) {
     if (L <= l && R >= r) {
       pushTag(x, l, r, p);
       return;
@@ -81,10 +79,10 @@ class SegmentTree {
     pull(p);
   }
   // you should implement it to meet for needs
-  LL query(int L, int R, int l, int r, int p) {
+  int64_t query(int L, int R, int l, int r, int p) {
     if (L <= l && R >= r) return sm[p];
     push(l, r, p);
-    LL ans = 0;
+    int64_t ans = 0;
     int m = (l + r) / 2;
     if (L < m) ans += query(L, R, l, m, p << 1);
     if (R > m) ans += query(L, R, m, r, p << 1 | 1);
@@ -96,7 +94,7 @@ class SegmentTree {
   }
  public:
   SegmentTree(int n) : n_(n) { resize(); }
-  SegmentTree(const std::vector<LL>& a) {
+  SegmentTree(const std::vector<int64_t>& a) {
     n_ = (int)a.size();
     resize();
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
@@ -111,8 +109,8 @@ class SegmentTree {
     };
     build(0, n_, 1);
   }
-  void add(int L, int R, LL v) { rangeAdd(--L, R, v, 0, n_, 1); }
-  LL query(int L, int R) { return query(--L, R, 0, n_, 1); }
+  void add(int L, int R, int64_t v) { rangeAdd(--L, R, v, 0, n_, 1); }
+  int64_t query(int L, int R) { return query(--L, R, 0, n_, 1); }
 };
 // https://www.luogu.com.cn/problem/P3372
 
@@ -150,7 +148,7 @@ class SegmentTreeAddCountMin {
   int query(int L, int R, int l, int r, int p) {
     if (L <= l && R >= r) return mx[p];
     push(l, r, p);
-    LL ans = 0;
+    int64_t ans = 0;
     int m = (l + r) / 2;
     if (L < m) ans += query(L, R, l, m, p << 1);
     if (R > m) ans += query(L, R, m, r, p << 1 | 1);
@@ -186,7 +184,7 @@ class SegmentTreeAddCountMin {
 class PstSegTree {
   struct Node {
     int l, r;
-    LL val;
+    int64_t val;
   };
   int n_;
   std::vector<int> root_;  // version number
@@ -207,10 +205,10 @@ class PstSegTree {
       pushUp(q);
     }
   }
-  LL query(int L, int R, int l, int r, int p) {
+  int64_t query(int L, int R, int l, int r, int p) {
     if (L <= l && R >= r) return tree_[p].val;
     int m = (l + r) / 2;
-    LL ans = 0;
+    int64_t ans = 0;
     if (L < m) ans += query(L, R, l, m, tree_[p].l);
     if (R > m) ans += query(L, R, m, r, tree_[p].r);
     return ans;
@@ -240,7 +238,7 @@ class PstSegTree {
     update(pos, val, 0, n_, p, q);
   }
   // segment query, p is current version, q is new version
-  LL query(int L, int R, int p) {
+  int64_t query(int L, int R, int p) {
     return query(L, R, 0, n_, p);
   }
 };

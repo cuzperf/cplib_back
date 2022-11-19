@@ -1,5 +1,9 @@
 #pragma once
-#include <bits/stdc++.h>
+
+#include <vector>
+#include <string>
+
+#include "base/builtin.h"
 
 // A high performance and easy to use class for CPP17
 
@@ -315,7 +319,7 @@ private:
 		if (A.empty() || B.empty()) return BigInt10(0);
 		bool flag = A.ngt ^ B.ngt;
 		int n = A.size(), m = B.size(), tot = std::max(1, n + m - 1);
-		int sz = 1 << std::__lg(tot * 2 - 1);
+		int sz = 1 << lg32(tot * 2 - 1);
 		A.resize(sz);
 		B.resize(sz);
 		A.dft();

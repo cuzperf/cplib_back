@@ -1,6 +1,6 @@
 #include <vector>
 #include <numeric>
-#include "ds/fenwick.h"
+#include "ds/fenwick.hpp"
 #include "gtest/gtest.h"
 
 namespace cuzperf {

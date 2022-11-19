@@ -1,7 +1,5 @@
 #pragma once
-#include <bits/stdc++.h>
 #include "basic.hpp"
-using LL = long long;
 
 // note that p_[1] = 2 and p_[0] is meanless
 class Prime {
@@ -63,7 +61,7 @@ class Prime {
     }
   }
   // See if x \in (s - n, s] is prime assume that p_.back() * p_.back() >= s
-  std::vector<int> seive(LL s, int n) { // O(N log s)
+  std::vector<int> seive(int64_t s, int n) { // O(N log s)
     std::vector<int> isP(n, 1); // isP[i] = 1 means s - i is prime
     for (int i = 1; 1LL * p_[i] * p_[i] <= s; ++i) {
       for (int j = s % p_[i]; j < n; j += p_[i]) isP[j] = 0;
@@ -74,20 +72,20 @@ class Prime {
     initPrime();
     initPi();
   }
-  bool isPrimeS(LL n) {
+  bool isPrimeS(int64_t n) {
     if (n == 2) return true;
     if (n == 1 || n % 2 == 0) return false;
-    for (LL i = 3; i * i <= n; i += 2) if (n % i == 0) return false;
+    for (int64_t i = 3; i * i <= n; i += 2) if (n % i == 0) return false;
     return true;
   }
  public:
   int operator[](int i) { return p_[i];}
-  LL primephi(LL x, int s) {
+  int64_t primephi(int64_t x, int s) {
     if (s <= M) return (x / phi_[s].size()) * phi_[s].back() + phi_[s][x % phi_[s].size()];
     if (x / p_[s] <= p_[s]) return primePi(x) - s + 1;
     if (x / p_[s] / p_[s] <= p_[s] && x < N) {
       int s2x = pi_[(int)(std::sqrt(x + 0.2))];
-      LL ans = pi_[x] - (s2x + s - 2) * (s2x - s + 1) / 2;
+      int64_t ans = pi_[x] - (s2x + s - 2) * (s2x - s + 1) / 2;
       for (int i = s + 1; i <= s2x; ++i) {
         ans += pi_[x / p_[i]];
       }
@@ -95,33 +93,33 @@ class Prime {
     }
     return primephi(x, s - 1) - primephi(x / p_[s], s - 1);
   }
-  LL primePi(LL x) {
+  int64_t primePi(int64_t x) {
     if (x < N) return pi_[x];
     int ps2x = primePi(int(std::sqrt(x + 0.2)));
     int ps3x = primePi(int(std::cbrt(x + 0.2)));
-    LL ans = primephi(x, ps3x) + 1LL * (ps2x + ps3x - 2) * (ps2x - ps3x + 1) / 2;
+    int64_t ans = primephi(x, ps3x) + 1LL * (ps2x + ps3x - 2) * (ps2x - ps3x + 1) / 2;
     for (int i = ps3x + 1, ed = ps2x; i <= ed; ++i) {
       ans -= primePi(x / p_[i]);
     }
     return ans;
   }
-  bool isPrime(LL n) {
+  bool isPrime(int64_t n) {
     if (n < N) return isp_[n];
     if (1LL * p_.back() * p_.back() > n) return isPrimeS(n);
     for (int i = 1; p_[i] * p_[i] <= n; ++i) if (n % p_[i] == 0) return false;
     return true;
   }
   // DynamicProgramming version O(\frac{n}{\log n}) with n < 10^12
-  LL primePiS(LL n) {
+  int64_t primePiS(int64_t n) {
     int rn = std::sqrt(n + 0.2);
-    std::vector<LL> R(rn + 1);
+    std::vector<int64_t> R(rn + 1);
     for (int i = 1; i <= rn; ++i) R[i] = n / i - 1;
     int ln = n / (rn + 1) + 1;
-    std::vector<LL> L(ln + 1);
+    std::vector<int64_t> L(ln + 1);
     for (int i = 1; i <= ln; ++i) L[i] = i - 1;
     for (int p = 2; p <= rn; ++p) {
       if (L[p] == L[p - 1]) continue;
-      for (int i = 1, tn = std::min(n / p / p, LL(rn)); i <= tn; ++i) {
+      for (int i = 1, tn = std::min(n / p / p, int64_t(rn)); i <= tn; ++i) {
         R[i] -= (i <= rn / p ? R[i * p] : L[n / i / p]) - L[p - 1];
       }
       for (int i = ln; i / p >= p; --i) {
@@ -130,10 +128,10 @@ class Prime {
     }
     return R[1];
   }
-  LL nthPrime(LL n) { // Newton method
+  int64_t nthPrime(int64_t n) { // Newton method
     if (n < (int)p_.size()) return p_[n];
-    LL ans = n * log(n), err = log(n) / log(10);
-    LL m = primePi(ans);
+    int64_t ans = n * log(n), err = log(n) / log(10);
+    int64_t m = primePi(ans);
     while (m < n || m > n + err) {
       ans += (n - m) / (log(m) - 1) * log(m) * log(m);
       m = primePi(ans);
@@ -157,8 +155,8 @@ class Prime {
 class Euler {
   static inline constexpr int N = 5e6 + 2;
   std::vector<int> phi_, p_{0, 2};
-  std::unordered_map<int, LL> mpPhi_;
-  std::vector<LL> sumPhi_;
+  std::unordered_map<int, int64_t> mpPhi_;
+  std::vector<int64_t> sumPhi_;
   void initPhi() { // $O(N)$
     for (int i = 1; i < N; i += 2) phi_[i] = i;
     for (int i = 2; i < N; i += 2) phi_[i] = i >> 1;
@@ -175,11 +173,11 @@ class Euler {
     for (int i = 2; i < N; i += 4) phi_[i] = phi_[i >> 1];
     for (int i = 4; i < N; i += 4) phi_[i] = phi_[i >> 1] << 1;
   }
-  LL getPhiS(LL n) {
+  int64_t getPhiS(int64_t n) {
     if (n % 2 == 0) n /= 2;
-    LL r = n;
+    int64_t r = n;
     while (n % 2 == 0) n /= 2;
-    for (LL i = 3; i * i <= n; i += 2) if (n % i  == 0) {
+    for (int64_t i = 3; i * i <= n; i += 2) if (n % i  == 0) {
       r = r / i * (i - 1);
       while (n % i == 0) n /= i;
     }
@@ -192,10 +190,10 @@ class Euler {
   }
  public:
   int operator[](int i) { return phi_[i];}
-  LL getPhi(LL n) {
+  int64_t getPhi(int64_t n) {
     if (n < (int)phi_.size()) return phi_[n];
     if (1LL * p_.back() * p_.back() > n) return getPhiS(n);
-    LL r = n;
+    int64_t r = n;
     for (int i = 1; 1LL * p_[i] * p_[i] <= n; ++i) if (n % p_[i] == 0) {
       r = r / p_[i] * (p_[i] - 1);
       while (n % p_[i] == 0) n /= p_[i];
@@ -204,10 +202,10 @@ class Euler {
     return r;
   }
   // min_25 $O(n^{\frac{2}{3}})$
-  LL getSumPhi(int n) {
+  int64_t getSumPhi(int n) {
     if (n < N) return sumPhi_[n];
     if (mpPhi_.count(n)) return mpPhi_[n];
-    LL r = 1LL * (n + 1) * n / 2;
+    int64_t r = 1LL * (n + 1) * n / 2;
     for (int i = 2, j; i <= n; i = j + 1) {
       j = n / (n / i);
       r -= (j - i + 1) * getSumPhi(n / i);
@@ -226,11 +224,11 @@ class Mobius{
   static inline constexpr int N = 5e6 + 2;
   std::vector<int> mu_, sumMu_, p_{0, 2};
   std::unordered_map<int, int> mpMu_;
-  int getMuS(LL n){
+  int getMuS(int64_t n){
     if (n % 4 == 0) return 0;
     int r = (n % 2 ? 1 : -1);
     if (n % 2 == 0) n /= 2;
-    for (LL i = 3; i * i <= n; i += 2) if (n % i == 0) {
+    for (int64_t i = 3; i * i <= n; i += 2) if (n % i == 0) {
       n /= i;
       if (n % i == 0) return 0;
       r = -r;
@@ -266,7 +264,7 @@ class Mobius{
   }
  public:
   int operator[](int i) { return mu_[i];} // assmue i < N
-  int getMu(LL n) {
+  int getMu(int64_t n) {
     if (n < (int)mu_.size()) return mu_[n];
     if (1LL * p_.back() * p_.back() > n) return getMuS(n);
     int r = 1;
@@ -277,9 +275,9 @@ class Mobius{
     }
     return n > 1 ? -r : r;
   }
-  LL getAbsSum(LL n) { // Q(n) = Q(n-1) + |mu_(n)|
-    LL r = 0;
-    for (LL i = 1; i * i < n; ++i) {
+  int64_t getAbsSum(int64_t n) { // Q(n) = Q(n-1) + |mu_(n)|
+    int64_t r = 0;
+    for (int64_t i = 1; i * i < n; ++i) {
       r += mu_[i] * (n / i / i);
     }
     return r;
@@ -431,8 +429,8 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp) {
 // Probabilistic Method: Miller-Rabin prime test and PollardRho big number Decomposition
 namespace PollardRho {
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
-LL powModll(LL x, LL n, LL p) {
-  LL r = 1;
+int64_t powModll(int64_t x, int64_t n, int64_t p) {
+  int64_t r = 1;
   while (n) {
     if (n&1) r = __int128_t(r) * x % p;
     n >>= 1; x = __int128_t(x) * x % p;
@@ -441,8 +439,8 @@ LL powModll(LL x, LL n, LL p) {
 }
 
 // m - 1 = m * 2 ^ t, return false if test is invaild
-bool witness(LL a, LL n, LL m, int t) {
-  LL x = powModll(a, m, n);
+bool witness(int64_t a, int64_t n, int64_t m, int t) {
+  int64_t x = powModll(a, m, n);
   if (x == 1 || x == n - 1) return false;
   while (t--) {
     x = __int128_t(x) * x %  n;
@@ -451,27 +449,27 @@ bool witness(LL a, LL n, LL m, int t) {
   return true;
 }
 constexpr int TIMES = 52;
-bool rabin(LL n) {
+bool rabin(int64_t n) {
   if (n < 2) return false;
   if (n == 2) return true;
   if (n % 2 == 0) return false;
-  LL m = n - 1;
+  int64_t m = n - 1;
   int t = __builtin_ctzll(m);
   m >>= t;
   for (int cnt = 0; cnt < TIMES; ++cnt) {
-    LL a = rnd64() % (n - 1) + 1;
+    int64_t a = rnd64() % (n - 1) + 1;
     if (witness(a, n, m, t)) return false;
   }
   return true;
 }
-LL pollardrho(LL n) {
-  LL x = 0, y = 0, z = 1, i = 1, k = 2, c = rnd64() % (n - 1) + 1;
+int64_t pollardrho(int64_t n) {
+  int64_t x = 0, y = 0, z = 1, i = 1, k = 2, c = rnd64() % (n - 1) + 1;
   while (true) {
     x = (__int128_t(x) * x + c) % n;
     z = __int128_t(y - x + n) * z % n;
     // optim times of compute gcd
     if (++i == k) {
-      LL d = std::gcd(z, n);
+      int64_t d = std::gcd(z, n);
       if (d > 1) return d;
       y = x;
       if (k > n) return n;
@@ -479,18 +477,18 @@ LL pollardrho(LL n) {
     }
   }
 }
-LL spf(LL n) {
+int64_t spf(int64_t n) {
   if (rabin(n) || n == 1) return n;
-  LL d = n;
+  int64_t d = n;
   while (d == n) d = pollardrho(n);
   return std::min(spf(d), spf(n / d));
 }
-LL gpf(LL n, LL mxf = 1) {
+int64_t gpf(int64_t n, int64_t mxf = 1) {
   if (rabin(n)) return n;
   if (n <= mxf) return 1;
-  LL d = n;
+  int64_t d = n;
   while (d == n) d = pollardrho(n);
-  LL res = gpf(d, mxf);
+  int64_t res = gpf(d, mxf);
   return std::max(res, gpf(n / d, std::max(res, mxf)));
 }
 } // namespace PollardRho

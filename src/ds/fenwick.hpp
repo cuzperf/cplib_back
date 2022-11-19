@@ -1,6 +1,8 @@
 #pragma once
+
 #include <vector>
 #include <map>
+
 #include "base/builtin.h"
 
 template<typename T>

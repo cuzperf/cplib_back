@@ -1,5 +1,10 @@
-#pragma once
-#include <bits/stdc++.h>
+#include "geometry.h"
+
+#include <algorithm>
+#include <utility>
+#include <bitset>
+#include <cmath>
+#include <limits>
 
 namespace Geomerty {
 using Point = std::pair<double, double>;
@@ -14,11 +19,11 @@ bool crossLeft(const Point& op, const Point& sp, const Point& ep) {
 double dist2(const Point& p, const Point& q) {
   double x = q.first - p.first, y = q.second - p.second;
   return x * x + y * y;
-};
+}
 double dist(const Point& p, const Point& q) {
   double x = q.first - p.first, y = q.second - p.second;
   return std::sqrt(x * x + y * y);
-};
+}
 
 std::vector<Point> convexHull(std::vector<Point> p) {
   // note: parameter passing for argument of type 'std::pair<double, double>'
@@ -54,11 +59,10 @@ double diameter(std::vector<Point> p) {
     ans = std::max({ans, dist2(q[i], q[j]), dist2(q[i + 1], q[j])});
   }
   return std::sqrt(ans);
-} // float version: https://www.luogu.com.cn/problem/P6247
-// Int version: https://www.luogu.com.cn/problem/P1452
+}
 
 double minDist(std::vector<Point> a) {
-  double d = DBL_MAX;
+  double d = std::numeric_limits<double>::max();
   int n = (int)a.size();
   if (n <= 1) return d;
   std::sort(a.begin(), a.end());
@@ -87,10 +91,9 @@ double minDist(std::vector<Point> a) {
   };
   merge(0, n);
   return d;
-} // https://www.luogu.com.cn/problem/P1429
+}
 } // namespace Geomerty
 
-// a is k * n matrix: has n k-dimension vectors, return r[i]: number of vector less than i
 std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
   int k = (int)a.size(), n = a[0].size();
   using Node = std::vector<std::pair<int, int>>;
@@ -112,7 +115,7 @@ std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
     if (n % sn == 0) bs[i][n / sn] = now;
   }
   auto getbst = [&](int i, int val) -> std::bitset<N> {
-    int j = std::lower_bound(f[i].begin(), f[i].end(), std::make_pair(val, INT_MIN)) - f[i].begin();
+    int j = std::lower_bound(f[i].begin(), f[i].end(), std::make_pair(val, std::numeric_limits<int>::max())) - f[i].begin();
     std::bitset<N> r = bs[i][j / sn];
     for (int t = j / sn * sn; t < j; ++t) r.set(f[i][t].second);
     return r;
@@ -126,7 +129,7 @@ std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
     r[j] = now.count();
   }
   return r;
-} // http://cogs.pro:8081/cogs/problem/problem.php?pid=vSJzQVejP
+}
 
 namespace rectangleUnion {
 class SegTree {
@@ -193,7 +196,7 @@ struct Edge {
     return x < A.x;
   }
 };
-LL rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectangle) {
+int64_t rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectangle) {
   std::vector<Edge> a;
   a.reserve(2 * rectangle.size());
   // make sure x1 < x2, y1 < y2
@@ -204,7 +207,7 @@ LL rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectangle) 
   std::sort(a.begin(), a.end());
   SegTree A;
   A.add(a[0].l, a[0].r, a[0].val);
-  LL ans = 0;
+  int64_t ans = 0;
   for (int i = 1, n = a.size(); i < n; ++i) {
     if (a[i].x != a[i - 1].x) {
       ans += 1LL * (a[i].x - a[i - 1].x) * A.query();
@@ -212,5 +215,5 @@ LL rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectangle) 
     A.add(a[i].l, a[i].r, a[i].val);
   }
   return ans;
-} // https://www.luogu.com.cn/problem/T110664
+}
 } // namespace rectangleUnion

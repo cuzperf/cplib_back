@@ -1,9 +1,8 @@
 // Main reference: https://www.luogu.com.cn/blog/command-block/sheng-cheng-han-shuo-za-tan
 #pragma once
-#include <bits/stdc++.h>
 #include "../basic.h"
 #include "../mod.h"
-using LL = long long;
+
 
 // many function will fail for the case n > mod
 // using valT = decltype(T::a)::value_type;template<typename T, typename valT>
@@ -15,9 +14,9 @@ class Poly : public T {
  public:
   using T::T;
   // never use it if valT = MINT<M>, this method is awesome
-  static void setMod(LL p, int n = MAXN) {
+  static void setMod(int64_t p, int n = MAXN) {
     valT::setMod(p);
-    BinomModp<valT>::Instance(std::min(LL(n), p));
+    BinomModp<valT>::Instance(std::min(int64_t(n), p));
   }
   Poly operator-() const {
     auto A = *this;
@@ -95,7 +94,7 @@ class Poly : public T {
   Poly operator%(const Poly& rhs) const {
     return Poly(*this) %= rhs;
   }
-  Poly powModPoly(LL n, const Poly& p) const {
+  Poly powModPoly(int64_t n, const Poly& p) const {
     Poly r(1), x(*this);
     while (n) {
       if (n&1) r = r * x % p;
@@ -362,7 +361,7 @@ class Poly : public T {
 
   // $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$: https://oi-wiki.org/math/linear-recurrence/
   // find n-th term of The recursive formula for the constant coefficient of order k in $O(k \log k \log n)$
-  static valT linearRecursion(const std::vector<valT>& a, std::vector<valT> f, LL n) {
+  static valT linearRecursion(const std::vector<valT>& a, std::vector<valT> f, int64_t n) {
     if (n < (int)a.size()) return a[n];
     int m = (int)f.size();
     std::reverse(f.begin(), f.end());

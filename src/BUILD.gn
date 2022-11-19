@@ -7,46 +7,58 @@ cp_static_library("cp_builtin") {
   ]
 }
 
-# static_library("cp_math") {
-#   sources = [
-#     "math/basic.cpp",
-#     "math/basic.h",
-#     "math/binom.h",
-#     "math/fft.cpp",
-#     "math/fft.h",
-#     "math/fmt.cpp",
-#     "math/fmt.h",
-#     "math/geometry.h",
-#     "math/matrix.h",
-#     "math/mes.h",
-#     "math/mix.cpp",
-#     "math/mix.h",
-#     "math/mod.h",
-#     "math/ntt.hpp",
-#     "math/numberTheory.hpp",
-#   ]
-#   include_dirs = [
-#     ".",
-#     "src",
-#   ]
-#   public_deps = [
-#     ":cp_builtin"
-#   ]
-# }
-
-cp_static_library("cp_ds") {
+cp_static_library("cp_math") {
   sources = [
-    "ds/basic.h",
-    "ds/block.h",
-    "ds/cdqConquer.cpp",
-    "ds/cdqConquer.h",
-    "ds/dsu.h",
-    "ds/fenwick.h",
-    "ds/mix.cpp",
-    "ds/mix.h",
-    "ds/segmentTree.h",
+    "math/binom.hpp",
+    "math/matrix.hpp",
+    "math/mes.hpp",
+    "math/mod.hpp",
+    "math/ntt.hpp",
+    "math/numberTheory.hpp",
+
+    "math/geometry.cpp",
+    "math/geometry.h",
+    "math/basic.cpp",
+    "math/basic.h",
+    "math/fft.cpp",
+    "math/fft.h",
+    "math/fmt.cpp",
+    "math/fmt.h",
+    "math/mix.cpp",
+    "math/mix.h",
+  ]
+  include_dirs = [
+    ".",
+    "src",
   ]
   public_deps = [
     ":cp_builtin"
+  ]
+}
+
+cp_static_library("cp_ds") {
+  sources = [
+    "ds/basic.hpp",
+    "ds/block.hpp",
+    "ds/dsu.hpp",
+    "ds/fenwick.hpp",
+    "ds/segmentTree.hpp",
+
+    "ds/cdqConquer.cpp",
+    "ds/cdqConquer.h",
+    "ds/mix.cpp",
+    "ds/mix.h",
+  ]
+  public_deps = [
+    ":cp_builtin"
+  ]
+}
+
+
+cp_static_library("cp") {
+  public_deps = [
+    ":cp_builtin",
+    ":cp_math",
+    ":cp_ds",
   ]
 }

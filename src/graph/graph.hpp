@@ -1,6 +1,5 @@
 #pragma once
-#include <bits/stdc++.h>
-using LL = long long;
+
 
 using edge = std::vector<std::pair<int, int>>;
 using Edge = std::tuple<int, int, int>;
@@ -84,8 +83,8 @@ class LCA {
 };
 
 // Minimum Spanning Tree
-LL Prim(const std::vector<edge>& e) {
-  LL r = 0;
+int64_t Prim(const std::vector<edge>& e) {
+  int64_t r = 0;
   int n = (int)e.size(), cnt = 0;
   std::priority_queue<std::pair<int, int>> Q;
   std::vector<int> vis(n);
@@ -105,8 +104,8 @@ LL Prim(const std::vector<edge>& e) {
 }
 
 // LiuZhu: Minimum tree diagram
-LL LiuZhu(std::vector<Edge> e, int n, int rt) { // e has no self-loop
-  LL ans = 0;
+int64_t LiuZhu(std::vector<Edge> e, int n, int rt) { // e has no self-loop
+  int64_t ans = 0;
   while (1) {
     std::vector<int> in(n, INT_MAX), pre(n, -1);
     for (auto [u, v, w] : e) if (u != v && in[v] > w) {
@@ -216,7 +215,7 @@ std::stack<int> EulerPath(std::vector<std::set<int>> e, int rt) {
 
 namespace Floyd {
 constexpr int N = 1003;
-LL dp[N][N], path[N][N];
+int64_t dp[N][N], path[N][N];
 void Floyd(int n) {
   memset(path, -1, sizeof(path));
   for(int k = 0; k != n; ++k)
@@ -237,9 +236,9 @@ std::vector<int> getPath(int x, int y) {
 }
 } // namespace Floyd
 
-std::vector<LL> Dijkstra(const std::vector<edge>& e, int s) {
-  std::priority_queue<std::pair<LL, int>> Q;
-  std::vector<LL> d(e.size(), INT64_MAX);
+std::vector<int64_t> Dijkstra(const std::vector<edge>& e, int s) {
+  std::priority_queue<std::pair<int64_t, int>> Q;
+  std::vector<int64_t> d(e.size(), INT64_MAX);
   d[s] = 0;
   Q.push({0, s});
   while (!Q.empty()) {
@@ -472,14 +471,14 @@ class Dinic {
     }
     return h_[t] != -1;
   }
-  LL dfs(int u, int t, LL f) {
+  int64_t dfs(int u, int t, int64_t f) {
     if (u == t || f == 0) return f;
-    LL r = f;
+    int64_t r = f;
     for (int& i = cur_[u], ng = g_[u].size(); i < ng; ++i) {
       int j = g_[u][i];
       auto [v, c] = e[j];
       if (c > 0 && h_[v] == h_[u] + 1) {
-        int a = dfs(v, t, std::min(r, LL(c)));
+        int a = dfs(v, t, std::min(r, int64_t(c)));
         e[j].second -= a;
         e[j ^ 1].second += a;
         r -= a;
@@ -497,8 +496,8 @@ class Dinic {
     g_[v].emplace_back(e.size());
     e.emplace_back(u, 0);
   }
-  LL maxFlow(int s, int t) {
-    LL r = 0;
+  int64_t maxFlow(int s, int t) {
+    int64_t r = 0;
     while (bfs(s, t)) {
       cur_.assign(n_, 0);
       r += dfs(s, t, INT64_MAX);
@@ -515,7 +514,7 @@ class HLPP {
   std::vector<std::pair<int, int>> e;
   std::vector<std::vector<int>> g_;
   std::vector<int> h_;
-  std::vector<LL> ex_;
+  std::vector<int64_t> ex_;
   void addFlow(int i, int a) {
     ex_[e[i ^ 1].first] -= a;
     ex_[e[i].first] += a;
@@ -549,7 +548,7 @@ class HLPP {
     g_[v].emplace_back(e.size());
     e.emplace_back(u, 0);
   }
-  LL maxFlow(int s, int t) {
+  int64_t maxFlow(int s, int t) {
     if (init(s, t)) return 0;
     std::vector<int> gap(n_ + 1, 0), vis(n_);
     for (auto x : h_) ++gap[x];
@@ -560,7 +559,7 @@ class HLPP {
       for (auto i : g_[u]) {
         auto [v, c] = e[i];
         if (c == 0 || (h_[u] != h_[v] + 1 && u != s)) continue;
-        int a = std::min(ex_[u], LL(c));
+        int a = std::min(ex_[u], int64_t(c));
         addFlow(i, a);
         if (!vis[v]) {
           pq.push({h_[v], v});
@@ -642,20 +641,20 @@ class StoerWagner {
 // Minimum cost maximum flow
 
 class Flow {
-  static inline constexpr LL INF = INT64_MAX >> 1;
+  static inline constexpr int64_t INF = INT64_MAX >> 1;
   int n_;
   // e_[i] = {endPoint, conpacity} and e_[i ^ 1] is opposite edge of e_[i]
   // g_[u] = {edges start from u}
   std::vector<std::tuple<int, int, int>> e_;
   std::vector<std::vector<int>> g_;
   std::vector<int> path_;
-  std::vector<LL> h_;
+  std::vector<int64_t> h_;
   // h_[i] = dist(s, i), h_[t] != -1 means there is a path_ from s to t, and h_[t] will be the potential.
   // path_[v]: short path_ form s to v, path_[v] is the previous node of v
   bool Dijkstra(int s, int t) {
-    std::priority_queue<std::pair<LL, int>> Q;
+    std::priority_queue<std::pair<int64_t, int>> Q;
     std::fill(path_.begin(), path_.end(), -1);
-    std::vector<LL> d(n_, INF);
+    std::vector<int64_t> d(n_, INF);
     d[s] = 0;
     Q.push({0, s});
     while (!Q.empty()) {
@@ -686,8 +685,8 @@ class Flow {
     g_[v].emplace_back(e_.size());
     e_.emplace_back(u, 0, -c);
   }
-  std::pair<LL, LL> maxFlow(int s, int t) {
-    LL flow = 0, cost = 0;
+  std::pair<int64_t, int64_t> maxFlow(int s, int t) {
+    int64_t flow = 0, cost = 0;
     while (Dijkstra(s, t)) {
       int f = INT_MAX, now = t;
       std::vector<int> r;
@@ -701,7 +700,7 @@ class Flow {
         std::get<1>(e_[i ^ 1]) += f;
       }
       flow += f;
-      cost += LL(f) * h_[t];
+      cost += int64_t(f) * h_[t];
     }
     return {flow, cost};
   }
@@ -734,7 +733,7 @@ int circle3count(const std::vector<std::pair<int, int>>& edge, int n) {
 
 
 // $O(m \sqrt{m})$
-LL circle4count(const std::vector<std::pair<int, int>>& edge, int n) {
+int64_t circle4count(const std::vector<std::pair<int, int>>& edge, int n) {
   std::vector<int> d(n), c(n, -1), id(n);
   for (auto [u, v] : edge) ++d[u], ++d[v];
   std::iota(id.begin(), id.end(), 0);
@@ -747,7 +746,7 @@ LL circle4count(const std::vector<std::pair<int, int>>& edge, int n) {
     e[v].emplace_back(u);
   }
   // x -> y -> z and x -> w -> z
-  LL ans = 0;
+  int64_t ans = 0;
   for (int i = 0; i < n; ++i) {
     for (auto u : e[i]) if (id[i] < id[u]) {
       for (auto v : e[u]) if (id[i] < id[v]) ans += c[v]++;

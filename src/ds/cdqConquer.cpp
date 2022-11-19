@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <functional>
 
-#include "fenwick.h"
+#include "fenwick.hpp"
 
 namespace cuzperf {
 

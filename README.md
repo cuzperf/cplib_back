@@ -26,7 +26,7 @@ Q：怎么证明模板是用的 static（如果是的话，拿岂不是会有包
 区间总是左开右闭
 
 
-fenwick.h 要好好的测试一下
+fenwick.hpp 要好好的测试一下
 
 
 unit_test 中添加 rand 后缀名的 rand 测试
@@ -43,7 +43,9 @@ gn 构建可以向 agoralite 学习，要不要使用相对路径呢？
 归并排序作为最简单的分治算法可以拓展到链表的合并，推广
 写一点 vector 到指针链表的函数
 怎么保证自己写的每一个都不会失效呢？
+怎么检测那些文件没有被编译进去呢？
 
 深究一下为啥底版本支持 project.code-workspace 而高版本反而不支持呢？（利用 gn 的源代码来看），实在不行的话，自己手写一个好了
 
 把 Handbook of MathFunction 好好翻一翻用来提升性能（当然了不可能完全没有代价）
+std::numeric_limits<int>::max() replace INT_MAX

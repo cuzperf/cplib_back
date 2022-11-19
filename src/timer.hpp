@@ -1,5 +1,4 @@
 #pragma once
-#include <bits/stdc++.h>
 
 class Timer final {
   std::chrono::high_resolution_clock::time_point start_;

@@ -1,4 +1,6 @@
 #include "fft.h"
+
+#include <algorithm>
 #include <complex>
 #include <vector>
 

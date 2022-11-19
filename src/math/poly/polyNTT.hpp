@@ -1,13 +1,14 @@
 #pragma once
 #include "mod.hpp"
 #include "poly.hpp"
+#include "base/builtin.h"
 
 template<int N>
 class PolyBaseNTT : public PolyBase<MInt<N>> {
  protected:
   PolyBaseNTT mul(const PolyBaseNTT& rhs) const {
     int n = (int)this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
-    int sz = 1 << std::__lg(tot * 2 - 1);
+    int sz = 1 << lg32(tot * 2 - 1);
     std::vector<MInt<N>> A = *this, B = rhs;
     A.resize(sz); B.resize(sz);
     ntt.dft(A); ntt.dft(B);

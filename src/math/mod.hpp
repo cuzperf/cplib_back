@@ -1,9 +1,6 @@
 #pragma once
-#include <bits/stdc++.h>
 
 #include "basic.h"
-
-using LL = long long;
 
 namespace cuzperf {
 
@@ -41,7 +38,7 @@ class ModInt {
   ModInt(const int& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  ModInt(const LL& x) : n_(x % M) {
+  ModInt(const int64_t& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
   ModInt operator-() const {
@@ -86,7 +83,7 @@ class ModInt {
   }
   ModInt operator<<(int x) const {
     static constexpr int bits = 32;
-    LL r = n_;
+    int64_t r = n_;
     while (x > bits) {
       x -= bits;
       r <<= bits;
@@ -119,7 +116,7 @@ class ModInt {
     return R;
   }
   friend std::istream& operator>>(std::istream& in, ModInt& A) {
-    LL x;
+    int64_t x;
     in >> x;
     A = ModInt(x);
     return in;
@@ -132,15 +129,15 @@ class ModInt {
 
 // You should setMod before use it
 class ModLL {
-  static inline LL M = 998244353;
-  LL n_;
-  static LL inv(LL a) {
+  static inline int64_t M = 998244353;
+  int64_t n_;
+  static int64_t inv(int64_t a) {
     auto [d, x, y] = exGcd(a, M);
     // assert(d == 1);
     return x < 0 ? x + M : x;
   }
   // assum M is prime
-  static LL invP(LL x) {
+  static int64_t invP(int64_t x) {
     return x == 1 ? x : __int128_t(M - M / x) * invP(M % x) % M;
   }
  public:
@@ -148,14 +145,14 @@ class ModLL {
    operator T() const {
     return static_cast<T>(n_);
   }
-  static void setMod(LL m) {
+  static void setMod(int64_t m) {
     M = m;
   }
-  static LL mod() {
+  static int64_t mod() {
     return M;
   }
   // assume 0 <= x < M
-  static ModLL raw(LL x) {
+  static ModLL raw(int64_t x) {
     ModLL A;
     A.n_ = x;
     return A;
@@ -164,7 +161,7 @@ class ModLL {
   ModLL(const int& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  ModLL(const LL& x) : n_(x % M) {
+  ModLL(const int64_t& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
   ModLL(const __int128_t& x) : n_(x % M) {
@@ -236,7 +233,7 @@ class ModLL {
   ModLL invP() const {
     return invP(n_);
   }
-  friend ModLL pow(ModLL A, LL n) {
+  friend ModLL pow(ModLL A, int64_t n) {
     ModLL R(1);
     while (n) {
       if (n & 1) R *= A;
@@ -245,7 +242,7 @@ class ModLL {
     return R;
   }
   friend std::istream& operator>>(std::istream& in, ModLL& A) {
-    LL x;
+    int64_t x;
     in >> x;
     A = ModLL(x);
     return in;
@@ -291,7 +288,7 @@ class MInt {
   MInt(const int& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  MInt(const LL& x) : n_(x % M) {
+  MInt(const int64_t& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
   MInt operator-() const {
@@ -336,7 +333,7 @@ class MInt {
   }
   MInt operator<<(int x) const {
     static constexpr int bits = 32;
-    LL r = n_;
+    int64_t r = n_;
     while (x > bits) {
       x -= bits;
       r <<= bits;
@@ -369,7 +366,7 @@ class MInt {
     return R;
   }
   friend std::istream& operator>>(std::istream& in, MInt& A) {
-    LL x;
+    int64_t x;
     in >> x;
     A = MInt(x);
     return in;
