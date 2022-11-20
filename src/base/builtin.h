@@ -17,25 +17,25 @@ inline int lg32(unsigned x) { return sizeof(unsigned) * __CHAR_BIT__ - 1 - ctz32
 inline int lg64(uint64_t x) { return sizeof(uint64_t) * __CHAR_BIT__ - 1 - ctz64(x); }
 
 // MIT HAKMEM: about two times faster than __builtin_popcount()
-int bitCount(unsigned n);
+int bitCount32(unsigned n);
 // MIT HAKMEM: about two times faster than __builtin_popcountll(), run with 64bit
-int bitCountll(uint64_t n);
+int bitCount64(uint64_t n);
 // https://www.cnblogs.com/lukelouhao/archive/2012/06/12/2546267.html
 
-// faster than bitCount
-int bitCountTable(unsigned n);
-// slow than bitCountll
-int bitCountTableLL(uint64_t n);
+// faster than bitCount32
+int bitCountTable32(unsigned n);
+// slow than bitCount64
+int bitCountTable64(uint64_t n);
 // https://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html
 
 // All below are sightly slow than __builtin_parity and __builtin_parityll
-bool parity(unsigned n);
-// slow than parityMIT
-bool parityll(uint64_t n);
-bool parityTable(unsigned n);    // slow than __builtin_parity
-bool parityTablell(uint64_t n);  // slow than __builtin_parityll
-bool parityMIT(unsigned n);      // slow than parity
-bool parityMITll(uint64_t n);
+bool parity32(unsigned n);
+// slow than parityMIT32
+bool parity64(uint64_t n);
+bool parityTable32(unsigned n);    // slow than __builtin_parity
+bool parityTable64(uint64_t n);  // slow than __builtin_parityll
+bool parityMIT32(unsigned n);      // slow than parity32
+bool parityMIT64(uint64_t n);
 
 // Handbook of Mathematical Functions by M. Abramowitz and I.A. Stegun, Ed.
 // Absolute error <= 6.7e-5

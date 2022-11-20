@@ -1,12 +1,10 @@
+#include "test/util.h"
+
 #include "ds/ds.h"
-
-#include <bits/stdc++.h>
-
-#include "gtest/gtest.h"
 
 namespace cuzperf {
 
-TEST(DS, fenwick) {
+TEST(DsTest, fenwick) {
   {
     std::vector<int> a{1, 3, 9, 30};
     Fenwick<int> A(a);

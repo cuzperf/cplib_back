@@ -51,3 +51,6 @@ gn 构建可以向 agoralite 学习，要不要使用相对路径呢？
 std::numeric_limits<int>::max() replace std::numeric_limits<int>::max()
 msvc int128 的支持
 clang-tidy
+standalone_gn 有一个 bug： config(debug) 是无效的
+学习 QT
+回顾数学课题，计算数学数值分析（运筹学线性规划和非线性规划），偏微分方程数值解（看下本科成绩单）

@@ -106,7 +106,7 @@ constexpr bool isPrime(int n);
 // https://codeforces.com/blog/entry/79941
 
 namespace v0 {
-// assmue that i  is odd, i * i > n twice is needed, don't need 1LL * i * i > n
+// assmue that i is odd, i * i > n twice is needed, don't need 1LL * i * i > n
 template <int n, int i>
 struct PrimeChecker {
   using type = std::conditional_t<

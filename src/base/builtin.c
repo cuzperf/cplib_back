@@ -24,25 +24,20 @@ int ctz64(uint64_t x) {
   return (v.i >> 52) - 1023ULL;
 #endif
 }
-// https://xr1s.me/2018/08/23/gcc-builtin-implementation/
 
-// MIT HAKMEM: about two times faster than __builtin_popcount()
-int bitCount(unsigned n) {
+int bitCount32(unsigned n) {
   unsigned tmp = n - ((n >> 1) & 033333333333U) - ((n >> 2) & 011111111111U);
   return ((tmp + (tmp >> 3)) & 030707070707U) % 63U;
 }
 
-// MIT HAKMEM: about two times faster than __builtin_popcountll(), run with 64bit
-int bitCountll(uint64_t n) {
+int bitCount64(uint64_t n) {
   uint64_t tmp = n - ((n >> 1) & 0x7777777777777777ULL) - ((n >> 2) & 0x3333333333333333ULL) -
                  ((n >> 3) & 0x1111111111111111ULL);
   return ((tmp + (tmp >> 4)) & 0x0f0f0f0f0f0f0f0fULL) % 255ULL;
 }
-// https://www.cnblogs.com/lukelouhao/archive/2012/06/12/2546267.html
 
-// faster than bitCount
-int bitCountTable(unsigned n) {
-  static int table[256] = {
+int bitCountTable32(unsigned n) {
+  static const int table[256] = {
       0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3,
       4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4,
       4, 5, 4, 5, 5, 6, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4,
@@ -55,21 +50,19 @@ int bitCountTable(unsigned n) {
   };
   return table[n & 0xffUL] + table[(n >> 8) & 0xffUL] + table[(n >> 16) & 0xffUL] + table[n >> 24];
 }
-// slow than bitCountll
-int bitCountTableLL(uint64_t n) {
-  return bitCountTable(n >> 32) + bitCountTable(n & 0xffffffffULL);
-}
-// https://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html
 
-// All below are sightly slow than __builtin_parity and __builtin_parityll
-bool parity(unsigned n) {
+int bitCountTable64(uint64_t n) {
+  return bitCountTable32(n >> 32) + bitCountTable32(n & 0xffffffffULL);
+}
+
+bool parity32(unsigned n) {
   n = n ^ n >> 16;
   n = n ^ n >> 8;
   n = n ^ n >> 4;
   n = n ^ n >> 2;
   return (n ^ n >> 1) & 1U;
 }
-bool parityll(uint64_t n) {  // slow than parityMIT
+bool parity64(uint64_t n) {
   n = n ^ n >> 32;
   n = n ^ n >> 16;
   n = n ^ n >> 8;
@@ -77,8 +70,8 @@ bool parityll(uint64_t n) {  // slow than parityMIT
   n = n ^ n >> 2;
   return (n ^ n >> 1) & 1U;
 }
-bool parityTable(unsigned n) {  // slow than __builtin_parity
-  static bool table[256] = {
+bool parityTable32(unsigned n) {
+  static const bool table[256] = {
       0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1,
       0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0,
       0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0,
@@ -92,8 +85,8 @@ bool parityTable(unsigned n) {  // slow than __builtin_parity
   n = n ^ n >> 16;
   return table[(n ^ n >> 8) & 0xffU];
 }
-bool parityTablell(uint64_t n) {  // slow than __builtin_parityll
-  static bool table[256] = {
+bool parityTable64(uint64_t n) {
+  static const bool table[256] = {
       0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1,
       0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0,
       0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0,
@@ -108,28 +101,24 @@ bool parityTablell(uint64_t n) {  // slow than __builtin_parityll
   n = n ^ n >> 16;
   return table[(n ^ n >> 8) & 0xffULL];
 }
-bool parityMIT(unsigned n) {  // slow than parity
+bool parityMIT32(unsigned n) {
   n = (n ^ n >> 1) & 0x55555555U;
   return (((n ^ n >> 2) & 0x11111111U) % 15U) & 1U;
 }
-bool parityMITll(uint64_t n) {
+bool parityMIT64(uint64_t n) {
   n = (n ^ n >> 1 ^ n >> 2) & 01111111111111111111111ULL;
   return (((n ^ n >> 3) & 0101010101010101010101ULL) % 63ULL) & 1U;
 }
 
-// Handbook of Mathematical Functions by M. Abramowitz and I.A. Stegun, Ed.
-// Absolute error <= 6.7e-5
 float acosFast(float x) {
   bool flag = (x < 0);
   x = fabs(x);
   float now = sqrt(1.0 - x) * (((0.0742610f - 0.0187293f * x) * x - 0.2121144f) * x + 1.5707288f);
   return flag ? 3.14159265358979f - now : now;
 }
-// Absolute error <= 6.7e-5
 float asinFast(float x) {
   bool flag = (x < 0);
   x = fabs(x);
   float now = sqrt(1.0 - x) * (((0.0742610f - 0.0187293f * x) * x - 0.2121144f) * x + 1.5707288f);
   return flag ? now - 1.5707963267949f : 1.5707963267949f - now;
 }
-// https://developer.download.nvidia.cn/cg

@@ -91,10 +91,10 @@ std::vector<int> OrAnd(std::vector<int> a, std::vector<int> b) {
   std::vector<std::vector<int>> sa(n + 1, std::vector<int>(1 << n));
   auto sb = sa, sc = sa;
   for (int i = 0; i < (1 << n); ++i) {
-    sa[bitCount(i)][i] = a[i];
+    sa[bitCount32(i)][i] = a[i];
   }
   for (int i = 0; i < (1 << n); ++i) {
-    sb[bitCount(i)][i] = b[i];
+    sb[bitCount32(i)][i] = b[i];
   }
   for (int i = 0; i <= n; ++i) {
     FMTor(sa[i], 0);
@@ -110,7 +110,7 @@ std::vector<int> OrAnd(std::vector<int> a, std::vector<int> b) {
   }
   std::vector<int> c(1 << n);
   for (int i = 0; i < (1 << n); ++i) {
-    c[i] = sc[bitCount(i)][i];
+    c[i] = sc[bitCount32(i)][i];
   }
   return c;
 };

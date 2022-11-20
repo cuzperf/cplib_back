@@ -1,6 +1,5 @@
-#include <bits/stdc++.h>
+#include "test/util.h"
 
-#include "gtest/gtest.h"
-#include "math/math.h"
+#include "math/poly/polyAll.hpp"
 
 namespace cuzperf {}  // namespace cuzperf
