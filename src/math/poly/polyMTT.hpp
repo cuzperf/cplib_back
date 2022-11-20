@@ -6,6 +6,8 @@
 
 #include "base/builtin.h"
 
+#ifdef __GNUC__
+
 namespace cuzperf {
 
 class PolyBaseMFT4 : public PolyBase<ModLL> {
@@ -60,3 +62,5 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
 using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 
 }  // namespace cuzperf
+
+#endif

@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "basic.h"
+#include "base/builtin.h"
 
 namespace cuzperf {
 
@@ -142,7 +143,7 @@ class ModLL {
   }
   // assum M is prime
   static int64_t invP(int64_t x) {
-    return x == 1 ? x : __int128_t(M - M / x) * invP(M % x) % M;
+    return x == 1 ? x : mulModi(M - M / x, invP(M % x), M);
   }
  public:
   template<typename T>
@@ -168,9 +169,11 @@ class ModLL {
   ModLL(const int64_t& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
+#ifdef __GNUC__
   ModLL(const __int128_t& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
+#endif
   ModLL operator-() const {
     return n_ == 0 ? *this : raw(M - n_);
   }
@@ -193,7 +196,7 @@ class ModLL {
     return (*this);
   }
   ModLL& operator*=(const ModLL& A) {
-    n_ = __int128_t(n_) * A.n_ % M;
+    n_ = mulModi(n_, A.n_, M);
     return (*this);
   }
   ModLL& operator/=(const ModLL& A) {
@@ -212,15 +215,14 @@ class ModLL {
     return ModLL(*this) /= A;
   }
   ModLL operator<<(int x) const {
-    static constexpr int bits = 64;
-    __int128_t r = n_;
+    static constexpr int bits = 62;
+    int64_t r = n_;
     while (x > bits) {
       x -= bits;
-      r <<= bits;
-      r %= M;
+      r = mulModi(r, 1ULL << 62, M);
     }
-    r <<= x;
-    return ModLL(r);
+    r = mulModi(r, 1ULL << x, M);
+    return r;
   }
   ModLL& operator<<=(int x) {
     return (*this) = (*this) << x;

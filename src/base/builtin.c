@@ -1,6 +1,59 @@
 #include "builtin.h"
 
 #include <math.h>
+#include <limits.h>
+
+
+int64_t mulModi(int64_t a, int64_t b, int64_t m) {
+#if defined(__GNUC__)
+  return (__int128)a * b % m;
+#elif defined(_MSC_VER) && defined(_M_X64)
+  int64_t high;
+  const int64_t low = _mul128(a, b, &high);
+  int64_t rem;
+  _div128(high, low, m, &rem);
+  return rem;
+#else
+  assert(m <= INT64_MAX / 2 && m >= INT64_MIN / 2);
+  if (b < 0) {
+    b = -b;
+    a = -a;
+  }
+  int64_t r = 0;
+  for ( ; b; b >>= 1) {
+    if (b & 1) {
+      r = (r + a) % m;
+    }
+    a = (a + a) % m;
+  }
+  return r;
+#endif
+}
+
+uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m) {
+#if defined(__GNUC__)
+  return (unsigned __int128)a * b % m;
+#elif defined(_MSC_VER) && defined(_M_X64)
+  uint64_t high;
+  const uint64_t low = _umul128(a, b, &high);
+  uint64_t rem;
+  _udiv128(high, low, m, &rem);
+  return rem;
+#else
+  assert(m <= UINT64_MAX / 2);
+  if (a < b) std::swap(a, b);
+  uint64_t r = 0;
+  for ( ; b; b >>= 1) {
+    if (b & 1) {
+      r += a;
+      if (r >= m) r -= m;
+    }
+    a *= 2;
+    if (a >= m) a -= m;
+  }
+  return r;
+#endif
+}
 
 int ctz32(unsigned x) {
 #ifdef __GNUC__

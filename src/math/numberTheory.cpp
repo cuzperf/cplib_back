@@ -1,5 +1,7 @@
 #include "numberTheory.h"
 
+#include <assert.h>
+
 #include "base/builtin.h"
 
 namespace cuzperf {
@@ -237,13 +239,13 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp) {
 namespace PollardRho {
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 int64_t powModll(int64_t x, int64_t n, int64_t p) {
+  assert(n >= 0);
   int64_t r = 1;
-  while (n) {
+  for (; n; n >>= 1) {
     if (n & 1) {
-      r = __int128_t(r) * x % p;
+      r = mulModi(r, x, p);
     }
-    n >>= 1;
-    x = __int128_t(x) * x % p;
+    x = mulModi(x, x, p);
   }
   return r;
 }
@@ -254,7 +256,7 @@ bool witness(int64_t a, int64_t n, int64_t m, int t) {
     return false;
   }
   while (t--) {
-    x = __int128_t(x) * x % n;
+    x = mulModi(x, x, n);
     if (x == n - 1) {
       return false;
     }
@@ -286,8 +288,10 @@ bool rabin(int64_t n) {
 int64_t pollardrho(int64_t n) {
   int64_t x = 0, y = 0, z = 1, i = 1, k = 2, c = rnd64() % (n - 1) + 1;
   while (true) {
-    x = (__int128_t(x) * x + c) % n;
-    z = __int128_t(y - x + n) * z % n;
+    x = mulModi(x, x, n);
+    x += c;
+    if (x >= n) x -= n;
+    z = mulModi(y - x + n, z, n);
     // optim times of compute gcd
     if (++i == k) {
       int64_t d = std::gcd(z, n);

@@ -23,13 +23,13 @@ config("cp_config") {
   ]
 
   if (is_debug) {
-    cflags += [ "-ftrapv" ]
+    cflags_cc += [ "-ftrapv" ]
     cflags += [ "-g" ]
   }
 
-  defines = [ "NOMINMAX" ]
   if (is_win) {
     defines += [
+      "NOMINMAX",
       "_CRT_SECURE_NO_WARNINGS",
       "_WINSOCK_DEPRECATED_NO_WARNINGS",
       "UNICODE",

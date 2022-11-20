@@ -8,6 +8,10 @@
 extern "C" {
 #endif
 
+// return (a * b) % m
+int64_t mulModi(int64_t a, int64_t b, int64_t m);
+uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m);
+
 // slow than __builtin_ctz and __builtin_ctzll but funny, you may use -Wno-narrowing when complier
 int ctz32(unsigned x);
 int ctz64(uint64_t x);
