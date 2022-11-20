@@ -129,7 +129,7 @@ struct IsPrime<2> : public std::true_type {};
 }  // namespace v0
 // https://stackoverflow.com/q/18303632/17276415
 
-constexpr int fastSqrt(int v);
+constexpr unsigned fastSqrt(unsigned v);
 // http://www.azillionmonkeys.com/qed/ulerysqroot.pdf
 
 namespace {

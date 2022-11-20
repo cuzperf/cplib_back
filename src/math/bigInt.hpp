@@ -246,7 +246,7 @@ private:
 	void prefixIncrement() {
 		int n = this->size(), i = 0;
 		while (i < n && (*this)[i] == 9) ++i;
-		if (i == this->size()) emplace_back(1);
+		if (i == static_cast<int>(this->size())) emplace_back(1);
 		else ++((*this)[i]);
 		std::fill(begin(), begin() + i, 0);
 	}
@@ -359,7 +359,7 @@ private:
 		}
 		if (B.size() == 1) return (A[0] + (A.size() == 1 ? 0 : A[1] * 10)) / B[0];
 		BigInt10 D = inv(B), ans(0), DB = mul(D, B);
-		if (DB.size() >= 2 * m) { // actually at most once
+		if (static_cast<int>(DB.size()) >= 2 * m) { // actually at most once
 			DB -= B;
 			if (D[0] == 0) D = sub(D, 1);
 			else --D[0];

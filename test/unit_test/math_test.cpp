@@ -38,7 +38,7 @@ TEST(MATH, gcd) {
   EXPECT_EQ(gcd(6, 8), 2);
 
   for (int i = 0; i < TIME; ++i) {
-    auto x = rnd64(), y = rnd64();
+    int64_t x = rnd64(), y = rnd64();
     EXPECT_EQ(gcd(x, y), std::gcd(x, y));
   }
 }

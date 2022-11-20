@@ -44,9 +44,9 @@ class BinomModp {
  public:
   std::vector<valT> fac_, ifac_, inv_;
   BinomModp(const BinomModp&) = delete;
-  static BinomModp& Instance(int N = 0) {
+  static BinomModp& Instance(int n = 0) {
     static BinomModp instance_;
-    if (N) instance_.init(N);
+    if (n) instance_.init(n);
     return instance_;
   }
   valT binom(int n, int k) const {

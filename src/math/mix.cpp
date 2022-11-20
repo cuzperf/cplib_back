@@ -33,7 +33,7 @@ constexpr bool isPrime(int n) {
 };
 // https://codeforces.com/blog/entry/79941
 
-constexpr int fastSqrt(int v) {
+constexpr unsigned fastSqrt(unsigned v) {
   unsigned temp = 0, nHat = 0, b = 0x8000, bshft = 15;
   do {
     if (v >= (temp = (((nHat << 1) + b) << bshft--))) {

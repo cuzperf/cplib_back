@@ -240,7 +240,7 @@ class Flow {
     return h_[t] != INF;
   }
  public:
-  Flow(int n) : n_(n), g_(n), h_(n), path_(n) {}
+  Flow(int n) : n_(n), g_(n), path_(n), h_(n) {}
   void addEdge(int u, int v, int w, int c) {
     if (u == v) return;
     g_[u].emplace_back(e_.size());

@@ -24,7 +24,7 @@ class MexS {
     a_.emplace_back(std::vector<uint64_t>{-1ULL});
   }
   void insert(int id) {
-    if (id < 0 || id >= cnt_.size() || cnt_[id]++) return;
+    if (id < 0 || id >= static_cast<int>(cnt_.size()) || cnt_[id]++) return;
     if (id == ans_) ans_ = -1;
     for (auto &x : a_) {
       int tid = id / B;
@@ -34,7 +34,7 @@ class MexS {
     }
   }
   void erase(int id) { // make sure there is an element in this set
-    if (id < 0 || id >= cnt_.size() || --cnt_[id]) return;
+    if (id < 0 || id >= static_cast<int>(cnt_.size()) || --cnt_[id]) return;
     if (id <= ans_) ans_ = id;
     for (auto &x : a_) {
       int tid = id / B;

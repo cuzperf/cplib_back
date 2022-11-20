@@ -1,5 +1,9 @@
 #pragma once
 
+#include <stdint.h>
+#include <vector>
+#include <functional>
+
 namespace cuzperf {
 
 template<class T>
@@ -44,6 +48,8 @@ struct Info {
   friend Info operator+(const Info& A, const Info& B) {
     Info C;
     // impl
+    (void)A;
+    (void)B;
     return C;
   }
 };
@@ -121,24 +127,23 @@ class SegmentTreeAddCountMin {
   void pull(int p) {
     mx[p] = std::min(mx[p << 1], mx[p << 1 | 1]);
   }
-  void pushTag(int x, int l, int r, int p) {
+  void pushTag(int x, int p) {
     tag[p] += x;
     mx[p] += x;
   }
-  void push(int l, int r, int p) {
+  void push(int p) {
     if (tag[p]) {
-      int m = (l + r) / 2;
-      pushTag(tag[p], l, m, p << 1);
-      pushTag(tag[p], m, r, p << 1 | 1);
+      pushTag(tag[p], p << 1);
+      pushTag(tag[p], p << 1 | 1);
       tag[p] = 0;
     }
   }
   void rangeAdd(int L, int R, int x, int l, int r, int p) {
     if (L <= l && R >= r) {
-      pushTag(x, l, r, p);
+      pushTag(x, p);
       return;
     }
-    push(l, r, p);
+    push(p);
     int m = (l + r) / 2;
     if (L < m) rangeAdd(L, R, x, l, m, p << 1);
     if (R > m) rangeAdd(L, R, x, m, r, p << 1 | 1);
@@ -147,7 +152,7 @@ class SegmentTreeAddCountMin {
   // you should implement it to meet for needs
   int query(int L, int R, int l, int r, int p) {
     if (L <= l && R >= r) return mx[p];
-    push(l, r, p);
+    push(p);
     int64_t ans = 0;
     int m = (l + r) / 2;
     if (L < m) ans += query(L, R, l, m, p << 1);

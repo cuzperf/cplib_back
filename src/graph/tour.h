@@ -7,12 +7,12 @@
 namespace cuzperf {
 // dfs order of rooted tree
 class DfsTour {
-  int n_, cnt_;
+  int cnt_;
   std::vector<int> l_, r_;
   std::vector<std::vector<int>> e_;
 
  public:
-  DfsTour(int n) : n_(n), cnt_(0), l_(n), r_(n), e_(n) {}
+  DfsTour(int n) : cnt_(0), l_(n), r_(n), e_(n) {}
   void addEdge(int u, int v) {
     if (u == v) {
       return;
@@ -39,7 +39,6 @@ std::stack<int> EulerPathS(std::vector<std::multiset<int>> e);
 // Euler Path start form rt: return lexicographical smallest one(assume existence and no multi-edge)
 std::stack<int> EulerPath(std::vector<std::set<int>> e, int rt);
 // https://www.luogu.com.cn/problem/P2731
-
 
 // Topological sorting: Kahn algorithm for DAG. return lexicographical smallest one
 std::vector<int> TopSort(std::vector<std::set<int>>& e);
