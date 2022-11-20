@@ -8,8 +8,8 @@ namespace cuzperf {
 
 namespace FMT {
 
-constexpr int M = 998244353;
-constexpr int inv2 = (M + 1) / 2;
+static constexpr int M = 998244353;
+static constexpr int inv2 = (M + 1) / 2;
 
 auto add = [](int& x, int y) { (x += y) >= M && (x -= M); };
 auto sub = [](int& x, int y) { (x -= y) < 0 && (x += M); };

@@ -2,10 +2,6 @@
 
 #include <math.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 int ctz32(unsigned x) {
 #ifdef __GNUC__
   return __builtin_ctz(x);
@@ -137,7 +133,3 @@ float asinFast(float x) {
   return flag ? now - 1.5707963267949f : 1.5707963267949f - now;
 }
 // https://developer.download.nvidia.cn/cg
-
-#ifdef __cplusplus
-}  // extern "C"
-#endif

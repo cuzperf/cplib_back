@@ -2,7 +2,7 @@
 
 namespace cuzperf {
 
-constexpr int MAXN = 100000;
+static constexpr int MAXN = 100000;
 // constexpr int MAXN = 12345678;
 // -fconstexpr-loop-limit (default: 1<<18=262144),
 // -fconstexpr-ops-limit  (default: 1<<25=33554432)
