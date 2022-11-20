@@ -55,3 +55,35 @@ standalone_gn 有一个 bug： config(debug) 是无效的
 immintrin.h - Meta Header file for Intel(R) Architecture intrinsic functions.
 
 回顾数学课题，计算数学数值分析（运筹学线性规划和非线性规划），偏微分方程数值解（看下本科成绩单）
+
+
+## Linux VScode
+
+`.vscode/launch.json`
+
+``` json
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "unit_test",
+      "program": "${workspaceFolder}/out/linux/x64/unit_test",
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "smoke_test",
+      "program": "${workspaceFolder}/out/linux/x64/smoke_test",
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+  ]
+}
+```
