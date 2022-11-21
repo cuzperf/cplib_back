@@ -54,7 +54,15 @@ standalone_gn 有一个 bug： config(debug) 是无效的
 
 immintrin.h - Meta Header file for Intel(R) Architecture intrinsic functions.
 
+Intel 有 mkl： https://scc.ustc.edu.cn/zlsc/user_doc/html/index.html
+
 回顾数学课题，计算数学数值分析（运筹学线性规划和非线性规划），偏微分方程数值解（看下本科成绩单）
+
+https://www.luogu.com.cn/record/47535577
+
+多线程也要回顾一下了，特别是 condition_variable, enable_shared_from_this
+
+
 
 
 ## Linux VScode
