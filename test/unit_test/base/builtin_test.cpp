@@ -4,7 +4,7 @@
 
 namespace cuzperf {
 
-TEST(BsTest, ctz) {
+TEST(BaseTest, ctz) {
   for (int i = 0; i < 32; ++i) {
     unsigned x = (rnd() >> i);
     EXPECT_GE(ctz32(std::max(x, 1u) << i), i);
@@ -36,7 +36,7 @@ static void f64(int (*bc64)(uint64_t)) {
   EXPECT_EQ(bc64(0xfffffffffffffffeull), 63);
 }
 
-TEST(BsTest, bitCount) {
+TEST(BaseTest, bitCount) {
   f32(bitCount32);
   f64(bitCount64);
 
@@ -64,7 +64,7 @@ static void g64(bool (*p64)(uint64_t)) {
   EXPECT_TRUE(p64(0xfffffffffffffffeull));
 }
 
-TEST(BsTest, parity) {
+TEST(BaseTest, parity) {
   g32(parity32);
   g64(parity64);
 

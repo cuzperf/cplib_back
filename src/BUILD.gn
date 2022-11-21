@@ -1,6 +1,6 @@
 import("//cp.gni")
 
-cp_static_library("cp_builtin") {
+cp_static_library("cp_base") {
   sources = [
     "base/builtin.c",
     "base/builtin.h",
@@ -47,7 +47,7 @@ cp_static_library("cp_math") {
     "src",
   ]
   public_deps = [
-    ":cp_builtin"
+    ":cp_base"
   ]
 }
 
@@ -67,7 +67,7 @@ cp_static_library("cp_ds") {
     "ds/ds.h"
   ]
   public_deps = [
-    ":cp_builtin"
+    ":cp_base"
   ]
 }
 
@@ -115,7 +115,7 @@ cp_static_library("cp") {
     "all.h",
   ]
   public_deps = [
-    ":cp_builtin",
+    ":cp_base",
     ":cp_math",
     ":cp_ds",
     ":cp_string",

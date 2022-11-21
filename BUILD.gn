@@ -1,4 +1,5 @@
 import("cp.gni")
+import("test/testSource.gni")
 
 config("cp_config") {
   if (is_win) {
@@ -23,9 +24,9 @@ config("cp_config") {
   ]
 
   if (is_debug) {
-    cflags_cc += [ "-ftrapv" ]
     cflags += [ "-g" ]
   }
+  # cflags_cc += [ "-ftrapv" ]
 
   if (is_win) {
     defines += [
@@ -51,18 +52,20 @@ config("cp_config") {
 }
 
 config("cp_test_config") {
-  include_dirs = [ "third_party/gtest/googletest/include" ]
+  include_dirs = [
+    "third_party/gtest/googletest/include",
+    "test",
+  ]
 }
 
 cp_test("unit_test") {
-  sources = [
-    "test/unit_test/base_test.cpp",
-    "test/unit_test/ds_test.cpp",
-    "test/unit_test/graph_test.cpp",
-    "test/unit_test/math_test.cpp",
-    "test/unit_test/string_test.cpp",
-    "test/main.cpp",
-  ]
+  sources = [ "test/main.cpp" ]
+  sources += base_test_sources
+  sources += ds_test_sources
+  sources += graph_test_sources
+  sources += math_test_sources
+  sources += string_test_sources
+
   deps = [
     "src:cp",
   ]
@@ -76,5 +79,45 @@ cp_test("smoke_test") {
   ]
   deps = [
     "src:cp",
+  ]
+}
+
+cp_test("cp_base_test") {
+  sources = [ "test/main.cpp" ]
+  sources += base_test_sources
+  deps = [
+    "src:cp_base"
+  ]
+}
+
+cp_test("cp_math_test") {
+  sources = [ "test/main.cpp" ]
+  sources += math_test_sources
+  deps = [
+    "src:cp_math"
+  ]
+}
+
+cp_test("cp_ds_test") {
+  sources = [ "test/main.cpp" ]
+  sources += ds_test_sources
+  deps = [
+    "src:cp_ds"
+  ]
+}
+
+cp_test("cp_graph_test") {
+  sources = [ "test/main.cpp" ]
+  sources += graph_test_sources
+  deps = [
+    "src:cp_graph"
+  ]
+}
+
+cp_test("cp_string_test") {
+  sources = [ "test/main.cpp" ]
+  sources += string_test_sources
+  deps = [
+    "src:cp_string"
   ]
 }

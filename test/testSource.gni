@@ -1,0 +1,27 @@
+base_test_sources = []
+ds_test_sources = []
+graph_test_sources = []
+math_test_sources = []
+string_test_sources = []
+
+
+base_test_sources += [
+  "//test/unit_test/base/builtin_test.cpp",
+]
+
+ds_test_sources += [
+  "//test/unit_test/ds/ds_test.cpp",
+]
+
+graph_test_sources += [
+  "//test/unit_test/graph/graph_test.cpp",
+]
+
+math_test_sources += [
+  "//test/unit_test/math/basic_test.cpp",
+  "//test/unit_test/math/poly_test.cpp",
+]
+
+string_test_sources = [
+  "//test/unit_test/string/string_test.cpp",
+]
