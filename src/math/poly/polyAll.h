@@ -1,3 +1,5 @@
+#pragma once
+
 #include "polyS.hpp"
 #include "poly.hpp"
 #include "polyFFT.hpp"

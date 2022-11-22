@@ -1,3 +1,5 @@
+#pragma once
+
 #include "math/basic.h"
 #include "math/bigInt.hpp"
 #include "math/binom.hpp"
@@ -10,4 +12,4 @@
 #include "math/ntt.hpp"
 #include "math/numberTheory.h"
 #include "math/poly/factorial.h"
-#include "math/poly/polyAll.hpp"
+#include "math/poly/polyAll.h"

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "string/automaton.hpp"
 #include "string/duval.h"
 #include "string/kmp.h"

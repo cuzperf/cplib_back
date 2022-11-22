@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ds/basic.hpp"
 #include "ds/block.hpp"
 #include "ds/cdqConquer.h"

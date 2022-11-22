@@ -4,6 +4,7 @@ cp_static_library("cp_base") {
   sources = [
     "base/builtin.c",
     "base/builtin.h",
+    "base/base.h",
   ]
 }
 
@@ -111,8 +112,8 @@ cp_static_library("cp_graph") {
 
 cp_static_library("cp") {
   sources = [
-    "timer.hpp",
     "all.h",
+    "empty.cpp",
   ]
   public_deps = [
     ":cp_base",

@@ -2,49 +2,14 @@ import("cp.gni")
 import("test/testSource.gni")
 
 config("cp_config") {
-  if (is_win) {
-    cflags_cc = [ "/std:c++${cxx_standard}" ]
-  } else {
-    cflags_cc = [ "-std=c++${cxx_standard}" ]
-    cflags_objcc = [ "-std=c++${cxx_standard}" ]
-    if (c_extensions) {
-      c_standard_style = "gnu"
-    } else {
-      c_standard_style = "c"
-    }
-    cflags_c = [ "-std=${c_standard_style}${c_standard}" ]
-    cflags_objc = [ "-std=${c_standard_style}${c_standard}" ]
-  }
   cflags = [
     "-Werror",
     "-Wall",
     "-Wextra",
     "-Wshadow",
     "-Wformat",
+    # "-ftrapv",
   ]
-
-  if (is_debug) {
-    cflags += [ "-g" ]
-  }
-  # cflags_cc += [ "-ftrapv" ]
-
-  if (is_win) {
-    defines += [
-      "NOMINMAX",
-      "_CRT_SECURE_NO_WARNINGS",
-      "_WINSOCK_DEPRECATED_NO_WARNINGS",
-      "UNICODE",
-      "_UNICODE",
-    ]
-    if (enable_cxx_exception) {
-      cflags_cc += [ "/EHsc" ]
-    }
-  } else {
-    ldflags = [
-      "-lpthread",
-      "-lm",
-    ]
-  }
   include_dirs = [
     ".",
     "src",
