@@ -12,13 +12,17 @@ extern "C" {
 int64_t mulModi(int64_t a, int64_t b, int64_t m);
 uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m);
 
+// return log2(x)
+int lg32(unsigned x);
+int lg64(uint64_t x);
+
+int clz32(unsigned x);
+int clz64(uint64_t x);
+
 // slow than __builtin_ctz and __builtin_ctzll but funny, you may use -Wno-narrowing when complier
 int ctz32(unsigned x);
 int ctz64(uint64_t x);
 // https://xr1s.me/2018/08/23/gcc-builtin-implementation/
-
-inline int lg32(unsigned x) { return sizeof(unsigned) * __CHAR_BIT__ - 1 - ctz32(x); }
-inline int lg64(uint64_t x) { return sizeof(uint64_t) * __CHAR_BIT__ - 1 - ctz64(x); }
 
 // MIT HAKMEM: about two times faster than __builtin_popcount()
 int bitCount32(unsigned n);

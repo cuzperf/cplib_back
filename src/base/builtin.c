@@ -3,6 +3,10 @@
 #include <math.h>
 #include <limits.h>
 
+#if defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
+#include <ammintrin.h>
+#include <immintrin.h>
+#endif
 
 int64_t mulModi(int64_t a, int64_t b, int64_t m) {
 #if defined(__GNUC__)
@@ -55,11 +59,63 @@ uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m) {
 #endif
 }
 
+int lg32(unsigned x) {
+#if defined(__GNUC__)
+  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
+#elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
+  return sizeof(unsigned) * __CHAR_BIT__ - 1 - clz32(x);
+#else
+  // base on IEE754 1 + 8 + 23
+  union {
+    float f;
+    unsigned i;
+  } v = {.f = x};
+  return (v.i >> 23) - 127U;
+#endif
+}
+
+int lg64(uint64_t x)  {
+#if defined(__GNUC__)
+  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
+#elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
+  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
+#else
+  // base on IEE754 1 + 11 + 52
+  union {
+    double f;
+    uint64_t i;
+  } v = {.f = x & (~x + 1)};
+  return (v.i >> 52) - 1023ULL;
+#endif
+}
+
+int clz32(unsigned x) {
+#if defined(__GNUC__)
+  return __builtin_clz(x);
+#elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
+  return _lzcnt_u32(x)
+#else
+  return sizeof(unsigned) * __CHAR_BIT__ - 1 - lg32(x);
+#endif
+}
+
+int clz64(uint64_t x) {
+#if defined(__GNUC__)
+  return __builtin_clzll(x);
+#elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
+  return _lzcnt_u64(x);
+#else
+  return return sizeof(uint64_t) * __CHAR_BIT__ - 1 - lg64(x);
+#endif
+}
+
 int ctz32(unsigned x) {
 #ifdef __GNUC__
   return __builtin_ctz(x);
+#elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
+  return _tzcnt_u32(x);
 #else
-  // base on IEE754 1 + 8 + 23
+
   // note that -x = ~x + 1 only for signed
   union {
     float f;
@@ -71,6 +127,8 @@ int ctz32(unsigned x) {
 int ctz64(uint64_t x) {
 #ifdef __GNUC__
   return __builtin_ctzll(x);
+#elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
+  return _tzcnt_u64(x);
 #else
   // base on IEE754 1 + 11 + 52
   // note that -x = ~x + 1 only for signed

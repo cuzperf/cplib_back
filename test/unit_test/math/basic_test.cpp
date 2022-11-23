@@ -28,43 +28,43 @@ TEST(MathTest, ceil) {
   EXPECT_EQ(ceil(-7762930039189ll, 526618ll), -14741102ll);
 }
 
-TEST(MathTest, FastIntIO) {
-  std::string filename = "FastIntIO_tmp.txt";
-  int64_t x1 = 123456789012345678ll;
-  int64_t x2 = -x1;
+// TEST(MathTest, FastIntIO) {
+//   std::string filename = "FastIntIO_tmp.txt";
+//   int64_t x1 = 123456789012345678ll;
+//   int64_t x2 = -x1;
 
-  auto wfile = freopen(filename.c_str(), "w", stdout);
-  FastIntIO<int64_t>::print(x1);
-  printf("\n");
-  FastIntIO<int64_t>::print(x2);
-  printf("\n");
-#ifdef __GNUC__
-  __int128_t y1 = 123456789012345678ll;
-  y1 = y1 * 100'000'000'000'000'000ll + 90123456789012345ll;
-  __int128_t y2 = -y1;
-  FastIntIO<__int128_t>::print(y1);
-  printf("\n");
-  FastIntIO<__int128_t>::print(y2);
-  printf("\n");
-#endif
-  fclose(wfile);
+//   auto wfile = freopen(filename.c_str(), "w", stdout);
+//   FastIntIO<int64_t>::print(x1);
+//   printf("\n");
+//   FastIntIO<int64_t>::print(x2);
+//   printf("\n");
+// #ifdef __GNUC__
+//   __int128_t y1 = 123456789012345678ll;
+//   y1 = y1 * 100'000'000'000'000'000ll + 90123456789012345ll;
+//   __int128_t y2 = -y1;
+//   FastIntIO<__int128_t>::print(y1);
+//   printf("\n");
+//   FastIntIO<__int128_t>::print(y2);
+//   printf("\n");
+// #endif
+//   fclose(wfile);
 
-  auto rfile = freopen(filename.c_str(), "r", stdin);
-  auto x3 = FastIntIO<int64_t>::read();
-  auto x4 = FastIntIO<int64_t>::read();
-  EXPECT_EQ(x1, x3);
-  EXPECT_EQ(x2, x4);
+//   auto rfile = freopen(filename.c_str(), "r", stdin);
+//   auto x3 = FastIntIO<int64_t>::read();
+//   auto x4 = FastIntIO<int64_t>::read();
+//   EXPECT_EQ(x1, x3);
+//   EXPECT_EQ(x2, x4);
 
-#ifdef __GNUC__
-  auto y3 = FastIntIO<__int128_t>::read();
-  auto y4 = FastIntIO<__int128_t>::read();
-  EXPECT_EQ(y1, y3);
-  EXPECT_EQ(y2, y4);
-#endif
-  fclose(rfile);
+// #ifdef __GNUC__
+//   auto y3 = FastIntIO<__int128_t>::read();
+//   auto y4 = FastIntIO<__int128_t>::read();
+//   EXPECT_EQ(y1, y3);
+//   EXPECT_EQ(y2, y4);
+// #endif
+//   fclose(rfile);
 
-  remove(filename.c_str());
-}
+//   remove(filename.c_str());
+// }
 
 TEST(MathTest, powMod) {
   EXPECT_EQ(powMod(0, 123456, 3), 0);
