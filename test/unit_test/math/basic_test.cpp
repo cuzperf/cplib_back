@@ -1,6 +1,6 @@
 #include "test/util.h"
 
-#include "math/math.h"
+#include "math/basic.h"
 
 namespace cuzperf {
 
@@ -125,6 +125,5 @@ TEST(MathTest, crt) {
     EXPECT_EQ(y, MM);
   }
 }
-
 
 }  // namespace cuzperf

@@ -2,7 +2,7 @@
 
 > InProgress
 
-C++17 template for competitive programming contest, which contains numerous math algorithms.
+C++17 single-thread template for competitive programming contest, which contains numerous math algorithms.
 
 - Aims: build a stable, fast, easy-to-read C++ template (the more you use it, the more reliable it is)
 - Build: using [standalone_gn](https://agora-adc-artifacts.oss-accelerate.aliyuncs.com/standalone_gn_latest.zip) which based on [gn](https://gn.googlesource.com/gn/) and [ninja](https://ninja-build.org/)
@@ -30,6 +30,12 @@ C++17 template for competitive programming contest, which contains numerous math
 
 
 ## To
+
+多想想具体的算法在各种复杂结构下的推广，考虑分析的方法在代数形式下的表现
+
+写了那么多算法，你真的都理解了吗？能否简单的讲解呢？一句话说出来呢？不用看别的资料的那种，能随时推广并应用到其它领域吗？能跟从来没学过但理解能力不错的人讲清楚吗？
+
+https://negiizhao.blog.uoj.ac/blog/4671
 
 把 Handbook of MathFunction 好好翻一翻用来提升性能（当然了不可能完全没有代价）
 msvc int128 的支持
