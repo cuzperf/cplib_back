@@ -59,6 +59,8 @@ int ctz32(unsigned x) {
 #ifdef __GNUC__
   return __builtin_ctz(x);
 #else
+  // base on IEE754 1 + 8 + 23
+  // note that -x = ~x + 1 only for signed
   union {
     float f;
     unsigned i;
@@ -70,6 +72,8 @@ int ctz64(uint64_t x) {
 #ifdef __GNUC__
   return __builtin_ctzll(x);
 #else
+  // base on IEE754 1 + 11 + 52
+  // note that -x = ~x + 1 only for signed
   union {
     double f;
     uint64_t i;
