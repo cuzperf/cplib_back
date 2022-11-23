@@ -59,18 +59,31 @@ uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m) {
 #endif
 }
 
+int lg32_IEE754(unsigned x) {
+  if (x == 0) return 0;
+  union {
+    float f;
+    unsigned i;
+  } v = {.f = x};
+  return (v.i >> 23) - 127U;
+}
+
+int lg64_IEE754(uint64_t x) {
+  if (x == 0) return 0;
+  union {
+    double f;
+    uint64_t i;
+  } v = {.f = x};
+  return (v.i >> 52) - 1023ULL;
+}
+
 int lg32(unsigned x) {
 #if defined(__GNUC__)
   return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return sizeof(unsigned) * __CHAR_BIT__ - 1 - clz32(x);
 #else
-  // base on IEE754 1 + 8 + 23
-  union {
-    float f;
-    unsigned i;
-  } v = {.f = x};
-  return (v.i >> 23) - 127U;
+  return lg32_IEE754(x);
 #endif
 }
 
@@ -80,12 +93,7 @@ int lg64(uint64_t x)  {
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
 #else
-  // base on IEE754 1 + 11 + 52
-  union {
-    double f;
-    uint64_t i;
-  } v = {.f = x & (~x + 1)};
-  return (v.i >> 52) - 1023ULL;
+  return lg64_IEE754(x);
 #endif
 }
 
@@ -115,13 +123,8 @@ int ctz32(unsigned x) {
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _tzcnt_u32(x);
 #else
-
   // note that -x = ~x + 1 only for signed
-  union {
-    float f;
-    unsigned i;
-  } v = {.f = x & (~x + 1)};
-  return (v.i >> 23) - 127U;
+  return lg32_IEE754(x & (~x + 1));
 #endif
 }
 int ctz64(uint64_t x) {
@@ -130,13 +133,8 @@ int ctz64(uint64_t x) {
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _tzcnt_u64(x);
 #else
-  // base on IEE754 1 + 11 + 52
   // note that -x = ~x + 1 only for signed
-  union {
-    double f;
-    uint64_t i;
-  } v = {.f = x & (~x + 1)};
-  return (v.i >> 52) - 1023ULL;
+  return lg64_IEE754(x & (~x + 1));
 #endif
 }
 

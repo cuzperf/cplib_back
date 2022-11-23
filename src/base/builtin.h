@@ -12,6 +12,11 @@ extern "C" {
 int64_t mulModi(int64_t a, int64_t b, int64_t m);
 uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m);
 
+// base on IEE754 for float: 1 + 8 + 23
+int lg32_IEE754(unsigned x);
+// base on IEE754 for double: 1 + 11 + 52
+int lg64_IEE754(uint64_t x);
+
 // return log2(x)
 int lg32(unsigned x);
 int lg64(uint64_t x);

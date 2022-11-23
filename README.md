@@ -67,8 +67,10 @@ Intel 有 mkl： https://scc.ustc.edu.cn/zlsc/user_doc/html/index.html
 https://www.luogu.com.cn/record/47535577
 
 多线程也要回顾一下了，特别是 condition_variable, enable_shared_from_this
+计算机两大公理：
 
-
+- 计算机总是对的
+- 未经测试的代码总是错的
 
 
 ## Linux VScode

@@ -4,6 +4,70 @@
 
 namespace cuzperf {
 
+TEST(BaseTest, mulMod) {
+  {
+    constexpr uint64_t a = 123456789012345678;
+    constexpr uint64_t b = 876543210987654321;
+    constexpr uint64_t m = 2718281828456;
+    constexpr uint64_t abm = 1858573242646;
+    EXPECT_EQ(mulModu(a, b, m), abm);
+  }
+  {
+    constexpr int64_t a = -123456789012345678;
+    constexpr int64_t b = 876543210987654321;
+    constexpr int64_t m = 2718281828456;
+    constexpr int64_t abm = -1858573242646;
+    EXPECT_EQ(mulModi(a, b, m), abm);
+  }
+}
+
+TEST(BaseTest, lg2) {
+  std::vector<int> a{0, 0, 1, 1, 2, 2, 2, 2, 3, 3};
+  for (int i = 0, n = a.size(); i < n; ++i) {
+    EXPECT_EQ(lg32_IEE754(i), a[i]);
+    EXPECT_EQ(lg32(i), a[i]);
+
+    EXPECT_EQ(lg64_IEE754(i), a[i]);
+    EXPECT_EQ(lg64(i), a[i]);
+  }
+  {
+    unsigned M = 998244353;
+    int lgM = 29;
+
+    EXPECT_EQ(lg32_IEE754(M), lgM);
+    EXPECT_EQ(lg32(M), lgM);
+
+    EXPECT_EQ(lg64_IEE754(M), lgM);
+    EXPECT_EQ(lg64(M), lgM);
+  }
+  {
+    uint64_t M = 2718281828456;
+    int lgM = 41;
+    EXPECT_EQ(lg64_IEE754(M), lgM);
+    EXPECT_EQ(lg64(M), lgM);
+  }
+}
+
+TEST(BaseTest, clz) {
+  std::vector<int> a{31, 31, 30, 30, 29, 29, 29, 29, 28, 28};
+  for (int i = 0, n = a.size(); i < n; ++i) {
+    EXPECT_EQ(clz32(i), a[i]);
+    EXPECT_EQ(clz64(i), 32 + a[i]);
+  }
+  {
+    unsigned M = 998244353;
+    int lM = 2;
+
+    EXPECT_EQ(clz32(M), lM);
+    EXPECT_EQ(clz64(M), 32 + lM);
+  }
+  {
+    uint64_t M = 2718281828456;
+    int lM = 22;
+    EXPECT_EQ(clz64(M), lM);
+  }
+}
+
 TEST(BaseTest, ctz) {
   for (int i = 0; i < 32; ++i) {
     unsigned x = (rnd() >> i);
