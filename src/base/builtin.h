@@ -15,6 +15,7 @@ uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m);
 // return log2(x)
 int lg32(unsigned x);
 int lg64(uint64_t x);
+// http://graphics.stanford.edu/~seander/bithacks.html
 
 int clz32(unsigned x);
 int clz64(uint64_t x);
