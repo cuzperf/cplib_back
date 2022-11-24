@@ -24,59 +24,59 @@ TEST(BaseTest, mulMod) {
 TEST(BaseTest, lg2) {
   std::vector<int> a{0, 0, 1, 1, 2, 2, 2, 2, 3, 3};
   for (int i = 0, n = a.size(); i < n; ++i) {
-    EXPECT_EQ(lg32_IEE754(i), a[i]);
-    EXPECT_EQ(lg32(i), a[i]);
+    EXPECT_EQ(IEE754_lg2_u32(i), a[i]);
+    EXPECT_EQ(lg2_u32(i), a[i]);
 
-    EXPECT_EQ(lg64_IEE754(i), a[i]);
-    EXPECT_EQ(lg64(i), a[i]);
+    EXPECT_EQ(IEE754_lg2_u64(i), a[i]);
+    EXPECT_EQ(lg2_u64(i), a[i]);
   }
   {
     unsigned M = 998244353;
     int lgM = 29;
 
-    EXPECT_EQ(lg32_IEE754(M), lgM);
-    EXPECT_EQ(lg32(M), lgM);
+    EXPECT_EQ(IEE754_lg2_u32(M), lgM);
+    EXPECT_EQ(lg2_u32(M), lgM);
 
-    EXPECT_EQ(lg64_IEE754(M), lgM);
-    EXPECT_EQ(lg64(M), lgM);
+    EXPECT_EQ(IEE754_lg2_u64(M), lgM);
+    EXPECT_EQ(lg2_u64(M), lgM);
   }
   {
     uint64_t M = 2718281828456;
     int lgM = 41;
-    EXPECT_EQ(lg64_IEE754(M), lgM);
-    EXPECT_EQ(lg64(M), lgM);
+    EXPECT_EQ(IEE754_lg2_u64(M), lgM);
+    EXPECT_EQ(lg2_u64(M), lgM);
   }
 }
 
 TEST(BaseTest, clz) {
   std::vector<int> a{31, 31, 30, 30, 29, 29, 29, 29, 28, 28};
   for (int i = 0, n = a.size(); i < n; ++i) {
-    EXPECT_EQ(clz32(i), a[i]);
-    EXPECT_EQ(clz64(i), 32 + a[i]);
+    EXPECT_EQ(clz_u32(i), a[i]);
+    EXPECT_EQ(clz_u64(i), 32 + a[i]);
   }
   {
     unsigned M = 998244353;
     int lM = 2;
 
-    EXPECT_EQ(clz32(M), lM);
-    EXPECT_EQ(clz64(M), 32 + lM);
+    EXPECT_EQ(clz_u32(M), lM);
+    EXPECT_EQ(clz_u64(M), 32 + lM);
   }
   {
     uint64_t M = 2718281828456;
     int lM = 22;
-    EXPECT_EQ(clz64(M), lM);
+    EXPECT_EQ(clz_u64(M), lM);
   }
 }
 
 TEST(BaseTest, ctz) {
   for (int i = 0; i < 32; ++i) {
     unsigned x = (rnd() >> i);
-    EXPECT_GE(ctz32(std::max(x, 1u) << i), i);
+    EXPECT_GE(ctz_u32(std::max(x, 1u) << i), i);
   }
 
   for (int i = 0; i < 64; ++i) {
     uint64_t x = (rnd64() >> i);
-    EXPECT_GE(ctz64(std::max(x, static_cast<uint64_t>(1)) << i), i);
+    EXPECT_GE(ctz_u64(std::max(x, static_cast<uint64_t>(1)) << i), i);
   }
 }
 
@@ -101,11 +101,11 @@ static void f64(int (*bc64)(uint64_t)) {
 }
 
 TEST(BaseTest, bitCount) {
-  f32(bitCount32);
-  f64(bitCount64);
+  f32(bitCount_u32);
+  f64(bitCount_u64);
 
-  f32(bitCountTable32);
-  f64(bitCountTable64);
+  f32(bitCountTable_u32);
+  f64(bitCountTable_u64);
 }
 
 static void g32(bool (*p32)(unsigned)) {
@@ -129,14 +129,14 @@ static void g64(bool (*p64)(uint64_t)) {
 }
 
 TEST(BaseTest, parity) {
-  g32(parity32);
-  g64(parity64);
+  g32(parity_u32);
+  g64(parity_u64);
 
-  g32(parityTable32);
-  g64(parityTable64);
+  g32(parityTable_u32);
+  g64(parityTable_u64);
 
-  g32(parityMIT32);
-  g64(parityMIT64);
+  g32(parityMIT_u32);
+  g64(parityMIT_u64);
 }
 
 static constexpr float eps = 6.7e-5;

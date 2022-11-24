@@ -24,7 +24,7 @@ class SegmentTreeT {
     }
   }
  public:
-  SegmentTreeT(int n) : n_(n), info_(4 << lg32(n)) {}
+  SegmentTreeT(int n) : n_(n), info_(4 << lg2_u32(n)) {}
   SegmentTreeT(const std::vector<T>& a) : SegmentTreeT(a.size()) {
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {

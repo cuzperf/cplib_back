@@ -37,14 +37,14 @@ class BigInt10 : public std::vector<int> {
 	void dft() {
 		int n = size();
 		if ((int)rev.size() != n) {
-			int k = ctz32(n) - 1;
+			int k = ctz_u32(n) - 1;
 			rev.resize(n);
 			for (int i = 0; i < n; ++i) {
 				rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
 			}
 		}
 		if ((int)roots.size() < n) {
-			int k = ctz32(roots.size());
+			int k = ctz_u32(roots.size());
 			roots.resize(n);
 			while ((1 << k) < n) {
 				int e = powMod(g, (M - 1) >> (k + 1));
@@ -324,7 +324,7 @@ private:
 		if (A.empty() || B.empty()) return BigInt10(0);
 		bool flag = A.ngt ^ B.ngt;
 		int n = A.size(), m = B.size(), tot = std::max(1, n + m - 1);
-		int sz = 1 << lg32(tot * 2 - 1);
+		int sz = 1 << lg2_u32(tot * 2 - 1);
 		A.resize(sz);
 		B.resize(sz);
 		A.dft();

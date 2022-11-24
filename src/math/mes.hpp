@@ -47,7 +47,7 @@ class MexS {
     if (ans_ == -1) {
       ans_ = 0;
       for (auto it = a_.crbegin(); it != a_.crend(); ++it) {
-        ans_ = ans_ * B + ctz64((*it)[ans_]);
+        ans_ = ans_ * B + ctz_u64((*it)[ans_]);
       }
     }
     return ans_;

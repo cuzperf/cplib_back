@@ -43,7 +43,7 @@ struct Fenwick {
   int search(T val) {
     T sum = 0;
     int id = 0;
-    for (int i = lg32(s_.size()); ~i; --i) {
+    for (int i = lg2_u32(s_.size()); ~i; --i) {
       if (id + (1 << i) <= n_ && sum + s_[id + (1 << i)] < val) {
         id += (1 << i);
         sum += s_[id];
@@ -81,7 +81,7 @@ class FenwickPlus {
   int search(T val) {
     T sumB = 0, sumC = 0;
     int id = 0;
-    for (int i = lg32(n_); ~i; --i) {
+    for (int i = lg2_u32(n_); ~i; --i) {
       int idi = id + (1 << i);
       if ( idi <= n_ && idi * (sumC + C.s[idi]) - B.s[idi] - sumB < val) {
         id = idi;

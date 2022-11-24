@@ -275,7 +275,7 @@ bool rabin(int64_t n) {
     return false;
   }
   int64_t m = n - 1;
-  int t = ctz64(m);
+  int t = ctz_u64(m);
   m >>= t;
   for (int cnt = 0; cnt < TIMES; ++cnt) {
     int64_t a = rnd64() % (n - 1) + 1;
@@ -395,7 +395,7 @@ int sqrtModpS(int a, int p) {
   std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
   while (power(b = rnd() % (p - 1) + 1, q) == 1)
     ;
-  int c = ctz32(q);
+  int c = ctz_u32(q);
   q >>= c;  // p - 1 = q << (c + 1)
   b = power(b, q);
   int x = power(a, (q + 1) / 2), t = power(a, q);

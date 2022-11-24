@@ -14,7 +14,7 @@ static constexpr int inv2 = (M + 1) / 2;
 auto add = [](int& x, int y) { (x += y) >= M && (x -= M); };
 auto sub = [](int& x, int y) { (x -= y) < 0 && (x += M); };
 auto extend = [](int n) {
-  int r = lg32(n);
+  int r = lg2_u32(n);
   return (1 << r) == n ? r : r + 1;
 };
 
@@ -91,10 +91,10 @@ std::vector<int> OrAnd(std::vector<int> a, std::vector<int> b) {
   std::vector<std::vector<int>> sa(n + 1, std::vector<int>(1 << n));
   auto sb = sa, sc = sa;
   for (int i = 0; i < (1 << n); ++i) {
-    sa[bitCount32(i)][i] = a[i];
+    sa[bitCount_u32(i)][i] = a[i];
   }
   for (int i = 0; i < (1 << n); ++i) {
-    sb[bitCount32(i)][i] = b[i];
+    sb[bitCount_u32(i)][i] = b[i];
   }
   for (int i = 0; i <= n; ++i) {
     FMTor(sa[i], 0);
@@ -110,7 +110,7 @@ std::vector<int> OrAnd(std::vector<int> a, std::vector<int> b) {
   }
   std::vector<int> c(1 << n);
   for (int i = 0; i < (1 << n); ++i) {
-    c[i] = sc[bitCount32(i)][i];
+    c[i] = sc[bitCount_u32(i)][i];
   }
   return c;
 };

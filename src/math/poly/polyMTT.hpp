@@ -32,7 +32,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
   }
   PolyBaseMFT4 mul(const PolyBaseMFT4& rhs) const {
     int tot = std::max(1, int(this->size() + rhs.size() - 1));
-    int sz = 1 << lg32(tot * 2 - 1);
+    int sz = 1 << lg2_u32(tot * 2 - 1);
     std::vector<MInt<M0>> a0(sz), b0(sz);
     std::vector<MInt<M1>> a1(sz), b1(sz);
     std::vector<MInt<M2>> a2(sz), b2(sz);

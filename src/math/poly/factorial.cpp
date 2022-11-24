@@ -51,7 +51,7 @@ int64_t factorial(int64_t n, int64_t p) {
     return (p - n) & 1 ? -ans : ans;
   }
   std::vector<ModLL> h{1, s + 1};
-  for (int bit = lg32(s) - 1, d = 1; bit >= 0; --bit) {
+  for (int bit = lg2_u32(s) - 1, d = 1; bit >= 0; --bit) {
     auto nh1 = PolyMFT::valToVal(h, ModLL(d + 1), d);
     auto nh2 = PolyMFT::valToVal(h, ModLL(s).inv() * ModLL(d), 2 * d + 1);
     h.insert(h.end(), nh1.begin(), nh1.end());

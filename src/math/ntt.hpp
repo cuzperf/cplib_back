@@ -19,14 +19,14 @@ class NTT {
   void dft(std::vector<mod>& a) {
     int n = (int)a.size();
     if ((int)rev_.size() != n) {
-      int k = ctz32(n) - 1;
+      int k = ctz_u32(n) - 1;
       rev_.resize(n);
       for (int i = 0; i < n; ++i) {
         rev_[i] = rev_[i >> 1] >> 1 | (i & 1) << k;
       }
     }
     if ((int)roots_.size() < n) {
-      int k = ctz32(roots_.size());
+      int k = ctz_u32(roots_.size());
       roots_.resize(n);
       while ((1 << k) < n) {
         auto e = pow(g, (M - 1) >> (k + 1));

@@ -27,7 +27,7 @@ class ModInt {
    operator T() const {
     return static_cast<T>(n_);
   }
-  static void setMod(int m) {
+  static void setMod(int m [[maybe_unused]]) {
     assert(M == m);
   }
   static int mod() {
@@ -278,7 +278,7 @@ class MInt {
    operator T() const {
     return static_cast<T>(n_);
   }
-  static void setMod(int m) {
+  static void setMod(int m [[maybe_unused]]) {
     assert(M == m);
   }
   static constexpr int mod() {

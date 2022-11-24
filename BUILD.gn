@@ -8,6 +8,7 @@ config("cp_config") {
     "-Wextra",
     "-Wshadow",
     "-Wformat",
+    "-Wpedantic",
     # "-ftrapv",
   ]
   include_dirs = [

@@ -59,7 +59,7 @@ uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m) {
 #endif
 }
 
-int lg32_IEE754(unsigned x) {
+int IEE754_lg2_u32(unsigned x) {
   if (x == 0) return 0;
   union {
     float f;
@@ -68,7 +68,7 @@ int lg32_IEE754(unsigned x) {
   return (v.i >> 23) - 127U;
 }
 
-int lg64_IEE754(uint64_t x) {
+int IEE754_lg2_u64(uint64_t x) {
   if (x == 0) return 0;
   union {
     double f;
@@ -77,79 +77,79 @@ int lg64_IEE754(uint64_t x) {
   return (v.i >> 52) - 1023ULL;
 }
 
-int lg32(unsigned x) {
+int lg2_u32(unsigned x) {
 #if defined(__GNUC__)
-  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
+  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz_u64(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return sizeof(unsigned) * __CHAR_BIT__ - 1 - clz32(x);
+  return sizeof(unsigned) * __CHAR_BIT__ - 1 - clz_u32(x);
 #else
-  return lg32_IEE754(x);
+  return IEE754_lg2_u32(x);
 #endif
 }
 
-int lg64(uint64_t x)  {
+int lg2_u64(uint64_t x)  {
 #if defined(__GNUC__)
-  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
+  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz_u64(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz64(x);
+  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz_u64(x);
 #else
-  return lg64_IEE754(x);
+  return IEE754_lg2_u64(x);
 #endif
 }
 
-int clz32(unsigned x) {
+int clz_u32(unsigned x) {
 #if defined(__GNUC__)
   return __builtin_clz(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _lzcnt_u32(x)
 #else
-  return sizeof(unsigned) * __CHAR_BIT__ - 1 - lg32(x);
+  return sizeof(unsigned) * __CHAR_BIT__ - 1 - lg2_u32(x);
 #endif
 }
 
-int clz64(uint64_t x) {
+int clz_u64(uint64_t x) {
 #if defined(__GNUC__)
   return __builtin_clzll(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _lzcnt_u64(x);
 #else
-  return return sizeof(uint64_t) * __CHAR_BIT__ - 1 - lg64(x);
+  return return sizeof(uint64_t) * __CHAR_BIT__ - 1 - lg2_u64(x);
 #endif
 }
 
-int ctz32(unsigned x) {
+int ctz_u32(unsigned x) {
 #ifdef __GNUC__
   return __builtin_ctz(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _tzcnt_u32(x);
 #else
   // note that -x = ~x + 1 only for signed
-  return lg32_IEE754(x & (~x + 1));
+  return IEE754_lg2_u32(x & (~x + 1));
 #endif
 }
-int ctz64(uint64_t x) {
+int ctz_u64(uint64_t x) {
 #ifdef __GNUC__
   return __builtin_ctzll(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _tzcnt_u64(x);
 #else
   // note that -x = ~x + 1 only for signed
-  return lg64_IEE754(x & (~x + 1));
+  return IEE754_lg2_u64(x & (~x + 1));
 #endif
 }
 
-int bitCount32(unsigned n) {
+int bitCount_u32(unsigned n) {
   unsigned tmp = n - ((n >> 1) & 033333333333U) - ((n >> 2) & 011111111111U);
   return ((tmp + (tmp >> 3)) & 030707070707U) % 63U;
 }
 
-int bitCount64(uint64_t n) {
+int bitCount_u64(uint64_t n) {
   uint64_t tmp = n - ((n >> 1) & 0x7777777777777777ULL) - ((n >> 2) & 0x3333333333333333ULL) -
                  ((n >> 3) & 0x1111111111111111ULL);
   return ((tmp + (tmp >> 4)) & 0x0f0f0f0f0f0f0f0fULL) % 255ULL;
 }
 
-int bitCountTable32(unsigned n) {
+int bitCountTable_u32(unsigned n) {
   static const int table[256] = {
       0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3,
       4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4,
@@ -164,18 +164,18 @@ int bitCountTable32(unsigned n) {
   return table[n & 0xffUL] + table[(n >> 8) & 0xffUL] + table[(n >> 16) & 0xffUL] + table[n >> 24];
 }
 
-int bitCountTable64(uint64_t n) {
-  return bitCountTable32(n >> 32) + bitCountTable32(n & 0xffffffffULL);
+int bitCountTable_u64(uint64_t n) {
+  return bitCountTable_u32(n >> 32) + bitCountTable_u32(n & 0xffffffffULL);
 }
 
-bool parity32(unsigned n) {
+bool parity_u32(unsigned n) {
   n = n ^ n >> 16;
   n = n ^ n >> 8;
   n = n ^ n >> 4;
   n = n ^ n >> 2;
   return (n ^ n >> 1) & 1U;
 }
-bool parity64(uint64_t n) {
+bool parity_u64(uint64_t n) {
   n = n ^ n >> 32;
   n = n ^ n >> 16;
   n = n ^ n >> 8;
@@ -183,7 +183,7 @@ bool parity64(uint64_t n) {
   n = n ^ n >> 2;
   return (n ^ n >> 1) & 1U;
 }
-bool parityTable32(unsigned n) {
+bool parityTable_u32(unsigned n) {
   static const bool table[256] = {
       0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1,
       0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0,
@@ -198,7 +198,7 @@ bool parityTable32(unsigned n) {
   n = n ^ n >> 16;
   return table[(n ^ n >> 8) & 0xffU];
 }
-bool parityTable64(uint64_t n) {
+bool parityTable_u64(uint64_t n) {
   static const bool table[256] = {
       0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1,
       0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0,
@@ -214,11 +214,11 @@ bool parityTable64(uint64_t n) {
   n = n ^ n >> 16;
   return table[(n ^ n >> 8) & 0xffULL];
 }
-bool parityMIT32(unsigned n) {
+bool parityMIT_u32(unsigned n) {
   n = (n ^ n >> 1) & 0x55555555U;
   return (((n ^ n >> 2) & 0x11111111U) % 15U) & 1U;
 }
-bool parityMIT64(uint64_t n) {
+bool parityMIT_u64(uint64_t n) {
   n = (n ^ n >> 1 ^ n >> 2) & 01111111111111111111111ULL;
   return (((n ^ n >> 3) & 0101010101010101010101ULL) % 63ULL) & 1U;
 }

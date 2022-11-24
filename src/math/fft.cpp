@@ -15,14 +15,14 @@ std::vector<C> roots{C(0, 0), C(1, 0)};
 void dft(std::vector<C>& a) {
   int n = (int)a.size();
   if ((int)rev.size() != n) {
-    int k = ctz32(n) - 1;
+    int k = ctz_u32(n) - 1;
     rev.resize(n);
     for (int i = 0; i < n; ++i) {
       rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
     }
   }
   if ((int)roots.size() < n) {
-    int k = ctz32(roots.size());
+    int k = ctz_u32(roots.size());
     roots.resize(n);
     while ((1 << k) < n) {
       C e = std::polar(1.0, PI / (1 << k));

@@ -30,14 +30,14 @@ class PolyS : public std::vector<int> {
   void dft() {
     int n = (int)size();
     if ((int)rev_.size() != n) {
-      int k = ctz32(n) - 1;
+      int k = ctz_u32(n) - 1;
       rev_.resize(n);
       for (int i = 0; i < n; ++i) {
         rev_[i] = rev_[i >> 1] >> 1 | (i & 1) << k;
       }
     }
     if ((int)roots_.size() < n) {
-      int k = ctz32(roots_.size());
+      int k = ctz_u32(roots_.size());
       roots_.resize(n);
       while ((1 << k) < n) {
         int e = powMod(G, (M - 1) >> (k + 1));
@@ -132,7 +132,7 @@ class PolyS : public std::vector<int> {
   }
   PolyS& operator*=(PolyS&& rhs) {
     int n = (int)size(), m = rhs.size(), tot = std::max(1, n + m - 1);
-    int sz = 1 << lg32(tot * 2 - 1);
+    int sz = 1 << lg2_u32(tot * 2 - 1);
     resize(sz);
     rhs.resize(sz);
     dft();

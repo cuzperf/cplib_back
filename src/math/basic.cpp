@@ -28,10 +28,10 @@ static uint64_t gcd_(uint64_t a, uint64_t b) {
   if (!a || !b) {
     return a | b;
   }
-  unsigned shift = ctz64(a | b);
-  a >>= ctz64(a);
+  unsigned shift = ctz_u64(a | b);
+  a >>= ctz_u64(a);
   do {
-    b >>= ctz64(b);
+    b >>= ctz_u64(b);
     if (a > b) {
       std::swap(a, b);
     }
