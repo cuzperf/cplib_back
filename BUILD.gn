@@ -15,6 +15,7 @@ config("cp_config") {
     ".",
     "src",
   ]
+  # ldflags = [ "-fsanitize=address" ]
 }
 
 config("cp_test_config") {

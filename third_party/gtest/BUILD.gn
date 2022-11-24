@@ -40,6 +40,14 @@ cp_static_library("gtest") {
     "googletest/include",
     "."
   ]
+  cflags = []
+  if (is_win) {
+    cflags += [ "/wd4800" ]  # Unused variable warning.
+  }
+
+  if (is_clang) {
+    cflags += [ "-Wno-undef" ]  # Undefined OS macro.
+  }
 }
 
 cp_executable("gtest_main") {
