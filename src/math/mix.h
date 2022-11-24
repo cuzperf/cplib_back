@@ -2,36 +2,78 @@
 
 #include <functional>
 #include <vector>
+#include <time.h>
 
 namespace cuzperf {
 
-// You must change mid to be random one or you will be hack
-template <typename T>  // don't use it
+template <typename T>
 void quickSort(std::vector<T>& a) {
+  srand(time(0));
   std::function<void(int, int)> qSort = [&](int l, int r) {
-    int i = l, j = r;
-    auto mid = a[(l + r) / 2];
+    if (r - l <= 1) return;
+    auto x = a[rand() % (r - l) + l];
+    int i = l, j = r - 1;
     while (i <= j) {
-      while (i <= j && a[i] < mid) {
-        ++i;
-      }
-      while (j >= i && a[j] > mid) {
-        --j;
-      }
-      if (i <= j) {
+      while (i <= j && a[i] < x) ++i;
+      while (j >= i && !(a[j] < x)) --j;
+      if (i < j) {
         std::swap(a[i], a[j]);
         ++i;
         --j;
       }
     }
-    if (i < r) {
+    if (i - l > 1) {
+      qSort(l, i);
+    }
+    j = r - 1;
+    while (i <= j) {
+      while (i <= j && !(x < a[i])) ++i;
+      while (j >= i && x < a[i]) --j;
+      if (i < j) {
+        std::swap(a[i], a[j]);
+        ++i;
+        --j;
+      }
+    }
+    if (r - i > 1) {
       qSort(i, r);
     }
-    if (l < j) {
-      qSort(l, j);
+  };
+  qSort(0, a.size());
+}
+
+template <typename T>
+void quickSortStable(std::vector<T>& a) {
+  srand(time(0));
+  std::function<void(int, int)> qSort = [&](int l, int r) {
+    if (r - l <= 1) return;
+    auto x = a[rand() % (r - l) + l];
+    int ml = l;
+    std::vector<int> b;
+    for (int i = l; i < r; ++i) {
+      if (a[i] < x) {
+        a[ml++] = a[i];
+      } else {
+        b.emplace_back(a[i]);
+      }
+    }
+    int mr = ml;
+    for (int i = b.size() - 1, j = r - 1; i >= 0; --i) {
+      if (x < b[i]) {
+        a[j--] = b[i];
+      } else {
+        a[mr++] = b[i];
+      }
+    }
+    std::reverse(a.begin() + ml, a.begin() + mr);
+    if (ml - l > 1) {
+      qSort(l, ml);
+    }
+    if (r - mr > 1) {
+      qSort(mr, r);
     }
   };
-  qSort(0, a.size() - 1);
+  qSort(0, a.size());
 }
 
 // Shortest recursive relational formula:

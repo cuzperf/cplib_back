@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <sstream>
 
 namespace cuzperf {
 
@@ -47,17 +48,17 @@ class Timer final {
   // Return local time (like 04:05:06.789), for instance: UTC+8 in China
   static std::string localTimeString() {
     std::tm time = localTime();
-    std::stringstream sstream;
-    sstream << std::put_time(&time, "%T");
-    return sstream.str();
+    std::stringstream ss;
+    ss << std::put_time(&time, "%T");
+    return ss.str();
   }
 
   static std::string localFullTimeString() {
     std::tm time = localTime();
-    std::stringstream sstream;
-    sstream << std::put_time(&time, "%c %T");
-    sstream << '.' << std::setfill('0') << std::setw(3) << now_ms() % 1000;
-    return sstream.str();
+    std::stringstream ss;
+    ss << std::put_time(&time, "%c %T");
+    ss << '.' << std::setfill('0') << std::setw(3) << now_ms() % 1000;
+    return ss.str();
   }
 };
 

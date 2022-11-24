@@ -123,8 +123,7 @@ int ctz_u32(unsigned x) {
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _tzcnt_u32(x);
 #else
-  // note that -x = ~x + 1 only for signed
-  return IEE754_lg2_u32(x & (~x + 1));
+  return IEE754_lg2_u32(x & -x);
 #endif
 }
 int ctz_u64(uint64_t x) {
@@ -133,8 +132,7 @@ int ctz_u64(uint64_t x) {
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _tzcnt_u64(x);
 #else
-  // note that -x = ~x + 1 only for signed
-  return IEE754_lg2_u64(x & (~x + 1));
+  return IEE754_lg2_u64(x & -x);
 #endif
 }
 
