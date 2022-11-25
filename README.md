@@ -14,9 +14,9 @@ C++17 single-thread template for competitive programming contest, which contains
 > Sorry, it's really hard to for me to give a reference for every algorithm.
 
 
-## 中文
+## 中文（以下内容在 release 时候会删掉）
 
-我不是一个优秀的 icpcer，很多代码都是从其它选手那里复刻过来的，特别是 03年的 jiangly
+我不是一个优秀的 icpcer，很多代码都是从其它选手那里复刻（并不是复制，全量测试覆盖，全量 sanitizer）过来的，特别是 03年的 jiangly
 
 - 中文可以表露一下心扉
 - 别人不会在乎你的细节，头文件一经过尽可能的简单
