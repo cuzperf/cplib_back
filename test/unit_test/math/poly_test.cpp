@@ -1,6 +1,5 @@
-#include "test/util.h"
-
 #include "math/poly/polyAll.h"
+#include "test/util.h"
 
 namespace cuzperf {
 

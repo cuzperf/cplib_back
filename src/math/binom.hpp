@@ -49,7 +49,7 @@ class BinomModp {
     if (n) instance_.init(n);
     return instance_;
   }
-  valT binom(int n, int k) const {
+  valT operator()(int n, int k) const {
     if (n < 0 || n < k) return valT(0);
     return fac_[n] * ifac_[k] * ifac_[n - k];
   }
@@ -60,7 +60,7 @@ class BinomModp {
     while (n && k) {
       int np = n % M, kp = k % M;
       if (np < kp) return valT(0);
-      r *= binom(np, kp);
+      r *= operator()(np, kp);
       n /= M; k /= M;
     }
     return r;

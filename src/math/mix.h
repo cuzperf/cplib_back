@@ -6,6 +6,7 @@
 
 namespace cuzperf {
 
+// Note that We should only assume that operator < is defined in T
 template <typename T>
 void quickSort(std::vector<T>& a) {
   srand(time(0));
@@ -42,6 +43,8 @@ void quickSort(std::vector<T>& a) {
   qSort(0, a.size());
 }
 
+// Note that We should only assume that operator < is defined in T
+// this version need addtional average $O(n \log n)$ space
 template <typename T>
 void quickSortStable(std::vector<T>& a) {
   srand(time(0));

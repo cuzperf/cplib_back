@@ -1,6 +1,6 @@
-#include "test/util.h"
-
 #include "math/mix.h"
+
+#include "test/util.h"
 
 namespace cuzperf {
 
@@ -25,15 +25,13 @@ TEST(MathTest, quickSort) {
   }
 }
 
+namespace {
 struct Node {
   int x, y;
-  bool operator<(const Node& rhs) const {
-    return x < rhs.x;
-  }
-  bool operator==(const Node& rhs) const {
-    return x == rhs.x && y == rhs.y;
-  }
+  bool operator<(const Node& rhs) const { return x < rhs.x; }
+  bool operator==(const Node& rhs) const { return x == rhs.x && y == rhs.y; }
 };
+}  // namespace
 
 TEST(MathTest, quickSortStable) {
   {
