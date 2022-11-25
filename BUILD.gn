@@ -31,6 +31,7 @@ cp_test("unit_test") {
   sources += graph_test_sources
   sources += math_test_sources
   sources += string_test_sources
+  sources += thread_test_sources
 
   deps = [
     "src:cp",

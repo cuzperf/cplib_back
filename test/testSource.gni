@@ -3,7 +3,7 @@ ds_test_sources = []
 graph_test_sources = []
 math_test_sources = []
 string_test_sources = []
-
+thread_test_sources = []
 
 base_test_sources += [
   "//test/unit_test/base/builtin_test.cpp",
@@ -25,6 +25,10 @@ math_test_sources += [
   "//test/unit_test/math/binom_test.cpp",
 ]
 
-string_test_sources = [
+string_test_sources += [
   "//test/unit_test/string/string_test.cpp",
+]
+
+thread_test_sources += [
+  "//test/unit_test/thread/threadSafeQueue_test.cpp",
 ]
