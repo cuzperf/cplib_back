@@ -6,6 +6,9 @@
 
 namespace cuzperf {
 
+// return $\sum xor(a_i)$ where $a_i$ is a subset of $a$ and $xor(S)$ mean xor of all value in S
+int xorSubsetSum(std::vector<int> a, int mod);
+
 // Note that We should only assume that operator < is defined in T
 template <typename T>
 void quickSort(std::vector<T>& a) {

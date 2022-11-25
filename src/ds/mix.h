@@ -11,8 +11,8 @@
 
 namespace cuzperf {
 
-// a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} <
-// mx$
+// a will becomes next lexicographical order of a,
+// satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
 bool nextBinom(std::vector<int>& a, int mx);
 
 // total number binom{mx}{n}

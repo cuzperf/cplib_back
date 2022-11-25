@@ -1,6 +1,30 @@
-#include "mix.h"
+#include "ds/mix.h"
+
+#include "math/basic.h"
 
 namespace cuzperf {
+
+int xorSubsetSum(std::vector<int> a, int mod) {
+  assert(mod > 0);
+  if (a.empty()) return 0;
+  int aor = 0;
+  for (auto x : a) aor |= x;
+
+  int n = a.size();
+  int p2 = powMod(2, n - 1, mod);
+
+  int ans = 0;
+  while (aor) {
+    if (aor & 1) {
+      ans += p2;
+      if (ans >= mod) ans -= mod;
+    }
+    p2 <<= 1;
+    if (p2 >= mod) p2 -= mod;
+    aor >>= 1;
+  }
+  return ans;
+}
 
 static constexpr int MAXN = 100000;
 // constexpr int MAXN = 12345678;

@@ -4,6 +4,25 @@
 
 namespace cuzperf {
 
+TEST(MathTest, xorSubsetSum) {
+  {
+    std::vector<int> a;
+    EXPECT_EQ(xorSubsetSum(a, 123), 0);
+  }
+  {
+    std::vector<int> a{1};
+    EXPECT_EQ(xorSubsetSum(a, 123), 1);
+  }
+  {
+    std::vector<int> a{1, 2};
+    EXPECT_EQ(xorSubsetSum(a, 123), 6);
+  }
+  {
+    std::vector<int> a{1, 3, 5};
+    EXPECT_EQ(xorSubsetSum(a, 123), 6);
+  }
+}
+
 TEST(MathTest, quickSort) {
   {
     std::vector<int> a{1, 1, 1};

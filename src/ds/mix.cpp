@@ -1,16 +1,14 @@
-#include "mix.h"
+#include "ds/mix.h"
 
 #include <iostream>
 #include <numeric>
 #include <vector>
 
-#include "basic.hpp"
-#include "fenwick.hpp"
+#include "ds/basic.hpp"
+#include "ds/fenwick.hpp"
 
 namespace cuzperf {
 
-// a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} <
-// mx$
 bool nextBinom(std::vector<int>& a, int mx) {
   int n = (int)a.size(), i = 1;
   while (i <= n && a[n - i] == mx - i) {
@@ -26,7 +24,6 @@ bool nextBinom(std::vector<int>& a, int mx) {
   return true;
 }
 
-// total number binom{mx}{n}
 void bruteForceBinom(int n, int mx) {
   std::vector<int> a(n);
   std::iota(a.begin(), a.end(), 0);
@@ -39,7 +36,6 @@ void bruteForceBinom(int n, int mx) {
   } while (nextBinom(a, mx));
 }
 
-// length of longest increasing subsquence
 int LIS(std::vector<int>& a) {
   std::vector<int> b;
   for (auto x : a) {
@@ -51,7 +47,7 @@ int LIS(std::vector<int>& a) {
   }
   return b.size();
 }
-// length of longest non-decreasing subsquence
+
 int LNDS(std::vector<int>& a) {
   std::vector<int> b;
   for (auto x : a) {
@@ -101,7 +97,6 @@ std::stack<int> LISP(const std::vector<int>& a) {
   return c;
 }
 
-// monicDeque: index of every max element of SubInterval of length m
 std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
   std::vector<int> r;
   std::deque<int> Q;
@@ -121,7 +116,6 @@ std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
   return r;
 }
 
-// f is index of a such that $a_{f_0} < a_{f_1} < a_{f_m}$
 std::vector<int> monicStack(const std::vector<int>& a) {
   int n = (int)a.size();
   std::vector<int> f(n);
@@ -135,7 +129,6 @@ std::vector<int> monicStack(const std::vector<int>& a) {
   }
   return f;
 }
-// https://www.luogu.com.cn/problem/P5788
 
 int cartesian_build(std::vector<cNode>& tree, int n) {
   for (int i = 1; i <= n; ++i) {
@@ -150,9 +143,7 @@ int cartesian_build(std::vector<cNode>& tree, int n) {
   }
   return tree[0].ch[1];
 }
-// https://codeforces.com/contest/1490/problem/D
 
-// we can only use the ideal of merge sort
 int64_t inverseOrderCount(std::vector<int> a) {
   discrete(a);
   Fenwick<int> A(*std::max_element(a.begin(), a.end()) + 1);
@@ -163,6 +154,5 @@ int64_t inverseOrderCount(std::vector<int> a) {
   }
   return ans;
 }
-// https://codeforces.com/contest/1602/problem/E
 
 }  // namespace cuzperf
