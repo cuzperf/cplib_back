@@ -46,8 +46,9 @@ TEST(MathTest, FastIntIO) {
 #endif
   fflush(stdout);
 
-  // std::string filename("../../../test/test_data/FastIntIO_tmp.txt");
   std::string filename("test/test_data/FastIntIO_tmp.txt");
+  // ToDo(cuzperf) std::freopen(filename.c_str(), "w", stdout);  // will cause memery leak
+
   std::freopen(filename.c_str(), "r", stdin);
   auto x3 = FastIntIO<int64_t>::read();
   auto x4 = FastIntIO<int64_t>::read();

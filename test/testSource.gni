@@ -11,7 +11,7 @@ base_test_sources += [
 
 ds_test_sources += [
   "//test/unit_test/ds/ds_test.cpp",
-  "//test/unit_test/ds/listVector_test.cpp"
+  "//test/unit_test/ds/listVector_test.cpp",
 ]
 
 graph_test_sources += [
@@ -21,6 +21,7 @@ graph_test_sources += [
 math_test_sources += [
   "//test/unit_test/math/basic_test.cpp",
   "//test/unit_test/math/poly_test.cpp",
+  "//test/unit_test/math/mix_test.cpp",
 ]
 
 string_test_sources = [

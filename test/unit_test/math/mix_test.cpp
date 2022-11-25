@@ -25,9 +25,29 @@ TEST(MathTest, quickSort) {
   }
 }
 
+struct Node {
+  int x, y;
+  bool operator<(const Node& rhs) const {
+    return x < rhs.x;
+  }
+  bool operator==(const Node& rhs) const {
+    return x == rhs.x && y == rhs.y;
+  }
+};
+
 TEST(MathTest, quickSortStable) {
-
+  {
+    std::vector<Node> a{{1, 2}, {1, 3}, {2, 2}, {1, 3}, {1, 4}};
+    std::vector<Node> sa{{1, 2}, {1, 3}, {1, 3}, {1, 4}, {2, 2}};
+    quickSortStable(a);
+    EXPECT_EQ(a, sa);
+  }
+  {
+    std::vector<Node> a{{3, 2}, {3, 3}, {2, 2}, {2, 3}, {1, 4}, {1, 1}};
+    std::vector<Node> sa{{1, 4}, {1, 1}, {2, 2}, {2, 3}, {3, 2}, {3, 3}};
+    quickSortStable(a);
+    EXPECT_EQ(a, sa);
+  }
 }
-
 
 }  // namespace cuzperf

@@ -49,7 +49,7 @@ void quickSortStable(std::vector<T>& a) {
     if (r - l <= 1) return;
     auto x = a[rand() % (r - l) + l];
     int ml = l;
-    std::vector<int> b;
+    std::vector<T> b;
     for (int i = l; i < r; ++i) {
       if (a[i] < x) {
         a[ml++] = a[i];
