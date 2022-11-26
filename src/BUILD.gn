@@ -110,11 +110,11 @@ cp_static_library("cp_graph") {
   ]
 }
 
-cp_static_library("cp_thread") {
-  sources = [
-    "thread/threadSafeQueue.h",
-  ]
-}
+# cp_static_library("cp_thread") {
+#   sources = [
+#     "thread/threadSafeQueue.h",
+#   ]
+# }
 
 cp_static_library("cp") {
   sources = [

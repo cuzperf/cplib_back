@@ -1,4 +1,4 @@
-#include "ds/mix.h"
+#include "math/mix.h"
 
 #include "math/basic.h"
 
