@@ -2,7 +2,7 @@
 
 #include "test/util.h"
 
-using namespace std::literals::chrono_literals;
+#include <thread>
 
 namespace cuzperf {
 
