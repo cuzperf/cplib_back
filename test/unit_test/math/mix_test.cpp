@@ -4,6 +4,19 @@
 
 namespace cuzperf {
 
+static int xorSubsetSum_test(std::vector<int> a, int mod) {
+  int n = a.size();
+  int ans = 0;
+  for (int i = 0; i < (1 << n); ++i) {
+    int x = 0;
+    for (int j = 0; j < n; ++j) if (i & (1 << j)) {
+      x ^= a[j];
+    }
+    ans = (ans + x) % mod;
+  }
+  return ans;
+}
+
 TEST(MathTest, xorSubsetSum) {
   {
     std::vector<int> a;
@@ -20,6 +33,13 @@ TEST(MathTest, xorSubsetSum) {
   {
     std::vector<int> a{1, 3, 9};
     EXPECT_EQ(xorSubsetSum(a, 123), 44);
+  }
+  {
+    constexpr int N = 10;
+    constexpr int M = 998244353;
+    std::vector<int> a(N);
+    for (int i = 0; i < N; ++i) a[i] = rnd() % M;
+    EXPECT_EQ(xorSubsetSum(a, M), xorSubsetSum_test(a, M));
   }
 }
 

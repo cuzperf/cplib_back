@@ -11,7 +11,7 @@ int xorSubsetSum(std::vector<int> a, int mod) {
   if (a.empty()) {
     return 0;
   }
-  int aor = 0;
+  unsigned aor = 0;
   for (auto x : a) {
     aor |= x;
   }
