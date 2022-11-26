@@ -2,7 +2,7 @@
 
 #include "math/mod.hpp"
 #include "math/ntt.hpp"
-#include "poly.hpp"
+#include "math/poly/poly.hpp"
 
 #include "base/builtin.h"
 

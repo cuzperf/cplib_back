@@ -1,4 +1,4 @@
-#include "miniSpanTree.h"
+#include "graph/miniSpanTree.h"
 
 #include <limits>
 #include <queue>

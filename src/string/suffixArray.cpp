@@ -1,4 +1,4 @@
-#include "suffixArray.h"
+#include "string/suffixArray.h"
 
 #include <algorithm>
 #include <numeric>

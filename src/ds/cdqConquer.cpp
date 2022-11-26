@@ -1,9 +1,9 @@
-#include "cdqConquer.h"
+#include "ds/cdqConquer.h"
 
 #include <algorithm>
 #include <functional>
 
-#include "fenwick.hpp"
+#include "ds/fenwick.hpp"
 
 namespace cuzperf {
 

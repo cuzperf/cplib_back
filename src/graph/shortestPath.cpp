@@ -1,4 +1,4 @@
-#include "shortestPath.h"
+#include "graph/shortestPath.h"
 
 #include <stdint.h>
 

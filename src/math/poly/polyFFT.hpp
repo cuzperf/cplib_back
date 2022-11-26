@@ -2,7 +2,7 @@
 
 #include "math/fft.h"
 #include "math/mod.hpp"
-#include "poly.hpp"
+#include "math/poly/poly.hpp"
 
 #include <cmath>
 

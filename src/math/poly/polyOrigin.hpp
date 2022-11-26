@@ -1,7 +1,7 @@
 #pragma once
 
 #include "math/mod.hpp"
-#include "poly.hpp"
+#include "math/poly/poly.hpp"
 
 namespace cuzperf {
 

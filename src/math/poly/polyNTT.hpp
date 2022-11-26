@@ -1,6 +1,6 @@
 #pragma once
 
-#include "poly.hpp"
+#include "math/poly/poly.hpp"
 #include "math/mod.hpp"
 #include "math/ntt.hpp"
 #include "base/builtin.h"

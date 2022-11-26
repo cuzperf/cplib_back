@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "basic.h"
+#include "math/basic.h"
 
 namespace cuzperf {
 

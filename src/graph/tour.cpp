@@ -1,4 +1,4 @@
-#include "tour.h"
+#include "graph/tour.h"
 
 #include <functional>
 #include <queue>

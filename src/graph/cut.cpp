@@ -1,4 +1,4 @@
-#include "cut.h"
+#include "graph/cut.h"
 
 #include <functional>
 

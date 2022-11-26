@@ -1,4 +1,4 @@
-#include "manacher.h"
+#include "string/manacher.h"
 
 #include <algorithm>
 

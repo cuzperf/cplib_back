@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <iostream>
 
-#include "basic.h"
+#include "math/basic.h"
 #include "base/builtin.h"
 
 namespace cuzperf {

@@ -1,4 +1,4 @@
-#include "circleCount.h"
+#include "graph/circleCount.h"
 
 #include <algorithm>
 #include <numeric>

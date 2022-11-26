@@ -1,8 +1,8 @@
-#include "factorial.h"
+#include "math/poly/factorial.h"
 
-#include "poly.hpp"
-#include "polyFFT.hpp"
-#include "polyMTT.hpp"
+#include "math/poly/poly.hpp"
+#include "math/poly/polyFFT.hpp"
+#include "math/poly/polyMTT.hpp"
 
 namespace cuzperf {
 
