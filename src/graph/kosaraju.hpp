@@ -11,20 +11,35 @@ class Scc {
   std::vector<std::vector<int>> e_, e2_;
   void dfs(int u) {
     vis_[u] = true;
-    for (auto v : e_[u]) if (!vis_[v]) dfs(v);
+    for (auto v : e_[u]) {
+      if (!vis_[v]) {
+        dfs(v);
+      }
+    }
     order_.emplace_back(u);
   }
   void dfs2(int u) {
     color_[u] = nScc_;
-    for (auto v : e2_[u]) if (!color_[v]) dfs2(v);
-  }
-  void Kosaraju() {
-    for (int i = 0; i < n_; ++i) if (!vis_[i]) dfs(i);
-    for (auto it = order_.rbegin(); it != order_.rend(); ++it) if (!color_[*it]) {
-      ++nScc_;
-      dfs2(*it);
+    for (auto v : e2_[u]) {
+      if (!color_[v]) {
+        dfs2(v);
+      }
     }
   }
+  void Kosaraju() {
+    for (int i = 0; i < n_; ++i) {
+      if (!vis_[i]) {
+        dfs(i);
+      }
+    }
+    for (auto it = order_.rbegin(); it != order_.rend(); ++it) {
+      if (!color_[*it]) {
+        ++nScc_;
+        dfs2(*it);
+      }
+    }
+  }
+
  public:
   Scc(int n) : n_(n) {
     nScc_ = 0;
@@ -39,7 +54,9 @@ class Scc {
     e2_[v].emplace_back(u);
   }
   int solve() {
-    if (nScc_ == 0) Kosaraju();
+    if (nScc_ == 0) {
+      Kosaraju();
+    }
     return nScc_;
   }
 };
@@ -62,18 +79,32 @@ struct twoSAT {
   }
   void dfs(int u) {
     vis_[u] = true;
-    for (auto v : e_[u]) if (!vis_[v]) dfs(v);
+    for (auto v : e_[u]) {
+      if (!vis_[v]) {
+        dfs(v);
+      }
+    }
     order_.emplace_back(u);
   }
   void dfs2(int u) {
     color_[u] = nScc_;
-    for (auto v : e2_[u]) if (!color_[v]) dfs2(v);
+    for (auto v : e2_[u]) {
+      if (!color_[v]) {
+        dfs2(v);
+      }
+    }
   }
   void Kosaraju() {
-    for (int i = 0; i < n_; ++i) if (!vis_[i]) dfs(i);
-    for (auto it = order_.rbegin(); it != order_.rend(); ++it) if (!color_[*it]) {
-      ++nScc_;
-      dfs2(*it);
+    for (int i = 0; i < n_; ++i) {
+      if (!vis_[i]) {
+        dfs(i);
+      }
+    }
+    for (auto it = order_.rbegin(); it != order_.rend(); ++it) {
+      if (!color_[*it]) {
+        ++nScc_;
+        dfs2(*it);
+      }
     }
   }
   std::vector<int> solve() {
@@ -82,12 +113,18 @@ struct twoSAT {
     std::vector<int> choose(nScc_ + 1);
     for (int i = 0; i < n_; i += 2) {
       int c1 = color_[i], c2 = color_[i + 1];
-      if (c1 == c2) return std::vector<int>();
-      if (choose[c1] || choose[c2]) continue;
+      if (c1 == c2) {
+        return std::vector<int>();
+      }
+      if (choose[c1] || choose[c2]) {
+        continue;
+      }
       choose[std::max(c1, c2)] = 1;
     }
     std::vector<int> r(n_ / 2);
-    for (int i = 0; i * 2 < n_; ++i) r[i] = (choose[color_[i * 2]] ? 1 : -1);
+    for (int i = 0; i * 2 < n_; ++i) {
+      r[i] = (choose[color_[i * 2]] ? 1 : -1);
+    }
     return r;
   }
 };

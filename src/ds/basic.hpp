@@ -1,14 +1,14 @@
 #pragma once
 
 #include <algorithm>
-#include <utility>
 #include <set>
+#include <utility>
 #include <vector>
 
 namespace cuzperf {
 
 // Returns the original value corresponding to the array value after discretization
-template<typename T>
+template <typename T>
 std::vector<T> discrete(std::vector<T>& a) {
   auto r = a;
   std::sort(r.begin(), r.end());
@@ -20,9 +20,11 @@ std::vector<T> discrete(std::vector<T>& a) {
 }
 
 // make sure that a[i].first <= a[i].second
-template<typename T>
+template <typename T>
 void disjointInterval(std::vector<std::pair<T, T>>& a) {
-  if (a.size() <= 1) return;
+  if (a.size() <= 1) {
+    return;
+  }
   std::vector<std::pair<T, T>> b;
   std::sort(a.begin(), a.end());
   auto l = a[0].first, r = a[0].second;
@@ -38,31 +40,32 @@ void disjointInterval(std::vector<std::pair<T, T>>& a) {
   std::swap(a, b);
 }
 
-template<typename T>
+template <typename T>
 class Internal {
   std::set<std::pair<T, T>> S;
+
  public:
-  void clear() {
-    S.clear();
-  }
-  int size() const {
-    return S.size();
-  }
-  bool contain(T x) {
-    return contain(x, x + 1);
-  }
+  void clear() { S.clear(); }
+  int size() const { return S.size(); }
+  bool contain(T x) { return contain(x, x + 1); }
   bool contain(T l, T r) {
-    if (l >= r) return false;
+    if (l >= r) {
+      return false;
+    }
     auto it = S.lower_bound({l + 1, l});
     return it != S.begin() && std::prev(it)->second >= r;
   }
   bool intersect(T l, T r) {
-    if (l >= r) return false;
+    if (l >= r) {
+      return false;
+    }
     auto it = S.lower_bound({l + 1, l});
     return (it != S.end() && it->first < r) || (it != S.begin() && std::prev(it)->second > l);
   }
   void add(T l, T r) {
-    if (l >= r) return;
+    if (l >= r) {
+      return;
+    }
     auto it = S.lower_bound({l + 1, l});
     if (it != S.begin()) {
       auto pit = std::prev(it);
@@ -79,7 +82,9 @@ class Internal {
     S.emplace(l, r);
   }
   void sub(T l, T r) {
-    if (l >= r) return;
+    if (l >= r) {
+      return;
+    }
     auto it = S.lower_bound({l + 1, l});
     if (it != S.begin()) {
       auto pit = std::prev(it);
@@ -87,30 +92,37 @@ class Internal {
         int pl = pit->first;
         int pr = pit->second;
         S.erase(pit);
-        if (pl < l) S.insert(pl, l);
-        if (r > pr) S.insert(r, pr);
+        if (pl < l) {
+          S.insert(pl, l);
+        }
+        if (r > pr) {
+          S.insert(r, pr);
+        }
       }
     }
     while (it != S.end() && it->first < r) {
-      if (it->second > r) S.insert(r, it->second);
+      if (it->second > r) {
+        S.insert(r, it->second);
+      }
       it = S.erase(it);
     }
   }
 };
 
-template<typename T>
+template <typename T>
 class RingBuffer {
   int m_, id_;
   std::vector<T> a_;
   static inline constexpr T kDefaultVal = -1;
+
  public:
-  RingBuffer(int m) : m_(m), id_(0), a_(m, kDefaultVal) {};
-  T getCurrent() const {
-    return a_[id_];
-  }
+  RingBuffer(int m) : m_(m), id_(0), a_(m, kDefaultVal){};
+  T getCurrent() const { return a_[id_]; }
   void insert(T x) {
     a_[id_++] = x;
-    if (id_ == m_) id_ = 0;
+    if (id_ == m_) {
+      id_ = 0;
+    }
   }
 };
 

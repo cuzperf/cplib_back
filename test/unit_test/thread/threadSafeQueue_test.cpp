@@ -1,8 +1,8 @@
 #include "thread/threadSafeQueue.hpp"
 
-#include "test/util.h"
-
 #include <thread>
+
+#include "test/util.h"
 
 namespace cuzperf {
 

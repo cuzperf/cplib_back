@@ -1,13 +1,14 @@
 #pragma once
 
-#include <vector>
 #include <functional>
+#include <vector>
 
 namespace cuzperf {
 
 class LCA {
   int n_;
   std::vector<int> fa_, dep_, sz_, son_, top_;
+
  public:
   LCA(std::vector<std::vector<int>>& e, int rt = 1) : n_(e.size()) {
     fa_.resize(n_);
@@ -18,20 +19,30 @@ class LCA {
     dep_[rt] = 0;
     std::function<int(int)> pdfs = [&](int u) -> int {
       sz_[u] = 1;
-      for (auto v : e[u]) if (v != fa_[u]) {
-        dep_[v] = dep_[u] + 1;
-        fa_[v] = u;
-        sz_[u] += pdfs(v);
-        if (sz_[v] > sz_[son_[u]]) son_[u] = v;
+      for (auto v : e[u]) {
+        if (v != fa_[u]) {
+          dep_[v] = dep_[u] + 1;
+          fa_[v] = u;
+          sz_[u] += pdfs(v);
+          if (sz_[v] > sz_[son_[u]]) {
+            son_[u] = v;
+          }
+        }
       }
       return sz_[u];
     };
     top_.resize(n_);
     std::function<void(int, int)> dfs = [&](int u, int t) -> void {
       top_[u] = t;
-      if (son_[u] == 0) return;
+      if (son_[u] == 0) {
+        return;
+      }
       dfs(son_[u], t);
-      for (auto v : e[u]) if (v != fa_[u] && v != son_[u]) dfs(v, v);
+      for (auto v : e[u]) {
+        if (v != fa_[u] && v != son_[u]) {
+          dfs(v, v);
+        }
+      }
     };
     pdfs(rt);
     dfs(rt, rt);

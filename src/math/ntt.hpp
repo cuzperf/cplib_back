@@ -3,17 +3,18 @@
 #include <algorithm>
 #include <vector>
 
-#include "mod.hpp"
 #include "base/builtin.h"
+#include "mod.hpp"
 
 namespace cuzperf {
 
 // assume M is NTT-friendly and 3 is a primitive root of N
-template<int M>
+template <int M>
 class NTT {
   using mod = MInt<M>;
   std::vector<int> rev_;
   std::vector<mod> roots_{0, 1};
+
  public:
   static inline const mod g = 3;
   void dft(std::vector<mod>& a) {
@@ -37,8 +38,10 @@ class NTT {
         ++k;
       }
     }
-    for (int i = 0; i < n; ++i) if (rev_[i] < i) {
-      std::swap(a[i], a[rev_[i]]);
+    for (int i = 0; i < n; ++i) {
+      if (rev_[i] < i) {
+        std::swap(a[i], a[rev_[i]]);
+      }
     }
     for (int k = 1; k < n; k *= 2) {
       for (int i = 0; i < n; i += 2 * k) {
@@ -56,7 +59,9 @@ class NTT {
     dft(a);
     // not that n is power of 2, and M = 1 + c 2^x
     auto inv = mod::raw(M - (M - 1) / n);
-    for (auto& x : a) x *= inv;
+    for (auto& x : a) {
+      x *= inv;
+    }
   }
 };
 

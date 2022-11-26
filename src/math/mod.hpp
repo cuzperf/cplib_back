@@ -2,10 +2,11 @@
 
 #include <assert.h>
 #include <stdint.h>
+
 #include <iostream>
 
-#include "math/basic.h"
 #include "base/builtin.h"
+#include "math/basic.h"
 
 namespace cuzperf {
 
@@ -19,73 +20,68 @@ class ModInt {
     return x < 0 ? x + M : x;
   }
   // assum M is prime
-  static int invP(int x) {
-    return x == 1 ? x : 1LL * (M - M / x) * invP(M % x) % M;
-  }
+  static int invP(int x) { return x == 1 ? x : 1LL * (M - M / x) * invP(M % x) % M; }
+
  public:
-  template<typename T>
-   operator T() const {
+  template <typename T>
+  operator T() const {
     return static_cast<T>(n_);
   }
-  static void setMod(int m [[maybe_unused]]) {
-    assert(M == m);
-  }
-  static int mod() {
-    return M;
-  }
+  static void setMod(int m [[maybe_unused]]) { assert(M == m); }
+  static int mod() { return M; }
   // assume 0 <= x < M
   static ModInt raw(int x) {
     ModInt A;
     A.n_ = x;
     return A;
   }
-  ModInt() { n_ = 0;}
+  ModInt() { n_ = 0; }
   ModInt(const int& x) : n_(x % M) {
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
   }
   ModInt(const int64_t& x) : n_(x % M) {
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
   }
-  ModInt operator-() const {
-    return n_ == 0 ? *this : raw(M - n_);
-  }
+  ModInt operator-() const { return n_ == 0 ? *this : raw(M - n_); }
   ModInt& operator++() {
-    if (++n_ == M) n_ = 0;
+    if (++n_ == M) {
+      n_ = 0;
+    }
     return *this;
   }
   ModInt& operator--() {
-    if (n_-- == 0) n_ += M;
+    if (n_-- == 0) {
+      n_ += M;
+    }
     return *this;
   }
   ModInt& operator+=(const ModInt& A) {
     n_ += A.n_;
-    if (n_ >= M) n_ -= M;
+    if (n_ >= M) {
+      n_ -= M;
+    }
     return (*this);
   }
   ModInt& operator-=(const ModInt& A) {
     n_ -= A.n_;
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
     return (*this);
   }
   ModInt& operator*=(const ModInt& A) {
     n_ = 1LL * n_ * A.n_ % M;
     return (*this);
   }
-  ModInt& operator/=(const ModInt& A) {
-    return (*this) *= A.inv();
-  }
-  ModInt operator+(const ModInt& A) const {
-    return ModInt(*this) += A;
-  }
-  ModInt operator-(const ModInt& A) const {
-    return ModInt(*this) -= A;
-  }
-  ModInt operator*(const ModInt& A) const {
-    return ModInt(*this) *= A;
-  }
-  ModInt operator/(const ModInt& A) const {
-    return ModInt(*this) /= A;
-  }
+  ModInt& operator/=(const ModInt& A) { return (*this) *= A.inv(); }
+  ModInt operator+(const ModInt& A) const { return ModInt(*this) += A; }
+  ModInt operator-(const ModInt& A) const { return ModInt(*this) -= A; }
+  ModInt operator*(const ModInt& A) const { return ModInt(*this) *= A; }
+  ModInt operator/(const ModInt& A) const { return ModInt(*this) /= A; }
   ModInt operator<<(int x) const {
     static constexpr int bits = 32;
     int64_t r = n_;
@@ -97,26 +93,19 @@ class ModInt {
     r <<= x;
     return ModInt(r);
   }
-  ModInt& operator<<=(int x) {
-    return (*this) = (*this) << x;
-  }
-  bool operator==(const ModInt& A) const {
-    return n_ == A.n_;
-  }
-  bool operator!=(const ModInt& A) const {
-    return n_ != A.n_;
-  }
-  ModInt inv() const {
-    return inv(n_);
-  }
-  ModInt invP() const {
-    return invP(n_);
-  }
+  ModInt& operator<<=(int x) { return (*this) = (*this) << x; }
+  bool operator==(const ModInt& A) const { return n_ == A.n_; }
+  bool operator!=(const ModInt& A) const { return n_ != A.n_; }
+  ModInt inv() const { return inv(n_); }
+  ModInt invP() const { return invP(n_); }
   friend ModInt pow(ModInt A, int n) {
     ModInt R(1);
     while (n) {
-      if (n & 1) R *= A;
-      n >>= 1;   A *= A;
+      if (n & 1) {
+        R *= A;
+      }
+      n >>= 1;
+      A *= A;
     }
     return R;
   }
@@ -142,78 +131,75 @@ class ModLL {
     return x < 0 ? x + M : x;
   }
   // assum M is prime
-  static int64_t invP(int64_t x) {
-    return x == 1 ? x : mulModi(M - M / x, invP(M % x), M);
-  }
+  static int64_t invP(int64_t x) { return x == 1 ? x : mulModi(M - M / x, invP(M % x), M); }
+
  public:
-  template<typename T>
-   operator T() const {
+  template <typename T>
+  operator T() const {
     return static_cast<T>(n_);
   }
-  static void setMod(int64_t m) {
-    M = m;
-  }
-  static int64_t mod() {
-    return M;
-  }
+  static void setMod(int64_t m) { M = m; }
+  static int64_t mod() { return M; }
   // assume 0 <= x < M
   static ModLL raw(int64_t x) {
     ModLL A;
     A.n_ = x;
     return A;
   }
-  ModLL() { n_ = 0;}
+  ModLL() { n_ = 0; }
   ModLL(const int& x) : n_(x % M) {
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
   }
   ModLL(const int64_t& x) : n_(x % M) {
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
   }
 #ifdef __GNUC__
   ModLL(const __int128_t& x) : n_(x % M) {
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
   }
 #endif
-  ModLL operator-() const {
-    return n_ == 0 ? *this : raw(M - n_);
-  }
+  ModLL operator-() const { return n_ == 0 ? *this : raw(M - n_); }
   ModLL& operator++() {
-    if (++n_ == M) n_ = 0;
+    if (++n_ == M) {
+      n_ = 0;
+    }
     return *this;
   }
   ModLL& operator--() {
-    if (n_-- == 0) n_ += M;
+    if (n_-- == 0) {
+      n_ += M;
+    }
     return *this;
   }
   ModLL& operator+=(const ModLL& A) {
     n_ += A.n_;
-    if (n_ >= M) n_ -= M;
+    if (n_ >= M) {
+      n_ -= M;
+    }
     return (*this);
   }
   ModLL& operator-=(const ModLL& A) {
     n_ -= A.n_;
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
     return (*this);
   }
   ModLL& operator*=(const ModLL& A) {
     n_ = mulModi(n_, A.n_, M);
     return (*this);
   }
-  ModLL& operator/=(const ModLL& A) {
-    return (*this) *= A.inv();
-  }
-  ModLL operator+(const ModLL& A) const {
-    return ModLL(*this) += A;
-  }
-  ModLL operator-(const ModLL& A) const {
-    return ModLL(*this) -= A;
-  }
-  ModLL operator*(const ModLL& A) const {
-    return ModLL(*this) *= A;
-  }
-  ModLL operator/(const ModLL& A) const {
-    return ModLL(*this) /= A;
-  }
+  ModLL& operator/=(const ModLL& A) { return (*this) *= A.inv(); }
+  ModLL operator+(const ModLL& A) const { return ModLL(*this) += A; }
+  ModLL operator-(const ModLL& A) const { return ModLL(*this) -= A; }
+  ModLL operator*(const ModLL& A) const { return ModLL(*this) *= A; }
+  ModLL operator/(const ModLL& A) const { return ModLL(*this) /= A; }
   ModLL operator<<(int x) const {
     static constexpr int bits = 62;
     int64_t r = n_;
@@ -224,26 +210,19 @@ class ModLL {
     r = mulModi(r, 1ULL << x, M);
     return r;
   }
-  ModLL& operator<<=(int x) {
-    return (*this) = (*this) << x;
-  }
-  bool operator==(const ModLL& A) const {
-    return n_ == A.n_;
-  }
-  bool operator!=(const ModLL& A) const {
-    return n_ != A.n_;
-  }
-  ModLL inv() const {
-    return inv(n_);
-  }
-  ModLL invP() const {
-    return invP(n_);
-  }
+  ModLL& operator<<=(int x) { return (*this) = (*this) << x; }
+  bool operator==(const ModLL& A) const { return n_ == A.n_; }
+  bool operator!=(const ModLL& A) const { return n_ != A.n_; }
+  ModLL inv() const { return inv(n_); }
+  ModLL invP() const { return invP(n_); }
   friend ModLL pow(ModLL A, int64_t n) {
     ModLL R(1);
     while (n) {
-      if (n & 1) R *= A;
-      n >>= 1;   A *= A;
+      if (n & 1) {
+        R *= A;
+      }
+      n >>= 1;
+      A *= A;
     }
     return R;
   }
@@ -260,7 +239,7 @@ class ModLL {
 };
 
 
-template<int N>
+template <int N>
 class MInt {
   static inline constexpr int M = N;
   int n_;
@@ -270,73 +249,68 @@ class MInt {
     return x < 0 ? x + M : x;
   }
   // assum M is prime
-  static int invP(int x) {
-    return x == 1 ? x : 1LL * (M - M / x) * invP(M % x) % M;
-  }
+  static int invP(int x) { return x == 1 ? x : 1LL * (M - M / x) * invP(M % x) % M; }
+
  public:
-  template<typename T>
-   operator T() const {
+  template <typename T>
+  operator T() const {
     return static_cast<T>(n_);
   }
-  static void setMod(int m [[maybe_unused]]) {
-    assert(M == m);
-  }
-  static constexpr int mod() {
-    return M;
-  }
+  static void setMod(int m [[maybe_unused]]) { assert(M == m); }
+  static constexpr int mod() { return M; }
   // assume 0 <= x < M
   static MInt raw(int x) {
     MInt A;
     A.n_ = x;
     return A;
   }
-  MInt() { n_ = 0;}
+  MInt() { n_ = 0; }
   MInt(const int& x) : n_(x % M) {
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
   }
   MInt(const int64_t& x) : n_(x % M) {
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
   }
-  MInt operator-() const {
-    return n_ == 0 ? *this : raw(M - n_);
-  }
+  MInt operator-() const { return n_ == 0 ? *this : raw(M - n_); }
   MInt& operator++() {
-    if (++n_ == M) n_ = 0;
+    if (++n_ == M) {
+      n_ = 0;
+    }
     return *this;
   }
   MInt& operator--() {
-    if (n_-- == 0) n_ += M;
+    if (n_-- == 0) {
+      n_ += M;
+    }
     return *this;
   }
   MInt& operator+=(const MInt& A) {
     n_ += A.n_;
-    if (n_ >= M) n_ -= M;
+    if (n_ >= M) {
+      n_ -= M;
+    }
     return (*this);
   }
   MInt& operator-=(const MInt& A) {
     n_ -= A.n_;
-    if (n_ < 0) n_ += M;
+    if (n_ < 0) {
+      n_ += M;
+    }
     return (*this);
   }
   MInt& operator*=(const MInt& A) {
     n_ = 1LL * n_ * A.n_ % M;
     return (*this);
   }
-  MInt& operator/=(const MInt& A) {
-    return (*this) *= A.inv();
-  }
-  MInt operator+(const MInt& A) const {
-    return MInt(*this) += A;
-  }
-  MInt operator-(const MInt& A) const {
-    return MInt(*this) -= A;
-  }
-  MInt operator*(const MInt& A) const {
-    return MInt(*this) *= A;
-  }
-  MInt operator/(const MInt& A) const {
-    return MInt(*this) /= A;
-  }
+  MInt& operator/=(const MInt& A) { return (*this) *= A.inv(); }
+  MInt operator+(const MInt& A) const { return MInt(*this) += A; }
+  MInt operator-(const MInt& A) const { return MInt(*this) -= A; }
+  MInt operator*(const MInt& A) const { return MInt(*this) *= A; }
+  MInt operator/(const MInt& A) const { return MInt(*this) /= A; }
   MInt operator<<(int x) const {
     static constexpr int bits = 32;
     int64_t r = n_;
@@ -348,26 +322,19 @@ class MInt {
     r <<= x;
     return MInt(r);
   }
-  MInt& operator<<=(int x) {
-    return (*this) = (*this) << x;
-  }
-  bool operator==(const MInt& A) const {
-    return n_ == A.n_;
-  }
-  bool operator!=(const MInt& A) const {
-    return n_ != A.n_;
-  }
-  MInt inv() const {
-    return inv(n_);
-  }
-  MInt invP() const {
-    return invP(n_);
-  }
+  MInt& operator<<=(int x) { return (*this) = (*this) << x; }
+  bool operator==(const MInt& A) const { return n_ == A.n_; }
+  bool operator!=(const MInt& A) const { return n_ != A.n_; }
+  MInt inv() const { return inv(n_); }
+  MInt invP() const { return invP(n_); }
   friend MInt pow(MInt A, int n) {
     MInt R(1);
     while (n) {
-      if (n & 1) R *= A;
-      n >>= 1;   A *= A;
+      if (n & 1) {
+        R *= A;
+      }
+      n >>= 1;
+      A *= A;
     }
     return R;
   }
@@ -384,16 +351,17 @@ class MInt {
 };
 
 // valT
-template<class T>
+template <class T>
 struct is_MInt : std::false_type {};
 
-template<int M>
+template <int M>
 struct is_MInt<MInt<M>> : std::true_type {};
 
-template<class T>
+template <class T>
 inline constexpr bool is_mint_v = is_MInt<T>::value;
 
-template<typename T>
-using ModT = std::enable_if_t<std::is_same_v<ModLL, T> || std::is_same_v<ModInt, T> || is_mint_v<T>>;
+template <typename T>
+using ModT =
+    std::enable_if_t<std::is_same_v<ModLL, T> || std::is_same_v<ModInt, T> || is_mint_v<T>>;
 
 }  // namespace cuzperf

@@ -290,7 +290,9 @@ int64_t pollardrho(int64_t n) {
   while (true) {
     x = mulModi(x, x, n);
     x += c;
-    if (x >= n) x -= n;
+    if (x >= n) {
+      x -= n;
+    }
     z = mulModi(y - x + n, z, n);
     // optim times of compute gcd
     if (++i == k) {

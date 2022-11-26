@@ -1,6 +1,6 @@
-#include "test/util.h"
-
 #include "ds/ds.h"
+
+#include "test/util.h"
 
 namespace cuzperf {
 

@@ -1,6 +1,6 @@
-#include "util.h"
-
 #include "ds/listVector.hpp"
+
+#include "util.h"
 
 namespace cuzperf {
 
@@ -31,7 +31,9 @@ TEST(DsTest, List2Vector) {
 TEST(DsTest, VectorList) {
   constexpr int N = 1e4;
   std::vector<int> a(N);
-  for (int i = 0; i < N; ++i) a[i] = rnd();
+  for (int i = 0; i < N; ++i) {
+    a[i] = rnd();
+  }
   auto root = Vector2List(a);
   auto b = List2Vector(root);
   EXPECT_EQ(a, b);

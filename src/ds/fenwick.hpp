@@ -1,11 +1,11 @@
 #pragma once
 
-#include <vector>
 #include <map>
+#include <vector>
 
 #include "base/builtin.h"
 
-template<typename T>
+template <typename T>
 struct Fenwick {
   static inline int lowbit(int n) { return n & (-n); }
   int n_;
@@ -14,14 +14,22 @@ struct Fenwick {
   Fenwick(int n) : n_(n), s_(n + 1) {}
   // https://codeforces.com/blog/entry/59305
   Fenwick(const std::vector<T>& a) : n_(a.size()), s_(n_ + 1) {
-    for (int i = 0; i < n_; ++i) s_[i + 1] = s_[i] + a[i];
-    for (int i = n_; i > 0; --i) s_[i] -= s_[i - lowbit(i)];
+    for (int i = 0; i < n_; ++i) {
+      s_[i + 1] = s_[i] + a[i];
+    }
+    for (int i = n_; i > 0; --i) {
+      s_[i] -= s_[i - lowbit(i)];
+    }
   }
   std::vector<T> getOrigin() const {
     auto a = s_;
-    for (int i = 1; i <= n_; ++i) a[i] += a[i - lowbit(i)];
+    for (int i = 1; i <= n_; ++i) {
+      a[i] += a[i - lowbit(i)];
+    }
     std::vector<T> ans(n_);
-    for (int i = n_ - 1; i >= 0; --i) ans[i] = a[i + 1] - a[i];
+    for (int i = n_ - 1; i >= 0; --i) {
+      ans[i] = a[i + 1] - a[i];
+    }
     return ans;
   }
   void add(int id, T p) {
@@ -54,7 +62,7 @@ struct Fenwick {
 };
 // see https://codeforces.com/contest/1635/submission/147077087 for more use
 
-template<typename T>
+template <typename T>
 class FenwickPlus {
   int n_;
   // c[i] = a[i] - a[i - 1], b_i = (i - 1) * c_i
@@ -68,6 +76,7 @@ class FenwickPlus {
     C.add(id, p);
     B.add(id, (id - 1) * p);
   }
+
  public:
   FenwickPlus() {}
   FenwickPlus(int n) : n_(n), B(n), C(n) {}
@@ -83,7 +92,7 @@ class FenwickPlus {
     int id = 0;
     for (int i = lg2_u32(n_); ~i; --i) {
       int idi = id + (1 << i);
-      if ( idi <= n_ && idi * (sumC + C.s[idi]) - B.s[idi] - sumB < val) {
+      if (idi <= n_ && idi * (sumC + C.s[idi]) - B.s[idi] - sumB < val) {
         id = idi;
         sumB += B.s[id];
         sumC += C.s[id];
@@ -100,7 +109,7 @@ struct Fenwick2M {
   Fenwick2M(int n, int m) : n_(n), m_(m), mp_(n + 1) {}
   void add(int x, int y, int p) {
     for (int i = x; i <= n_; i += lowbit(i)) {
-      auto &a = mp_[i];
+      auto& a = mp_[i];
       for (int j = y; j <= m_; j += lowbit(j)) {
         a[j] += p;
       }
@@ -111,8 +120,10 @@ struct Fenwick2M {
     y = std::min(y, m_);
     int ans = 0;
     for (int i = x; i > 0; i -= lowbit(i)) {
-      auto &a = mp_[i];
-      if (a.empty()) continue;
+      auto& a = mp_[i];
+      if (a.empty()) {
+        continue;
+      }
       for (int j = y; j > 0; j -= lowbit(j)) {
         if (a.count(j)) {
           ans += a[j];
@@ -122,7 +133,8 @@ struct Fenwick2M {
     return ans;
   }
   int sum(int x1, int y1, int x2, int y2) {
-    --x1; --y1;
+    --x1;
+    --y1;
     return sum(x2, y2) - sum(x2, y1) - sum(x1, y2) + sum(x1, y1);
   }
   int n_, m_;
@@ -136,7 +148,7 @@ struct Fenwick2V {
   Fenwick2V(int n, int m) : n_(n), m_(m), mp_(n + 1, std::vector<int>(m + 1)) {}
   void add(int x, int y, int p) {
     for (int i = x; i <= n_; i += lowbit(i)) {
-      auto &a = mp_[i];
+      auto& a = mp_[i];
       for (int j = y; j <= m_; j += lowbit(j)) {
         a[j] += p;
       }
@@ -147,7 +159,7 @@ struct Fenwick2V {
     y = std::min(y, m_);
     int ans = 0;
     for (int i = x; i > 0; i -= lowbit(i)) {
-      auto &a = mp_[i];
+      auto& a = mp_[i];
       for (int j = y; j > 0; j -= lowbit(j)) {
         ans += a[j];
       }
@@ -155,7 +167,8 @@ struct Fenwick2V {
     return ans;
   }
   int sum(int x1, int y1, int x2, int y2) {
-    --x1; --y1;
+    --x1;
+    --y1;
     return sum(x2, y2) - sum(x2, y1) - sum(x1, y2) + sum(x1, y1);
   }
   int n_, m_;

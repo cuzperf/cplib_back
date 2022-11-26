@@ -4,14 +4,15 @@
 
 namespace cuzperf {
 
-template<typename valT>
+template <typename valT>
 class Matrix {
   static inline constexpr int N = 1003;
   int n_;
+
  public:
   valT a_[N][N];
   Matrix() {}
-  Matrix(int n, valT x = 0): n_(n) {
+  Matrix(int n, valT x = 0) : n_(n) {
     all(0);
     for (int i = 0; i < n_; ++i) {
       a_[i][i] = x;
@@ -32,9 +33,7 @@ class Matrix {
     }
     return (*this);
   }
-  Matrix operator+(const Matrix& rhs) const {
-    return Matrix(this) += rhs;
-  }
+  Matrix operator+(const Matrix& rhs) const { return Matrix(this) += rhs; }
   Matrix& operator-=(const Matrix& rhs) {
     for (int i = 0; i < n_; ++i) {
       for (int j = 0; j < n_; ++j) {
@@ -43,9 +42,7 @@ class Matrix {
     }
     return (*this);
   }
-  Matrix operator-(const Matrix& rhs) const {
-    return Matrix(this) -= rhs;
-  }
+  Matrix operator-(const Matrix& rhs) const { return Matrix(this) -= rhs; }
   Matrix operator*(const Matrix& rhs) const {
     Matrix R(n_);
     for (int i = 0; i < n_; ++i) {
@@ -57,9 +54,7 @@ class Matrix {
     }
     return R;
   }
-  Matrix operator*=(const Matrix& rhs) {
-    return (*this) = (*this) * rhs;
-  }
+  Matrix operator*=(const Matrix& rhs) { return (*this) = (*this) * rhs; }
   void print() {
     for (int i = 0; i < n_; ++i) {
       for (int j = 0; j < n_; ++j) {
@@ -71,8 +66,11 @@ class Matrix {
   friend Matrix pow(Matrix A, int n) {
     Matrix R(A.n_, valT(1));
     while (n) {
-      if (n&1) R = R * A;
-      n >>= 1; A = A * A;
+      if (n & 1) {
+        R = R * A;
+      }
+      n >>= 1;
+      A = A * A;
     }
     return R;
   }

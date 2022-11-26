@@ -1,7 +1,7 @@
 #include "base/builtin.h"
 
-#include <math.h>
 #include <limits.h>
+#include <math.h>
 
 #if defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
 #include <ammintrin.h>
@@ -24,7 +24,7 @@ int64_t mulModi(int64_t a, int64_t b, int64_t m) {
     a = -a;
   }
   int64_t r = 0;
-  for ( ; b; b >>= 1) {
+  for (; b; b >>= 1) {
     if (b & 1) {
       r = (r + a) % m;
     }
@@ -45,22 +45,30 @@ uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m) {
   return rem;
 #else
   assert(m <= UINT64_MAX / 2);
-  if (a < b) std::swap(a, b);
+  if (a < b) {
+    std::swap(a, b);
+  }
   uint64_t r = 0;
-  for ( ; b; b >>= 1) {
+  for (; b; b >>= 1) {
     if (b & 1) {
       r += a;
-      if (r >= m) r -= m;
+      if (r >= m) {
+        r -= m;
+      }
     }
     a *= 2;
-    if (a >= m) a -= m;
+    if (a >= m) {
+      a -= m;
+    }
   }
   return r;
 #endif
 }
 
 int IEE754_lg2_u32(unsigned x) {
-  if (x == 0) return 0;
+  if (x == 0) {
+    return 0;
+  }
   union {
     float f;
     unsigned i;
@@ -69,7 +77,9 @@ int IEE754_lg2_u32(unsigned x) {
 }
 
 int IEE754_lg2_u64(uint64_t x) {
-  if (x == 0) return 0;
+  if (x == 0) {
+    return 0;
+  }
   union {
     double f;
     uint64_t i;
@@ -87,7 +97,7 @@ int lg2_u32(unsigned x) {
 #endif
 }
 
-int lg2_u64(uint64_t x)  {
+int lg2_u64(uint64_t x) {
 #if defined(__GNUC__)
   return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz_u64(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))

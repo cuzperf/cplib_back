@@ -5,12 +5,13 @@
 
 namespace cuzperf {
 
-template<typename T>
+template <typename T>
 class PolyBaseOrigin : public PolyBase<T> {
  public:
   using PolyBase<T>::PolyBase;
-  PolyBaseOrigin (const PolyBase<T>& x) : PolyBase<T>(x) {}
-  PolyBaseOrigin (PolyBase<T>&& x) : PolyBase<T>(std::forward<PolyBase<T>>(x)) {}
+  PolyBaseOrigin(const PolyBase<T>& x) : PolyBase<T>(x) {}
+  PolyBaseOrigin(PolyBase<T>&& x) : PolyBase<T>(std::forward<PolyBase<T>>(x)) {}
+
  protected:
   PolyBaseOrigin mul(const PolyBaseOrigin& rhs) const {
     std::vector<T> ans(this->size() + rhs.size() - 1);

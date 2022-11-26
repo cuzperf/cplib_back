@@ -1,33 +1,36 @@
 #pragma once
 
 #include <chrono>
-#include <string>
-#include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
+#include <string>
 
 namespace cuzperf {
 
 class Timer final {
   std::chrono::high_resolution_clock::time_point start_;
   std::string name_;
+
  public:
   Timer(std::string name = {}) : start_(std::chrono::high_resolution_clock::now()), name_(name) {}
   ~Timer() {
     auto elapsedTime = std::chrono::high_resolution_clock::now() - start_;
-    std::cerr << std::setprecision(3) << std::fixed << "[Time used: " <<
-        name_ << "] " << elapsedTime.count() / 1'000'000.0 << "ms\n";
+    std::cerr << std::setprecision(3) << std::fixed << "[Time used: " << name_ << "] "
+              << elapsedTime.count() / 1'000'000.0 << "ms\n";
   }
 
   static uint64_t now_ms() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
-              std::chrono::system_clock::now().time_since_epoch()).count();
+               std::chrono::system_clock::now().time_since_epoch())
+        .count();
   }
 
   static uint64_t tick_ms() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
-              std::chrono::steady_clock::now().time_since_epoch()).count();
+               std::chrono::steady_clock::now().time_since_epoch())
+        .count();
   }
 
   static std::tm localTime(const std::time_t& time) {
@@ -36,7 +39,7 @@ class Timer final {
     ::localtime_s(&tm, &time);
 #else
     ::localtime_r(&time, &tm);
-  #endif
+#endif
     return tm;
   }
 
@@ -62,4 +65,4 @@ class Timer final {
   }
 };
 
-}  // namespace cupzerf
+}  // namespace cuzperf

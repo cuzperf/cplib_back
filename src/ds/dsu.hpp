@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <numeric>
+#include <vector>
 
 namespace cuzperf {
 
@@ -29,7 +29,9 @@ class DSU {
   }
   bool merge(int x, int y) {
     int px = find(x), py = find(y);
-    if (px == py) return false;
+    if (px == py) {
+      return false;
+    }
     // do something, small to big;
     return true;
   }

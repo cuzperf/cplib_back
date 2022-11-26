@@ -1,9 +1,8 @@
 #include "math/binom.hpp"
 
-#include "test/util.h"
-
 #include "math/mod.hpp"
 #include "math/numberTheory.h"
+#include "test/util.h"
 
 namespace cuzperf {
 

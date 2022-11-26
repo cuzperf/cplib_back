@@ -4,7 +4,7 @@
 
 namespace cuzperf {
 
-template<typename T>
+template <typename T>
 struct ListNode {
   T val;
   ListNode* next;
@@ -13,7 +13,7 @@ struct ListNode {
   ListNode(T&& v, ListNode* nxt = nullptr) : val(std::move(v)), next(nxt) {}
 };
 
-template<typename T>
+template <typename T>
 std::vector<T> List2Vector(ListNode<T>* root) {
   std::vector<T> a;
   while (root) {
@@ -23,7 +23,7 @@ std::vector<T> List2Vector(ListNode<T>* root) {
   return a;
 }
 
-template<typename T>
+template <typename T>
 ListNode<T>* Vector2List(const std::vector<T>& a) {
   ListNode<T>* root = nullptr;
   auto tail = root;
@@ -38,7 +38,7 @@ ListNode<T>* Vector2List(const std::vector<T>& a) {
   return root;
 }
 
-template<typename T>
+template <typename T>
 void clearList(ListNode<T>* root) {
   while (root) {
     auto nxt = root->next;

@@ -1,8 +1,9 @@
 #pragma once
 
+#include <time.h>
+
 #include <functional>
 #include <vector>
-#include <time.h>
 
 namespace cuzperf {
 
@@ -14,12 +15,18 @@ template <typename T>
 void quickSort(std::vector<T>& a) {
   srand(time(0));
   std::function<void(int, int)> qSort = [&](int l, int r) {
-    if (r - l <= 1) return;
+    if (r - l <= 1) {
+      return;
+    }
     auto x = a[rand() % (r - l) + l];
     int i = l, j = r - 1;
     while (i <= j) {
-      while (i <= j && a[i] < x) ++i;
-      while (j >= i && !(a[j] < x)) --j;
+      while (i <= j && a[i] < x) {
+        ++i;
+      }
+      while (j >= i && !(a[j] < x)) {
+        --j;
+      }
       if (i < j) {
         std::swap(a[i], a[j]);
         ++i;
@@ -31,8 +38,12 @@ void quickSort(std::vector<T>& a) {
     }
     j = r - 1;
     while (i <= j) {
-      while (i <= j && !(x < a[i])) ++i;
-      while (j >= i && x < a[i]) --j;
+      while (i <= j && !(x < a[i])) {
+        ++i;
+      }
+      while (j >= i && x < a[i]) {
+        --j;
+      }
       if (i < j) {
         std::swap(a[i], a[j]);
         ++i;
@@ -52,7 +63,9 @@ template <typename T>
 void quickSortStable(std::vector<T>& a) {
   srand(time(0));
   std::function<void(int, int)> qSort = [&](int l, int r) {
-    if (r - l <= 1) return;
+    if (r - l <= 1) {
+      return;
+    }
     auto x = a[rand() % (r - l) + l];
     int ml = l;
     std::vector<T> b;

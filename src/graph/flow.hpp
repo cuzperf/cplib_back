@@ -1,10 +1,10 @@
 #pragma once
 
-#include <vector>
-#include <utility>
-#include <queue>
 #include <algorithm>
 #include <limits>
+#include <queue>
+#include <utility>
+#include <vector>
 
 namespace cuzperf {
 
@@ -35,9 +35,11 @@ class Dinic {
     return h_[t] != -1;
   }
   int64_t dfs(int u, int t, int64_t f) {
-    if (u == t || f == 0) return f;
+    if (u == t || f == 0) {
+      return f;
+    }
     int64_t r = f;
-    for (int& i = cur_[u], ng = g_[u].size(); i < ng; ++i) {
+    for (int &i = cur_[u], ng = g_[u].size(); i < ng; ++i) {
       int j = g_[u][i];
       auto [v, c] = e[j];
       if (c > 0 && h_[v] == h_[u] + 1) {
@@ -45,15 +47,20 @@ class Dinic {
         e[j].second -= a;
         e[j ^ 1].second += a;
         r -= a;
-        if (r == 0) return f;
+        if (r == 0) {
+          return f;
+        }
       }
     }
     return f - r;
   }
+
  public:
   Dinic(int n) : n_(n), g_(n) {}
   void addEdge(int u, int v, int c) {
-    if (u == v) return;
+    if (u == v) {
+      return;
+    }
     g_[u].emplace_back(e.size());
     e.emplace_back(v, c);
     g_[v].emplace_back(e.size());
@@ -102,33 +109,46 @@ class HLPP {
     }
     return h_[s] == n_;
   }
+
  public:
   HLPP(int n) : n_(n), g_(n), h_(n, n), ex_(n) {}
   void addEdge(int u, int v, int c) {
-    if (u == v) return;
+    if (u == v) {
+      return;
+    }
     g_[u].emplace_back(e.size());
     e.emplace_back(v, c);
     g_[v].emplace_back(e.size());
     e.emplace_back(u, 0);
   }
   int64_t maxFlow(int s, int t) {
-    if (init(s, t)) return 0;
+    if (init(s, t)) {
+      return 0;
+    }
     std::vector<int> gap(n_ + 1, 0), vis(n_);
-    for (auto x : h_) ++gap[x];
+    for (auto x : h_) {
+      ++gap[x];
+    }
     std::priority_queue<std::pair<int, int>> pq;
     // overload if ex_[u] > 0 after push, so lift height is needed.
     auto push = [&](int u) -> bool {
-      if (ex_[u] == 0 || h_[u] == n_) return false;
+      if (ex_[u] == 0 || h_[u] == n_) {
+        return false;
+      }
       for (auto i : g_[u]) {
         auto [v, c] = e[i];
-        if (c == 0 || (h_[u] != h_[v] + 1 && u != s)) continue;
+        if (c == 0 || (h_[u] != h_[v] + 1 && u != s)) {
+          continue;
+        }
         int a = std::min(ex_[u], int64_t(c));
         addFlow(i, a);
         if (!vis[v]) {
           pq.push({h_[v], v});
           vis[v] = 1;
         }
-        if (ex_[u] == 0) return false;
+        if (ex_[u] == 0) {
+          return false;
+        }
       }
       return true;
     };
@@ -142,12 +162,18 @@ class HLPP {
       vis[u] = 0;
       while (push(u)) {
         if (--gap[h_[u]] == 0) {
-          for (int i = 0; i < n_; ++i) if (h_[i] > h_[u]) h_[i] = n_;
+          for (int i = 0; i < n_; ++i) {
+            if (h_[i] > h_[u]) {
+              h_[i] = n_;
+            }
+          }
         }
         h_[u] = n_ - 1;
         for (auto i : g_[u]) {
           auto [v, c] = e[i];
-          if (c > 0 && h_[u] > h_[v]) h_[u] = h_[v];
+          if (c > 0 && h_[u] > h_[v]) {
+            h_[u] = h_[v];
+          }
         }
         ++gap[++h_[u]];
       }
@@ -168,10 +194,13 @@ class StoerWagner {
       g_[i][t] = (g_[t][i] += g_[s][i]);
     }
   }
+
  public:
   StoerWagner(int n) : n_(n), g_(n, std::vector<int>(n)), del(n) {}
   void addEdge(int u, int v, int c) {
-    if (u == v) return;
+    if (u == v) {
+      return;
+    }
     g_[u][v] += c;
     g_[v][u] += c;
   }
@@ -179,10 +208,14 @@ class StoerWagner {
   int minCut() {
     auto f = [&](int cnt, int& s, int& t) -> int {
       std::vector<int> vis(n_), d(n_);
-      auto push = [&](int x){
+      auto push = [&](int x) {
         vis[x] = 1;
         d[x] = 0;
-        for (int i = 0; i < n_; ++i) if (!del[i] && !vis[i]) d[i] += g_[x][i];
+        for (int i = 0; i < n_; ++i) {
+          if (!del[i] && !vis[i]) {
+            d[i] += g_[x][i];
+          }
+        }
       };
       for (int i = 0; i < cnt; ++i) {
         push(t);
@@ -212,8 +245,8 @@ class Flow {
   std::vector<std::vector<int>> g_;
   std::vector<int> path_;
   std::vector<int64_t> h_;
-  // h_[i] = dist(s, i), h_[t] != -1 means there is a path_ from s to t, and h_[t] will be the potential.
-  // path_[v]: short path_ form s to v, path_[v] is the previous node of v
+  // h_[i] = dist(s, i), h_[t] != -1 means there is a path_ from s to t, and h_[t] will be the
+  // potential. path_[v]: short path_ form s to v, path_[v] is the previous node of v
   bool Dijkstra(int s, int t) {
     std::priority_queue<std::pair<int64_t, int>> Q;
     std::fill(path_.begin(), path_.end(), -1);
@@ -223,7 +256,9 @@ class Flow {
     while (!Q.empty()) {
       auto [du, u] = Q.top();
       Q.pop();
-      if (d[u] != -du) continue;
+      if (d[u] != -du) {
+        continue;
+      }
       for (auto i : g_[u]) {
         auto [v, w, c] = e_[i];
         c += h_[u] - h_[v];
@@ -235,14 +270,19 @@ class Flow {
       }
     }
     for (int i = 0; i < n_; ++i) {
-      if ((h_[i] += d[i]) > INF) h_[i] = INF;
+      if ((h_[i] += d[i]) > INF) {
+        h_[i] = INF;
+      }
     }
     return h_[t] != INF;
   }
+
  public:
   Flow(int n) : n_(n), g_(n), path_(n), h_(n) {}
   void addEdge(int u, int v, int w, int c) {
-    if (u == v) return;
+    if (u == v) {
+      return;
+    }
     g_[u].emplace_back(e_.size());
     e_.emplace_back(v, w, c);
     g_[v].emplace_back(e_.size());

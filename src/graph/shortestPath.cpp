@@ -1,9 +1,9 @@
 #include "graph/shortestPath.h"
 
 #include <stdint.h>
+#include <string.h>
 
 #include <queue>
-#include <string.h>
 
 namespace cuzperf {
 
@@ -12,15 +12,21 @@ constexpr int N = 1003;
 int64_t dp[N][N], path[N][N];
 void Floyd(int n) {
   memset(path, -1, sizeof(path));
-  for(int k = 0; k != n; ++k)
-    for(int i = 0; i != n; ++i)
-      for(int j = 0; j != n; ++j) if (dp[i][j] > dp[i][k] + dp[k][j]) {
-        path[i][j] = k;
+  for (int k = 0; k != n; ++k) {
+    for (int i = 0; i != n; ++i) {
+      for (int j = 0; j != n; ++j) {
+        if (dp[i][j] > dp[i][k] + dp[k][j]) {
+          path[i][j] = k;
+        }
       }
+    }
+  }
 }
 std::vector<int> getPath(int x, int y) {
   if (path[x][y] == -1) {
-    if (x == y) return std::vector<int>{x};
+    if (x == y) {
+      return std::vector<int>{x};
+    }
     return std::vector<int>{x, y};
   }
   auto left = getPath(x, path[x][y]);
