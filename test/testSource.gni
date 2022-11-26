@@ -23,6 +23,7 @@ math_test_sources += [
   "//test/unit_test/math/poly_test.cpp",
   "//test/unit_test/math/mix_test.cpp",
   "//test/unit_test/math/binom_test.cpp",
+  "//test/unit_test/math/fft_test.cpp"
 ]
 
 string_test_sources += [
