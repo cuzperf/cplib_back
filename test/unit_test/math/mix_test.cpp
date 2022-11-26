@@ -18,8 +18,8 @@ TEST(MathTest, xorSubsetSum) {
     EXPECT_EQ(xorSubsetSum(a, 123), 6);
   }
   {
-    std::vector<int> a{1, 3, 5};
-    EXPECT_EQ(xorSubsetSum(a, 123), 6);
+    std::vector<int> a{1, 3, 9};
+    EXPECT_EQ(xorSubsetSum(a, 123), 44);
   }
 }
 

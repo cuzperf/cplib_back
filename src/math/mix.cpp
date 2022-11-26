@@ -2,6 +2,8 @@
 
 #include "math/basic.h"
 
+#include <assert.h>
+
 namespace cuzperf {
 
 int xorSubsetSum(std::vector<int> a, int mod) {
