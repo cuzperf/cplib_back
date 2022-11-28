@@ -16,14 +16,17 @@ config("gtest_config") {
   cflags = []
   if (is_win) {
     cflags += [ "/wd4800" ]  # Unused variable warning.
-    cflags += [ "-Wno-nonportable-system-include-path" ]
-    cflags += [ "-Wno-covered-switch-default" ]
-    cflags += [ "-Wno-missing-noreturn" ]
-    cflags += [ "-Wno-used-but-marked-unused" ]
-    cflags += [ "-Wno-switch-enum" ]
-    cflags += [ "-Wlanguage-extension-token" ]
-    cflags += [ "-Wno-suggest-destructor-override" ]
-    cflags += [ "-Wno-unused-member-function" ]
+
+    cflags += [
+      "-Wno-nonportable-system-include-path",
+      "-Wno-covered-switch-default",
+      "-Wno-missing-noreturn",
+      "-Wno-used-but-marked-unused",
+      "-Wno-switch-enum",
+      "-Wlanguage-extension-token",
+      "-Wno-suggest-destructor-override",
+      "-Wno-unused-member-function",
+    ]
   }
   cflags += [
     "-Wno-suggest-override",
