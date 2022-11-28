@@ -1,5 +1,7 @@
 // g++ blocks_trans_test.cpp -std=c++17 -O2 -I../.. && ./a.out
 
+// L1 cache test, result deponeds on Machine
+
 #include <bits/stdc++.h>
 
 #include "src/timer.hpp"
