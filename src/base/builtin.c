@@ -4,8 +4,6 @@
 #include <math.h>
 
 #if defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-#include <ammintrin.h>
-#include <immintrin.h>
 #include <intrin.h>
 #endif
 
@@ -92,9 +90,9 @@ int IEE754_lg2_u64(uint64_t x) {
 
 int lg2_u32(unsigned x) {
 #if defined(__GNUC__)
-  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz_u64(x);
+  return sizeof(uint64_t) * CHAR_BIT - 1 - clz_u64(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return sizeof(unsigned) * __CHAR_BIT__ - 1 - clz_u32(x);
+  return sizeof(unsigned) * CHAR_BIT - 1 - clz_u32(x);
 #else
   return IEE754_lg2_u32(x);
 #endif
@@ -102,9 +100,9 @@ int lg2_u32(unsigned x) {
 
 int lg2_u64(uint64_t x) {
 #if defined(__GNUC__)
-  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz_u64(x);
+  return sizeof(uint64_t) * CHAR_BIT - 1 - clz_u64(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return sizeof(uint64_t) * __CHAR_BIT__ - 1 - clz_u64(x);
+  return sizeof(uint64_t) * CHAR_BIT - 1 - clz_u64(x);
 #else
   return IEE754_lg2_u64(x);
 #endif
@@ -116,7 +114,7 @@ int clz_u32(unsigned x) {
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _lzcnt_u32(x);
 #else
-  return sizeof(unsigned) * __CHAR_BIT__ - 1 - lg2_u32(x);
+  return sizeof(unsigned) * CHAR_BIT - 1 - lg2_u32(x);
 #endif
 }
 
@@ -126,7 +124,7 @@ int clz_u64(uint64_t x) {
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return _lzcnt_u64(x);
 #else
-  return return sizeof(uint64_t) * __CHAR_BIT__ - 1 - lg2_u64(x);
+  return return sizeof(uint64_t) * CHAR_BIT - 1 - lg2_u64(x);
 #endif
 }
 

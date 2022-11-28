@@ -34,7 +34,7 @@ cp_static_library("gtest") {
     # and other systems, we tell gtest to always use it's internal engine.
     "GTEST_HAS_POSIX_RE=0",
     "GTEST_LANG_CXX11=1",
-    # "GTEST_HAS_SEH=0"
+    "GTEST_HAS_SEH=0"
   ]
     include_dirs = [
     "googletest",

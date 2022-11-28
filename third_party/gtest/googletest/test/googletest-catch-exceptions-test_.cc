@@ -38,7 +38,7 @@
 #include "gtest/gtest.h"
 
 #if GTEST_HAS_SEH
-# include <windows.h>
+# include <Windows.h>
 #endif
 
 #if GTEST_HAS_EXCEPTIONS

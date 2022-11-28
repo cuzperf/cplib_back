@@ -27,18 +27,13 @@ config("cp_config") {
     "-Wno-exit-time-destructors",
     "-Wno-ctad-maybe-unsupported",
     "-Wno-implicit-function-declaration",
+    "-Wno-deprecated-declarations",
     # "-ftrapv",
   ]
   include_dirs = [
     ".",
     "src",
   ]
-  if (is_win) {
-    defines = [
-      "WIN32_LEAN_AND_MEAN",
-      "_CRT_SECURE_NO_WARNINGS",
-    ]
-  }
 }
 
 config("cp_test_config") {

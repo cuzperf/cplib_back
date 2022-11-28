@@ -40,7 +40,7 @@
 #include "src/gtest-internal-inl.h"
 
 #if GTEST_OS_WINDOWS_MOBILE
-# include <windows.h>  // NOLINT
+# include <Windows.h>  // NOLINT
 #elif GTEST_OS_WINDOWS
 # include <direct.h>  // NOLINT
 #endif  // GTEST_OS_WINDOWS_MOBILE

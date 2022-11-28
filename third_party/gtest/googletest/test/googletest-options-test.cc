@@ -39,7 +39,7 @@
 #include "gtest/gtest.h"
 
 #if GTEST_OS_WINDOWS_MOBILE
-# include <windows.h>
+# include <Windows.h>
 #elif GTEST_OS_WINDOWS
 # include <direct.h>
 #elif GTEST_OS_OS2

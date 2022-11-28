@@ -348,7 +348,7 @@
 #  include <direct.h>
 #  include <io.h>
 # endif
-// In order to avoid having to include <windows.h>, use forward declaration
+// In order to avoid having to include <Windows.h>, use forward declaration
 #if GTEST_OS_WINDOWS_MINGW && !defined(__MINGW64_VERSION_MAJOR)
 // MinGW defined _CRITICAL_SECTION and _RTL_CRITICAL_SECTION as two
 // separate (equivalent) structs, instead of using typedef
@@ -1232,7 +1232,7 @@ GTEST_API_ void SleepMilliseconds(int n);
 class GTEST_API_ AutoHandle {
  public:
   // Assume that Win32 HANDLE type is equivalent to void*. Doing so allows us to
-  // avoid including <windows.h> in this header file. Including <windows.h> is
+  // avoid including <Windows.h> in this header file. Including <Windows.h> is
   // undesirable because it defines a lot of symbols and macros that tend to
   // conflict with client code. This assumption is verified by
   // WindowsTypesTest.HANDLEIsVoidStar.

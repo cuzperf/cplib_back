@@ -36,7 +36,7 @@
 #if GTEST_HAS_DEATH_TEST
 
 # if GTEST_HAS_SEH
-#  include <windows.h>          // For RaiseException().
+#  include <Windows.h>          // For RaiseException().
 # endif
 
 # include "gtest/gtest-spi.h"
