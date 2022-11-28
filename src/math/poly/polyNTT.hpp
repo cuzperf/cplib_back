@@ -11,8 +11,8 @@ template <int N>
 class PolyBaseNTT : public PolyBase<MInt<N>> {
  protected:
   PolyBaseNTT mul(const PolyBaseNTT& rhs) const {
-    int n = staic_cast<int>(this->size()),
-    int m = staic_cast<int>(rhs.size());
+    int n = static_cast<int>(this->size());
+    int m = static_cast<int>(rhs.size());
     int tot = std::max(1, n + m - 1);
     int sz = 1 << lg2_u32(tot * 2 - 1);
     std::vector<MInt<N>> A = *this, B = rhs;
