@@ -66,8 +66,8 @@ auto FMTxor = [](std::vector<int>& a, bool isRev) {
     }
   }
 };
-auto fun = [](std::function<void(std::vector<int>&, bool)> f, std::vector<int> a,
-              std::vector<int> b) {
+auto fun = [](std::function<void(std::vector<int>&, bool)> f
+              , std::vector<int> a, std::vector<int> b) {
   int n = extend(std::max(a.size(), b.size()));
   a.resize(1 << n);
   b.resize(1 << n);
@@ -82,8 +82,11 @@ auto fun = [](std::function<void(std::vector<int>&, bool)> f, std::vector<int> a
 };
 
 std::vector<int> And(std::vector<int> a, std::vector<int> b) { return fun(FMTand, a, b); }
+
 std::vector<int> Or(std::vector<int> a, std::vector<int> b) { return fun(FMTor, a, b); }
+
 std::vector<int> Xor(std::vector<int> a, std::vector<int> b) { return fun(FMTxor, a, b); }
+
 std::vector<int> OrAnd(std::vector<int> a, std::vector<int> b) {
   int n = extend(std::max(a.size(), b.size()));
   a.resize(1 << n);
@@ -115,6 +118,5 @@ std::vector<int> OrAnd(std::vector<int> a, std::vector<int> b) {
   return c;
 };
 }  // namespace FMT
-// https://www.luogu.com.cn/problem/P6097
 
 }  // namespace cuzperf

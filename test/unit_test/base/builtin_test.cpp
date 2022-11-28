@@ -46,6 +46,28 @@ TEST(BaseTest, lg2) {
     EXPECT_EQ(IEE754_lg2_u64(M), lgM);
     EXPECT_EQ(lg2_u64(M), lgM);
   }
+  {
+    unsigned M = (1 << 25) - 1;
+    int lgM = 24;
+
+    EXPECT_NE(M, unsigned(float(M)));
+
+    EXPECT_EQ(IEE754_lg2_u32(M), lgM);
+    EXPECT_EQ(lg2_u32(M), lgM);
+
+    EXPECT_EQ(IEE754_lg2_u64(M), lgM);
+    EXPECT_EQ(lg2_u64(M), lgM);
+  }
+  {
+    uint64_t M = (1ll << 55) - 1;
+    int lgM = 54;
+
+    EXPECT_NE(M, uint64_t(double(M)));
+
+    EXPECT_EQ((int)std::__lg(M), lgM);
+    EXPECT_EQ(IEE754_lg2_u64(M), lgM);
+    EXPECT_EQ(lg2_u64(M), lgM);
+  }
 }
 
 TEST(BaseTest, clz) {
