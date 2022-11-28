@@ -7,7 +7,7 @@
 namespace cuzperf {
 
 TEST(ThreadTest, threadSafeQueue) {
-  ThreadSafeQueue<int> A(30);
+  ThreadSafeQueue<int> A;
   std::vector<std::thread> threads;
   threads.reserve(8);
   threads.emplace_back(std::thread([&] {
@@ -29,25 +29,29 @@ TEST(ThreadTest, threadSafeQueue) {
 
   threads.emplace_back(std::thread([&] {
     std::this_thread::sleep_for(15ms);
-    auto x = A.pop();
+    int x = -1;
+    bool success = A.pop(x);
+    EXPECT_TRUE(success);
     EXPECT_EQ(x, 1);
   }));
   threads.emplace_back(std::thread([&] {
     std::this_thread::sleep_for(20ms);
-    auto x = A.pop();
+    int x = -1;
+    bool success = A.pop(x);
+    EXPECT_TRUE(success);
     EXPECT_EQ(x, 2);
   }));
   threads.emplace_back(std::thread([&] {
     std::this_thread::sleep_for(35ms);
     int x = -1;
-    bool success = A.pop(x);
+    bool success = A.pop(x, 20);
     EXPECT_TRUE(success);
     EXPECT_EQ(x, 3);
   }));
   threads.emplace_back(std::thread([&] {
     std::this_thread::sleep_for(40ms);
     int x = -1;
-    bool success = A.pop(x);
+    bool success = A.pop(x, 30);
     EXPECT_FALSE(success);
   }));
 

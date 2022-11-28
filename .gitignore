@@ -8,3 +8,4 @@ site/
 compile_commands.json
 project.code-workspace
 tmp*.cpp
+*.out
