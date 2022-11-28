@@ -22,10 +22,11 @@ int lg2_u32(unsigned x);
 int lg2_u64(uint64_t x);
 // http://graphics.stanford.edu/~seander/bithacks.html
 
+// return count the leading zeros of x, note that for x = 0, it is undefined
 int clz_u32(unsigned x);
 int clz_u64(uint64_t x);
 
-// slow than __builtin_ctz and __builtin_ctzll but funny, you may use -Wno-narrowing when complier
+// return count the trailing zeros of x, note that for x = 0, it is undefined
 int ctz_u32(unsigned x);
 int ctz_u64(uint64_t x);
 // https://xr1s.me/2018/08/23/gcc-builtin-implementation/
