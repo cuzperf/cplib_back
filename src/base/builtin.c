@@ -2,6 +2,7 @@
 
 #include <limits.h>
 #include <math.h>
+#include <assert.h>
 
 #if defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
 #include <intrin.h>
@@ -10,7 +11,7 @@
 int64_t mulModi(int64_t a, int64_t b, int64_t m) {
 #if defined(__GNUC__)
   return (__int128)a * b % m;
-#elif defined(_MSC_VER) && defined(_M_X64)
+#elif !defined(IS_WIN_CLANG) && defined(_MSC_VER) && defined(_M_X64)
   int64_t high;
   const int64_t low = _mul128(a, b, &high);
   int64_t rem;
@@ -36,7 +37,7 @@ int64_t mulModi(int64_t a, int64_t b, int64_t m) {
 uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m) {
 #if defined(__GNUC__)
   return (unsigned __int128)a * b % m;
-#elif defined(_MSC_VER) && defined(_M_X64)
+#elif !defined(IS_WIN_CLANG) && defined(_MSC_VER) && defined(_M_X64)
   uint64_t high;
   const uint64_t low = _umul128(a, b, &high);
   uint64_t rem;
@@ -45,20 +46,16 @@ uint64_t mulModu(uint64_t a, uint64_t b, uint64_t m) {
 #else
   assert(m <= UINT64_MAX / 2);
   if (a < b) {
-    std::swap(a, b);
+    a = a ^ b;
+    b = a ^ b;
+    a = a ^ b;
   }
   uint64_t r = 0;
   for (; b; b >>= 1) {
     if (b & 1) {
-      r += a;
-      if (r >= m) {
-        r -= m;
-      }
+      r = (r + a) % m;
     }
-    a *= 2;
-    if (a >= m) {
-      a -= m;
-    }
+    a = (a + a) % m;
   }
   return r;
 #endif
@@ -112,7 +109,7 @@ int clz_u32(unsigned x) {
 #if defined(__GNUC__)
   return __builtin_clz(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return _lzcnt_u32(x);
+  return __lzcnt(x);  // _lzcnt_u32 will cause link error
 #else
   return sizeof(unsigned) * CHAR_BIT - 1 - lg2_u32(x);
 #endif
@@ -122,7 +119,7 @@ int clz_u64(uint64_t x) {
 #if defined(__GNUC__)
   return __builtin_clzll(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return _lzcnt_u64(x);
+  return __lzcnt64(x);  // _lzcnt_u64 will cause link error
 #else
   return return sizeof(uint64_t) * CHAR_BIT - 1 - lg2_u64(x);
 #endif

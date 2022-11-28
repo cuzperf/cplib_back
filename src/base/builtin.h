@@ -17,7 +17,7 @@ int IEE754_lg2_u32(unsigned x);
 // base on IEE754 for double: 1 + 11 + 52
 int IEE754_lg2_u64(uint64_t x);
 
-// return log2(x)
+// return log2(x), note that for x = 0, it is undefined
 int lg2_u32(unsigned x);
 int lg2_u64(uint64_t x);
 // http://graphics.stanford.edu/~seander/bithacks.html

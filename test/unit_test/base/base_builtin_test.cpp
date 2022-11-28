@@ -23,7 +23,7 @@ TEST(BaseTest, mulMod) {
 
 TEST(BaseTest, lg2) {
   std::vector<int> a{0, 0, 1, 1, 2, 2, 2, 2, 3, 3};
-  for (int i = 0, n = a.size(); i < n; ++i) {
+  for (int i = 1, n = a.size(); i < n; ++i) {
     EXPECT_EQ(IEE754_lg2_u32(i), a[i]);
     EXPECT_EQ(lg2_u32(i), a[i]);
 
@@ -71,7 +71,7 @@ TEST(BaseTest, lg2) {
 
 TEST(BaseTest, clz) {
   std::vector<int> a{31, 31, 30, 30, 29, 29, 29, 29, 28, 28};
-  for (int i = 0, n = a.size(); i < n; ++i) {
+  for (int i = 1, n = a.size(); i < n; ++i) {
     EXPECT_EQ(clz_u32(i), a[i]);
     EXPECT_EQ(clz_u64(i), 32 + a[i]);
   }

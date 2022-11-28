@@ -6,6 +6,9 @@ cp_static_library("cp_base") {
     "base/builtin.h",
     "base/base.h",
   ]
+  if (is_win && is_clang) {
+    defines = [ "IS_WIN_CLANG" ]
+  }
 }
 
 cp_static_library("cp_math") {
