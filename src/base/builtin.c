@@ -74,7 +74,7 @@ int IEE754_lg2_u32(unsigned x) {
     unsigned i;
   } v = {.f = x};
   int ans = (v.i >> 23) - 127U;
-  return (1 << ans) > x ? ans - 1 : ans;
+  return (x >> ans) ? ans : ans - 1;
 }
 
 int IEE754_lg2_u64(uint64_t x) {
@@ -86,7 +86,7 @@ int IEE754_lg2_u64(uint64_t x) {
     uint64_t i;
   } v = {.f = x};
   int ans = (v.i >> 52) - 1023ULL;
-  return ((uint64_t)1 << ans) > x ? ans - 1 : ans;
+  return (x >> ans) ? ans : ans - 1;
 }
 
 int lg2_u32(unsigned x) {
