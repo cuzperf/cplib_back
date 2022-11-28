@@ -5,6 +5,8 @@
 #include <functional>
 #include <vector>
 
+#include "base/builtin.h"
+
 namespace cuzperf {
 
 template <class T>

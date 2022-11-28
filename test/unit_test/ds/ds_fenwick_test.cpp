@@ -1,4 +1,4 @@
-#include "ds/ds.h"
+#include "ds/fenwick.hpp"
 
 #include "test/util.h"
 

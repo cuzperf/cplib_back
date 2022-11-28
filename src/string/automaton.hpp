@@ -79,6 +79,5 @@ class Automaton {
     return r;
   }
 };
-// https://www.luogu.com.cn/problem/P3808
 
 }  // namespace cuzperf

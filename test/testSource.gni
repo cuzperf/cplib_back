@@ -6,30 +6,56 @@ string_test_sources = []
 thread_test_sources = []
 
 base_test_sources += [
-  "//test/unit_test/base/builtin_test.cpp",
+  "test/unit_test/base/base_builtin_test.cpp",
 ]
 
 ds_test_sources += [
-  "//test/unit_test/ds/ds_test.cpp",
-  "//test/unit_test/ds/listVector_test.cpp",
+  "test/unit_test/ds/ds_basic_test.cpp",
+  "test/unit_test/ds/ds_block_test.cpp",
+  "test/unit_test/ds/ds_cdqConquer_test.cpp",
+  "test/unit_test/ds/ds_fenwick_test.cpp",
+  "test/unit_test/ds/ds_listVector_test.cpp",
+  "test/unit_test/ds/ds_mix_test.cpp",
+  "test/unit_test/ds/ds_segmentTree_test.cpp",
 ]
 
 graph_test_sources += [
-  "//test/unit_test/graph/graph_test.cpp",
+  "test/unit_test/graph/graph_circleCount_test.cpp",
+  "test/unit_test/graph/graph_cut_test.cpp",
+  "test/unit_test/graph/graph_flow_test.cpp",
+  "test/unit_test/graph/graph_kosaraju_test.cpp",
+  "test/unit_test/graph/graph_lca_test.cpp",
+  "test/unit_test/graph/graph_miniSpanTree_test.cpp",
+  "test/unit_test/graph/graph_shortestPath_test.cpp",
+  "test/unit_test/graph/graph_tour_test.cpp",
 ]
 
 math_test_sources += [
-  "//test/unit_test/math/basic_test.cpp",
-  "//test/unit_test/math/poly_test.cpp",
-  "//test/unit_test/math/mix_test.cpp",
-  "//test/unit_test/math/binom_test.cpp",
-  "//test/unit_test/math/fft_test.cpp"
+  "test/unit_test/math/math_basic_test.cpp",
+  "test/unit_test/math/math_bigInt_test.cpp",
+  "test/unit_test/math/math_binom_test.cpp",
+  "test/unit_test/math/math_fft_test.cpp",
+  "test/unit_test/math/math_fmt_test.cpp",
+  "test/unit_test/math/math_geometry_test.cpp",
+  "test/unit_test/math/math_matrix_test.cpp",
+  "test/unit_test/math/math_mes_test.cpp",
+  "test/unit_test/math/math_mix_test.cpp",
+  "test/unit_test/math/math_mod_test.cpp",
+  "test/unit_test/math/math_ntt_test.cpp",
+  "test/unit_test/math/math_numberTheory_test.cpp",
+  "test/unit_test/math/math_poly_test.cpp",
 ]
 
 string_test_sources += [
-  "//test/unit_test/string/string_test.cpp",
+  "test/unit_test/string/string_automaton_test.cpp",
+  "test/unit_test/string/string_duval_test.cpp",
+  "test/unit_test/string/string_kmp_test.cpp",
+  "test/unit_test/string/string_manacher_test.cpp",
+  "test/unit_test/string/string_miniPresent_test.cpp",
+  "test/unit_test/string/string_suffixArray_test.cpp",
+  "test/unit_test/string/string_trie_test.cpp",
 ]
 
 thread_test_sources += [
-  "//test/unit_test/thread/threadSafeQueue_test.cpp",
+  "test/unit_test/thread/thread_threadSafeQueue_test.cpp",
 ]

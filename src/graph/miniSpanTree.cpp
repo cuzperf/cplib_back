@@ -6,7 +6,6 @@
 
 namespace cuzperf {
 
-// Minimum Spanning Tree
 int64_t Prim(const std::vector<edge>& e) {
   int64_t r = 0;
   int n = (int)e.size(), cnt = 0;
@@ -31,8 +30,7 @@ int64_t Prim(const std::vector<edge>& e) {
   return cnt == n ? r : std::numeric_limits<int64_t>::min();
 }
 
-// LiuZhu: Minimum tree diagram
-int64_t LiuZhu(std::vector<Edge> e, int n, int rt) {  // e has no self-loop
+int64_t LiuZhu(std::vector<Edge> e, int n, int rt) {
   int64_t ans = 0;
   while (1) {
     std::vector<int> in(n, std::numeric_limits<int>::max()), pre(n, -1);

@@ -24,30 +24,6 @@ config("cp_test_config") {
   ]
 }
 
-cp_test("unit_test") {
-  sources = [ "test/gtest_main.cpp" ]
-  sources += base_test_sources
-  sources += ds_test_sources
-  sources += graph_test_sources
-  sources += math_test_sources
-  sources += string_test_sources
-  sources += thread_test_sources
-
-  deps = [
-    "src:cp",
-  ]
-}
-
-cp_test("smoke_test") {
-  sources = [
-    "test/smoke_test/cf.cpp",
-    "test/smoke_test/luogu.cpp",
-    "test/gtest_main.cpp",
-  ]
-  deps = [
-    "src:cp",
-  ]
-}
 
 cp_test("cp_base_test") {
   sources = [ "test/gtest_main.cpp" ]
@@ -86,5 +62,38 @@ cp_test("cp_string_test") {
   sources += string_test_sources
   deps = [
     "src:cp_string"
+  ]
+}
+
+cp_test("cp_thread_test") {
+  sources = [ "test/gtest_main.cpp" ]
+  sources += thread_test_sources
+  deps = [
+    "src:cp_thread"
+  ]
+}
+
+cp_test("unit_test") {
+  sources = [ "test/gtest_main.cpp" ]
+  sources += base_test_sources
+  sources += ds_test_sources
+  sources += graph_test_sources
+  sources += math_test_sources
+  sources += string_test_sources
+  sources += thread_test_sources
+
+  deps = [
+    "src:cp",
+  ]
+}
+
+cp_test("smoke_test") {
+  sources = [
+    "test/smoke_test/cf.cpp",
+    "test/smoke_test/luogu.cpp",
+    "test/gtest_main.cpp",
+  ]
+  deps = [
+    "src:cp",
   ]
 }
