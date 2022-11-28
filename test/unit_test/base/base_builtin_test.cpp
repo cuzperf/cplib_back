@@ -64,7 +64,6 @@ TEST(BaseTest, lg2) {
 
     EXPECT_NE(M, uint64_t(double(M)));
 
-    EXPECT_EQ((int)std::__lg(M), lgM);
     EXPECT_EQ(IEE754_lg2_u64(M), lgM);
     EXPECT_EQ(lg2_u64(M), lgM);
   }
@@ -161,7 +160,7 @@ TEST(BaseTest, parity) {
   g64(parityMIT_u64);
 }
 
-static constexpr float eps = 6.7e-5;
+static constexpr float eps = 6.7e-5f;
 
 TEST(BsFastTest, acosFast) {
   std::uniform_real_distribution<float> u(-1, 1);

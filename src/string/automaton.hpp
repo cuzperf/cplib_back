@@ -3,6 +3,7 @@
 #include <array>
 #include <queue>
 #include <vector>
+#include <string>
 
 namespace cuzperf {
 

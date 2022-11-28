@@ -3,7 +3,7 @@
 namespace cuzperf {
 
 std::vector<int> prefixFunction(std::string s) {
-  int n = (int)s.size();
+  int n = static_cast<int>(s.size());
   std::vector<int> p(n);
   for (int i = 1; i < n; ++i) {
     int j = p[i - 1];
@@ -20,7 +20,7 @@ std::vector<int> prefixFunction(std::string s) {
 
 std::vector<int> kmp(std::string s, std::string t) {
   std::vector<int> ans;
-  int n = (int)s.size(), m = (int)t.size();
+  int n = static_cast<int>(s.size()), m = static_cast<int>(t.size());
   if (n > m) {
     return ans;
   }
@@ -38,7 +38,7 @@ std::vector<int> kmp(std::string s, std::string t) {
 
 std::vector<int> countPrefix(std::string s) {
   auto p = prefixFunction(s);
-  int n = (int)s.size();
+  int n = static_cast<int>(s.size());
   std::vector<int> ans(n + 1);
   for (auto x : p) {
     ++ans[x];
@@ -54,7 +54,7 @@ std::vector<int> countPrefix(std::string s) {
 
 std::vector<int> countPrefix(std::string s, std::string t) {
   auto p = prefixFunction(s);
-  int n = (int)s.size(), m = (int)t.size();
+  int n = static_cast<int>(s.size()), m = static_cast<int>(t.size());
   std::vector<int> ans(n + 1);
   for (int i = 0, j = 0; i < m; ++i) {
     while (j > 0 && t[i] != s[j]) {
@@ -73,7 +73,7 @@ std::vector<int> countPrefix(std::string s, std::string t) {
 }
 
 std::vector<int> zFunction(std::string s) {
-  int n = (int)s.size();
+  int n = static_cast<int>(s.size());
   std::vector<int> z(n);
   for (int i = 1, l = 0, r = 0; i < n; ++i) {
     if (i <= r && z[i - l] < r - i + 1) {
@@ -95,7 +95,7 @@ std::vector<int> zFunction(std::string s) {
 
 std::vector<int> kmpZ(std::string s, std::string t) {
   std::vector<int> ans;
-  int n = (int)s.size(), m = (int)t.size();
+  int n = static_cast<int>(s.size()), m = static_cast<int>(t.size());
   if (n > m) {
     return ans;
   }

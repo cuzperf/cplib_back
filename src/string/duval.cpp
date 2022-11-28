@@ -4,7 +4,7 @@ namespace cuzperf {
 
 std::vector<std::string> duval(const std::string& s) {
   std::vector<std::string> r;
-  int n = (int)s.size(), i = 0;
+  int n = static_cast<int>(s.size()), i = 0;
   while (i < n) {
     int j = i + 1, k = i;
     while (j < n && s[k] <= s[j]) {

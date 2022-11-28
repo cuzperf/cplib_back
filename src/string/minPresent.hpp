@@ -6,7 +6,7 @@ namespace cuzperf {
 
 template <typename T>
 int minPresent(std::vector<T>& a) {
-  int k = 0, i = 0, j = 1, n = (int)a.size();
+  int k = 0, i = 0, j = 1, n = static_cast<int>(a.size());
   while (k < n && i < n && j < n) {
     if (a[(i + k) % n] == a[(j + k) % n]) {
       ++k;

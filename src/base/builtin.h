@@ -1,5 +1,5 @@
-#ifndef __BUILTIN__
-#define __BUILTIN__
+#ifndef BASE_BUILTIN_H
+#define BASE_BUILTIN_H
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -61,4 +61,4 @@ float asinFast(float x);
 }  // extern "C"
 #endif
 
-#endif  //  __BUILTIN__
+#endif  // BASE_BUILTIN_H

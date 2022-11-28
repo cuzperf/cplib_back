@@ -8,7 +8,7 @@ namespace cuzperf {
 int circle3count(const std::vector<std::pair<int, int>>& edge, int n) {
   std::vector<int> d(n), vis(n, -1);
   for (auto [u, v] : edge) {
-    ++d[u], ++d[v];
+    ++d[u]; ++d[v];
   }
   std::vector<std::vector<int>> e(n);
   // Giving Orienting to Edge
@@ -38,7 +38,7 @@ int circle3count(const std::vector<std::pair<int, int>>& edge, int n) {
 int64_t circle4count(const std::vector<std::pair<int, int>>& edge, int n) {
   std::vector<int> d(n), c(n, -1), id(n);
   for (auto [u, v] : edge) {
-    ++d[u], ++d[v];
+    ++d[u]; ++d[v];
   }
   std::iota(id.begin(), id.end(), 0);
   std::sort(id.begin(), id.end(),

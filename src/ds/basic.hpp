@@ -28,7 +28,7 @@ void disjointInterval(std::vector<std::pair<T, T>>& a) {
   std::vector<std::pair<T, T>> b;
   std::sort(a.begin(), a.end());
   auto l = a[0].first, r = a[0].second;
-  for (int i = 1, n_ = (int)a.size(); i < n_; ++i) {
+  for (int i = 1, n_ = static_cast<int>(a.size()); i < n_; ++i) {
     if (a[i].first <= r) {
       r = std::max(r, a[i].second);
     } else {
@@ -116,7 +116,7 @@ class RingBuffer {
   static inline constexpr T kDefaultVal = -1;
 
  public:
-  RingBuffer(int m) : m_(m), id_(0), a_(m, kDefaultVal){};
+  RingBuffer(int m) : m_(m), id_(0), a_(m, kDefaultVal) {}
   T getCurrent() const { return a_[id_]; }
   void insert(T x) {
     a_[id_++] = x;

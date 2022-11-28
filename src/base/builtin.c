@@ -6,6 +6,7 @@
 #if defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
 #include <ammintrin.h>
 #include <immintrin.h>
+#include <intrin.h>
 #endif
 
 int64_t mulModi(int64_t a, int64_t b, int64_t m) {
@@ -113,7 +114,7 @@ int clz_u32(unsigned x) {
 #if defined(__GNUC__)
   return __builtin_clz(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return _lzcnt_u32(x)
+  return _lzcnt_u32(x);
 #else
   return sizeof(unsigned) * __CHAR_BIT__ - 1 - lg2_u32(x);
 #endif

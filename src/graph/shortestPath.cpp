@@ -9,7 +9,7 @@ namespace cuzperf {
 
 namespace Floyd {
 constexpr int N = 1003;
-int64_t dp[N][N], path[N][N];
+static int64_t dp[N][N], path[N][N];
 void Floyd(int n) {
   memset(path, -1, sizeof(path));
   for (int k = 0; k != n; ++k) {
@@ -78,7 +78,7 @@ bool BellmanFord(std::vector<Edge>& e, int n, int s) {
 }
 
 bool spfa(std::vector<edge>& e, int s) {
-  int n = (int)e.size();
+  int n = static_cast<int>(e.size());
   std::queue<int> Q;
   std::vector<int> dist(n, std::numeric_limits<int>::max()), cnt(n), inQ(n);
   Q.push(s);

@@ -35,7 +35,7 @@ std::stack<int> EulerPathS(std::vector<std::multiset<int>> e) {
     }
     ans.push(u);
   };
-  for (int i = 0, ne = (int)e.size(); i < ne; ++i) {
+  for (int i = 0, ne = static_cast<int>(e.size()); i < ne; ++i) {
     if (!e[i].empty() && ((e[i].size() & 1) || (cnt == 0))) {
       Hierholzer(i);
       break;
@@ -62,7 +62,7 @@ std::stack<int> EulerPath(std::vector<std::set<int>> e, int rt) {
 std::vector<int> TopSort(std::vector<std::set<int>>& e) {
   std::vector<int> r;
   std::priority_queue<int> Q;
-  int n = (int)e.size();
+  int n = static_cast<int>(e.size());
   std::vector<int> in(n);
   for (auto& x : e) {
     for (auto i : x) {

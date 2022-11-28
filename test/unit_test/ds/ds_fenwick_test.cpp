@@ -2,6 +2,8 @@
 
 #include "test/util.h"
 
+#include <numeric>
+
 namespace cuzperf {
 
 TEST(DsTest, fenwick) {

@@ -41,14 +41,14 @@ class BigInt10 : public std::vector<int> {
   }
   void dft() {
     int n = size();
-    if ((int)rev.size() != n) {
+    if (static_cast<int>(rev.size()) != n) {
       int k = ctz_u32(n) - 1;
       rev.resize(n);
       for (int i = 0; i < n; ++i) {
         rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
       }
     }
-    if ((int)roots.size() < n) {
+    if (static_cast<int>(roots.size()) < n) {
       int k = ctz_u32(roots.size());
       roots.resize(n);
       while ((1 << k) < n) {
@@ -181,13 +181,13 @@ class BigInt10 : public std::vector<int> {
     return A;
   }
   BigInt10 modXn(int n) const {
-    if (n >= (int)size()) {
+    if (n >= static_cast<int>(size())) {
       return *this;
     }
     return BigInt10({begin(), begin() + n}, ngt);
   }
   BigInt10 divXn(int n) const {
-    if ((int)size() <= n) {
+    if (static_cast<int>(size()) <= n) {
       return BigInt10();
     }
     return BigInt10({begin() + n, end()}, ngt);
@@ -448,7 +448,8 @@ class BigInt10 : public std::vector<int> {
       A = sub(A, mul(B, C));
     }
     while (absCompareEqual(B, A)) {
-      A = sub(A, B), ++ans[0];
+      A = sub(A, B);
+      ++ans[0];
     }
     ans.ngt = flag;
     ans.standard();

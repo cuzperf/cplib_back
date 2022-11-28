@@ -5,7 +5,7 @@
 namespace cuzperf {
 
 std::vector<int> Manacher(std::string s) {
-  int n = (int)s.size();  // assume n is odd
+  int n = static_cast<int>(s.size());  // assume n is odd
   std::vector<int> d(n);
   for (int i = 0, l = 0, r = -1; i < n; ++i) {
     int k = i > r ? 1 : std::min(d[l + r - i], r - i);

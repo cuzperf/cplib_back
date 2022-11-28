@@ -115,7 +115,7 @@ class SegmentTree {
  public:
   SegmentTree(int n) : n_(n) { resize(); }
   SegmentTree(const std::vector<int64_t>& a) {
-    n_ = (int)a.size();
+    n_ = static_cast<int>(a.size());
     resize();
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {
@@ -189,7 +189,7 @@ class SegmentTreeAddCountMin {
  public:
   SegmentTreeAddCountMin(int n) : n_(n) { resize(); }
   SegmentTreeAddCountMin(const std::vector<int>& a) {
-    n_ = (int)a.size();
+    n_ = static_cast<int>(a.size());
     resize();
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {

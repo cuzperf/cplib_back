@@ -2,6 +2,8 @@
 
 #include "util.h"
 
+#include <numeric>
+
 namespace cuzperf {
 
 TEST(DsTest, Vector2List) {

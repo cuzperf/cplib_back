@@ -8,7 +8,7 @@ namespace cuzperf {
 
 int64_t Prim(const std::vector<edge>& e) {
   int64_t r = 0;
-  int n = (int)e.size(), cnt = 0;
+  int n = static_cast<int>(e.size()), cnt = 0;
   std::priority_queue<std::pair<int, int>> Q;
   std::vector<int> vis(n);
   Q.push({0, 0});

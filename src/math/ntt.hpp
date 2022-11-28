@@ -18,15 +18,15 @@ class NTT {
  public:
   static inline const mod g = 3;
   void dft(std::vector<mod>& a) {
-    int n = (int)a.size();
-    if ((int)rev_.size() != n) {
+    int n = static_cast<int>(a.size());
+    if (static_cast<int>(rev_.size()) != n) {
       int k = ctz_u32(n) - 1;
       rev_.resize(n);
       for (int i = 0; i < n; ++i) {
         rev_[i] = rev_[i >> 1] >> 1 | (i & 1) << k;
       }
     }
-    if ((int)roots_.size() < n) {
+    if (static_cast<int>(roots_.size()) < n) {
       int k = ctz_u32(roots_.size());
       roots_.resize(n);
       while ((1 << k) < n) {
@@ -54,7 +54,7 @@ class NTT {
     }
   }
   void idft(std::vector<mod>& a) {
-    int n = (int)a.size();
+    int n = static_cast<int>(a.size());
     std::reverse(a.begin() + 1, a.end());
     dft(a);
     // not that n is power of 2, and M = 1 + c 2^x

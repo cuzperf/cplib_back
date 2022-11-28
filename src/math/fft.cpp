@@ -9,19 +9,19 @@
 namespace cuzperf {
 namespace FFT {
 
-const double PI = std::acos(-1);
-std::vector<int> rev;
-std::vector<C> roots{C(0, 0), C(1, 0)};
+static const double PI = std::acos(-1);
+static std::vector<int> rev;
+static std::vector<C> roots{C(0, 0), C(1, 0)};
 void dft(std::vector<C>& a) {
-  int n = (int)a.size();
-  if ((int)rev.size() != n) {
+  int n = static_cast<int>(a.size());
+  if (static_cast<int>(rev.size()) != n) {
     int k = ctz_u32(n) - 1;
     rev.resize(n);
     for (int i = 0; i < n; ++i) {
       rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
     }
   }
-  if ((int)roots.size() < n) {
+  if (static_cast<int>(roots.size()) < n) {
     int k = ctz_u32(roots.size());
     roots.resize(n);
     while ((1 << k) < n) {
@@ -49,7 +49,7 @@ void dft(std::vector<C>& a) {
   }
 }
 void idft(std::vector<C>& a) {
-  int n = (int)a.size();
+  int n = static_cast<int>(a.size());
   std::reverse(a.begin() + 1, a.end());
   dft(a);
   for (auto& x : a) {

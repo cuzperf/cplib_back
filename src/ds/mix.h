@@ -36,7 +36,8 @@ std::vector<int> monicStack(const std::vector<int>& a);
 // Cartesian Tree
 struct cNode {
   int id, val, par, ch[2];
-  void init(int _id, int _val, int _par) { id = _id, val = _val, par = _par, ch[0] = ch[1] = 0; }
+  cNode() {}
+  cNode(int _id, int _val, int _par) : id(_id), val(_val), par(_par), ch{} {}
 };
 int cartesian_build(std::vector<cNode>& tree, int n);
 // https://codeforces.com/contest/1490/problem/D
@@ -59,10 +60,10 @@ class ECC {
   }
   bool dfs(int c) {
     auto bd = bad_[mxId_];
-    if ((int)bd.size() <= k_) {
+    if (static_cast<int>(bd.size()) <= k_) {
       return true;
     }
-    if ((int)bd.size() - k_ > c) {
+    if (static_cast<int>(bd.size()) - k_ > c) {
       return false;
     }
     // Note that bd is O(k_) instead of O(m_)

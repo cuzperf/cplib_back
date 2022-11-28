@@ -88,7 +88,7 @@ class BinomModp {
 // Calculate f(m) where f is the Lagrange interpolation on $f(0), f(1), \cdots, f(n - 1)$
 template <typename valT>
 valT Lagrange(const std::vector<valT>& f, int m) {
-  int n = (int)f.size();
+  int n = static_cast<int>(f.size());
   if (m < n) {
     return f[m];
   }
@@ -120,14 +120,14 @@ valT powSum(int n, int k, const std::vector<int>& sp) {
   }
   std::vector<valT> f(k + 2);
   f[1] = valT(1);
-  for (int i = 2, nf = (int)f.size(); i < nf; ++i) {
+  for (int i = 2, nf = static_cast<int>(f.size()); i < nf; ++i) {
     if (sp[i] == i) {
       f[i] = pow(valT(i), k);
     } else {
       f[i] = f[sp[i]] * f[i / sp[i]];
     }
   }
-  for (int i = 1, nf = (int)f.size(); i < nf; ++i) {
+  for (int i = 1, nf = static_cast<int>(f.size()); i < nf; ++i) {
     f[i] += f[i - 1];
   }
   return Lagrange(f, n);

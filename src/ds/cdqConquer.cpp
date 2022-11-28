@@ -12,7 +12,7 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   std::vector<int> ans(a.size());
   std::sort(a.begin(), a.end());
   int last = 0;
-  for (int i = 1, na = (int)a.size(); i < na; ++i) {
+  for (int i = 1, na = static_cast<int>(a.size()); i < na; ++i) {
     if (a[i].x != a[i - 1].x || a[i].y != a[i - 1].y || a[i].z != a[i - 1].z) {
       int t = i - last - 1;
       for (int j = last; j < i; ++j) {
@@ -23,12 +23,12 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
       last = i;
     }
   }
-  int t = (int)a.size() - last - 1;
-  for (int i = last, na = (int)a.size(); i < na; ++i) {
+  int t = static_cast<int>(a.size()) - last - 1;
+  for (int i = last, na = static_cast<int>(a.size()); i < na; ++i) {
     ans[a[i].id] = t;
     a[i].w = 0;
   }
-  a.back().w = (int)a.size() - last;
+  a.back().w = static_cast<int>(a.size()) - last;
   Fenwick<int64_t> A(k);
   auto cmpy = [](const cdqNode& lhs, const cdqNode& rhs) { return lhs.y < rhs.y; };
   std::function<void(int, int)> divide = [&](int l, int r) {
@@ -40,15 +40,15 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
     divide(m, r);
     std::sort(a.begin() + l, a.begin() + m, cmpy);
     std::sort(a.begin() + m, a.begin() + r, cmpy);
-    int t = l;
+    int ed = l;
     for (int i = m; i < r; ++i) {
-      while (t < m && a[t].y <= a[i].y) {
-        A.add(a[t].z, a[t].w);
-        ++t;
+      while (ed < m && a[ed].y <= a[i].y) {
+        A.add(a[ed].z, a[ed].w);
+        ++ed;
       }
       ans[a[i].id] += A.sum(a[i].z);
     }
-    for (int i = l; i < t; ++i) {
+    for (int i = l; i < ed; ++i) {
       A.add(a[i].z, -a[i].w);
     }
   };

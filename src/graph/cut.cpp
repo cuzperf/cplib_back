@@ -5,7 +5,7 @@
 namespace cuzperf {
 
 std::vector<int> cutVertex(std::vector<std::vector<int>>& e) {
-  int n = (int)e.size(), cnt = 0;
+  int n = static_cast<int>(e.size()), cnt = 0;
   std::vector<int> dfs(n), low(n), flag(n), r;
   std::function<void(int, int)> Tarjan = [&](int u, int fa) -> void {
     low[u] = dfs[u] = ++cnt;

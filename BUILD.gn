@@ -9,12 +9,36 @@ config("cp_config") {
     "-Wshadow",
     "-Wformat",
     "-Wpedantic",
+
+    # Wno
+    "-Wno-undef",
+    "-Wno-header-hygiene",
+    "-Wno-unused-template",
+    "-Wno-c++98-compat",
+    "-Wno-c++98-compat-pedantic",
+    "-Wno-global-constructors",
+    "-Wno-sign-conversion",
+    "-Wno-shorten-64-to-32",
+    "-Wno-implicit-int-float-conversion",
+    "-Wno-float-conversion",
+    "-Wno-double-promotion",
+    "-Wno-implicit-float-conversion",
+    "-Wno-implicit-int-conversion",
+    "-Wno-exit-time-destructors",
+    "-Wno-ctad-maybe-unsupported",
+    "-Wno-implicit-function-declaration",
     # "-ftrapv",
   ]
   include_dirs = [
     ".",
     "src",
   ]
+  if (is_win) {
+    defines = [
+      "WIN32_LEAN_AND_MEAN",
+      "_CRT_SECURE_NO_WARNINGS",
+    ]
+  }
 }
 
 config("cp_test_config") {
@@ -23,7 +47,6 @@ config("cp_test_config") {
     "test",
   ]
 }
-
 
 cp_test("cp_base_test") {
   sources = [ "test/gtest_main.cpp" ]

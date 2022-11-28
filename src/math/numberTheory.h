@@ -131,7 +131,7 @@ class Prime {
       return primePi(x) - s + 1;
     }
     if (x / p_[s] / p_[s] <= p_[s] && x < N) {
-      int s2x = pi_[(int)(std::sqrt(x + 0.2))];
+      int s2x = pi_[static_cast<int>(std::sqrt(x + 0.2))];
       int64_t ans = pi_[x] - (s2x + s - 2) * (s2x - s + 1) / 2;
       for (int i = s + 1; i <= s2x; ++i) {
         ans += pi_[x / p_[i]];
@@ -192,7 +192,7 @@ class Prime {
     return R[1];
   }
   int64_t nthPrime(int64_t n) {  // Newton method
-    if (n < (int)p_.size()) {
+    if (n < static_cast<int>(p_.size())) {
       return p_[n];
     }
     int64_t ans = n * log(n), err = log(n) / log(10);
@@ -235,7 +235,8 @@ class Euler {
     }
     for (int i = 3; i < N; i += 2) {
       if (phi_[i] == i) {
-        p_.emplace_back(i), --phi_[i];
+        p_.emplace_back(i);
+        --phi_[i];
       }
       for (int j = 2, t = (N - 1) / i + 1, np = p_.size(); j < np && p_[j] < t; ++j) {
         if (i % p_[j] == 0) {
@@ -283,7 +284,7 @@ class Euler {
  public:
   int operator[](int i) { return phi_[i]; }
   int64_t getPhi(int64_t n) {
-    if (n < (int)phi_.size()) {
+    if (n < static_cast<int>(phi_.size())) {
       return phi_[n];
     }
     if (1LL * p_.back() * p_.back() > n) {
@@ -364,7 +365,8 @@ class Mobius {
     }
     for (int i = 3; i < N; i += 2) {
       if (mu_[i] == i) {
-        mu_[i] = -1, p_.emplace_back(i);
+        mu_[i] = -1;
+        p_.emplace_back(i);
       }
       for (int j = 2, t = (N - 1) / i + 1, np = p_.size(); j < np && p_[j] < t; ++j) {
         if (i % p_[j] == 0) {
@@ -388,7 +390,7 @@ class Mobius {
  public:
   int operator[](int i) { return mu_[i]; }  // assmue i < N
   int getMu(int64_t n) {
-    if (n < (int)mu_.size()) {
+    if (n < static_cast<int>(mu_.size())) {
       return mu_[n];
     }
     if (1LL * p_.back() * p_.back() > n) {

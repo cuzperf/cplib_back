@@ -90,7 +90,7 @@ class HLPP {
     ex_[e[i].first] += a;
     e[i].second -= a;
     e[i ^ 1].second += a;
-  };
+  }
   // d[u] = dist(u, t)
   bool init(int s, int t) {
     std::queue<int> Q;

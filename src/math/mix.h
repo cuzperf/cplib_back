@@ -13,7 +13,7 @@ int xorSubsetSum(std::vector<int> a, int mod);
 // Note that We should only assume that operator < is defined in T
 template <typename T>
 void quickSort(std::vector<T>& a) {
-  srand(time(0));
+  srand(time(nullptr));
   std::function<void(int, int)> qSort = [&](int l, int r) {
     if (r - l <= 1) {
       return;
@@ -61,7 +61,7 @@ void quickSort(std::vector<T>& a) {
 // this version need addtional average $O(n \log n)$ space
 template <typename T>
 void quickSortStable(std::vector<T>& a) {
-  srand(time(0));
+  srand(time(nullptr));
   std::function<void(int, int)> qSort = [&](int l, int r) {
     if (r - l <= 1) {
       return;
@@ -101,7 +101,7 @@ template <typename valT>
 static std::vector<valT> BerlekampMassey(const std::vector<valT>& a) {
   std::vector<valT> ans, lst;
   valT delta = 0;
-  for (int i = 0, w = -1, n = (int)a.size(); i < n; ++i) {
+  for (int i = 0, w = -1, n = static_cast<int>(a.size()); i < n; ++i) {
     valT t = 0;
     for (int j = 0, na = ans.size(); j < na; ++j) {
       t += ans[j] * a[i - 1 - j];
@@ -125,7 +125,7 @@ static std::vector<valT> BerlekampMassey(const std::vector<valT>& a) {
     for (int j = 0, lj = lst.size(); j < lj; ++j) {
       ans[i - w + j] -= mul * lst[j];
     }
-    if ((int)now.size() - i < (int)lst.size() - w) {
+    if (static_cast<int>(now.size()) - i < static_cast<int>(lst.size()) - w) {
       w = i;
       delta = a[i] - t;
       std::swap(now, lst);

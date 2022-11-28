@@ -7,7 +7,7 @@ namespace cuzperf {
 
 std::vector<int> SAIS(std::vector<int> a) {
   enum TYPE { L, S };
-  int n = (int)a.size() - 1, mx = *std::max_element(a.begin(), a.end()) + 1;
+  int n = static_cast<int>(a.size()) - 1, mx = *std::max_element(a.begin(), a.end()) + 1;
   std::vector<int> SA(n + 1, -1);
   std::vector<int> bucket(mx), lbucket(mx), sbucket(mx);
   for (auto x : a) {
@@ -123,7 +123,7 @@ std::vector<int> SAIS(const std::string& s) {
 }
 
 std::vector<int> getHeight(const std::string& s) {
-  int n = (int)s.size();
+  int n = static_cast<int>(s.size());
   auto sa = SAIS(s);
   std::vector<int> rk(n);
   for (int i = 0; i < n; ++i) {
@@ -148,7 +148,7 @@ std::vector<int> getHeight(const std::string& s) {
 }
 
 int64_t diffSubstringCount(const std::string& s) {
-  int n = (int)s.size();
+  int n = static_cast<int>(s.size());
   auto ht = getHeight(s);
   return 1LL * (n + 1) * n / 2 - std::accumulate(ht.begin(), ht.end(), 0LL);
 }

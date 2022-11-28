@@ -10,7 +10,7 @@
 namespace cuzperf {
 
 bool nextBinom(std::vector<int>& a, int mx) {
-  int n = (int)a.size(), i = 1;
+  int n = static_cast<int>(a.size()), i = 1;
   while (i <= n && a[n - i] == mx - i) {
     ++i;
   }
@@ -100,7 +100,7 @@ std::stack<int> LISP(const std::vector<int>& a) {
 std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
   std::vector<int> r;
   std::deque<int> Q;
-  for (int i = 0, na = (int)a.size(); i < na; ++i) {
+  for (int i = 0, na = static_cast<int>(a.size()); i < na; ++i) {
     if (!Q.empty() && i - Q.front() >= m) {
       Q.pop_front();
     }
@@ -117,7 +117,7 @@ std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
 }
 
 std::vector<int> monicStack(const std::vector<int>& a) {
-  int n = (int)a.size();
+  int n = static_cast<int>(a.size());
   std::vector<int> f(n);
   std::stack<int> S;
   for (int i = 0; i < n; ++i) {
@@ -148,7 +148,7 @@ int64_t inverseOrderCount(std::vector<int> a) {
   discrete(a);
   Fenwick<int> A(*std::max_element(a.begin(), a.end()) + 1);
   int64_t ans = 0;
-  for (int i = (int)a.size() - 1; i >= 0; --i) {
+  for (int i = static_cast<int>(a.size()) - 1; i >= 0; --i) {
     ans += A.sum(a[i]);
     A.add(a[i] + 1, 1);
   }

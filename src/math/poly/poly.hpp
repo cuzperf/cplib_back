@@ -38,7 +38,7 @@ class Poly : public T {
     return A;
   }
   Poly modXn(int n) const {
-    if (n >= (int)this->size()) {
+    if (n >= static_cast<int>(this->size())) {
       return (*this);
     }
     return Poly({this->begin(), this->begin() + n});
@@ -48,7 +48,7 @@ class Poly : public T {
     return Poly(std::forward<Poly>(*this));
   }
   Poly divXn(int n) const {
-    if ((int)this->size() <= n) {
+    if (static_cast<int>(this->size()) <= n) {
       return Poly();
     }
     return Poly({this->begin() + n, this->end()});
@@ -89,7 +89,7 @@ class Poly : public T {
     return x.modXnR(n);
   }
   Poly& operator/=(Poly rhs) {
-    int n = (int)this->size(), m = rhs.size();
+    int n = static_cast<int>(this->size()), m = rhs.size();
     if (n < m) {
       return (*this) = Poly();
     }
@@ -116,7 +116,7 @@ class Poly : public T {
   }
   valT inner(const Poly& rhs) const {
     valT r(0);
-    int n = (int)std::min(this->size(), rhs.size());
+    int n = static_cast<int>(std::min(this->size(), rhs.size()));
     for (int i = 0; i < n; ++i) {
       r += (*this)[i] * rhs[i];
     }
@@ -126,7 +126,7 @@ class Poly : public T {
     if (this->empty()) {
       return Poly();
     }
-    int n = (int)this->size();
+    int n = static_cast<int>(this->size());
     std::vector<valT> r(n - 1);
     for (int i = 1; i < n; ++i) {
       r[i - 1] = (*this)[i] * valT(i);
@@ -137,7 +137,7 @@ class Poly : public T {
     if (this->empty()) {
       return Poly();
     }
-    int n = (int)this->size();
+    int n = static_cast<int>(this->size());
     std::vector<valT> r(n + 1);
     for (int i = 0; i < n; ++i) {
       r[i + 1] = (*this)[i] * BINOM.inv_[i + 1];
@@ -268,7 +268,7 @@ class Poly : public T {
     return Poly(std::forward<Poly>(ans));
   }
   Poly toFallingPowForm() {
-    int n = (int)this->size();
+    int n = static_cast<int>(this->size());
     std::vector<valT> x(n);
     for (int i = 0; i < n; ++i) {
       x[i] = i;
@@ -282,7 +282,7 @@ class Poly : public T {
     return A.modXnR(n);
   }
   Poly fromFallingPowForm() {
-    int n = (int)this->size();
+    int n = static_cast<int>(this->size());
     Poly A = ((*this) * Poly(BINOM.ifac_)).modXnR(n);
     std::vector<valT> x(n), y = A;
     for (int i = 0; i < n; ++i) {
@@ -296,7 +296,7 @@ class Poly : public T {
   }
   valT eval(valT x) const {
     valT r(0), t(1);
-    for (int i = 0, n = (int)this->size(); i < n; ++i) {
+    for (int i = 0, n = static_cast<int>(this->size()); i < n; ++i) {
       r += (*this)[i] * t;
       t *= x;
     }
@@ -313,10 +313,10 @@ class Poly : public T {
   }
   // multi-evaluation(new tech)
   std::vector<valT> evals(const std::vector<valT>& x) const {
-    if ((int)this->size() == 0) {
+    if (static_cast<int>(this->size()) == 0) {
       return std::vector<valT>(x.size());
     }
-    int n = (int)x.size();
+    int n = static_cast<int>(x.size());
     std::vector<valT> ans(n);
     std::vector<Poly> g(4 * n);
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
@@ -340,7 +340,7 @@ class Poly : public T {
         solve(m, r, 2 * p + 1, f.mulT(std::move(g[2 * p])).modXnR(r - m));
       }
     };
-    solve(0, n, 1, mulT(g[1].inv((int)this->size())).modXnR(n));
+    solve(0, n, 1, mulT(g[1].inv(static_cast<int>(this->size()))).modXnR(n));
     return ans;
   }  // https://www.luogu.com.cn/problem/P5050
 
@@ -365,7 +365,7 @@ class Poly : public T {
 
   // compute $h(m), \cdots, h(m + cnt - 1)$ accroding to $h(0), h(1), \cdots, h(d)$
   static std::vector<valT> valToVal(std::vector<valT> h, valT m, int cnt) {  // m > h.size()
-    int d = (int)h.size() - 1;
+    int d = static_cast<int>(h.size()) - 1;
     for (int i = 0; i <= d; ++i) {
       h[i] *= BINOM.ifac_[i] * BINOM.ifac_[d - i];
       if ((d - i) & 1) {
@@ -392,7 +392,8 @@ class Poly : public T {
       h[i] *= now;
     }
     return h;
-  };  // https://www.luogu.com.cn/problem/P5667
+  }
+  // https://www.luogu.com.cn/problem/P5667
 
   static Poly Lagrange(std::vector<valT> x, std::vector<valT> y) {
     std::function<Poly(int l, int r)> mulP = [&](int l, int r) -> Poly {
@@ -402,7 +403,7 @@ class Poly : public T {
       int m = (l + r) / 2;
       return mulP(l, m) * mulP(m, r);
     };
-    int n = (int)x.size();
+    int n = static_cast<int>(x.size());
     auto A = mulP(0, n).derivation();
     auto z = A.evals(x);
     for (int i = 0; i < n; ++i) {
@@ -426,10 +427,10 @@ class Poly : public T {
   // find n-th term of The recursive formula for the constant coefficient of order k in $O(k \log k
   // \log n)$
   static valT linearRecursion(const std::vector<valT>& a, std::vector<valT> f, int64_t n) {
-    if (n < (int)a.size()) {
+    if (n < static_cast<int>(a.size())) {
       return a[n];
     }
-    int m = (int)f.size();
+    int m = static_cast<int>(f.size());
     std::reverse(f.begin(), f.end());
     std::vector<valT> g(m);
     g.emplace_back(1);
@@ -477,11 +478,11 @@ class Poly : public T {
         now *= k;
       }
       auto B = A;
-      for (int i = 0, nb = (int)B.size(); i < nb; ++i) {
+      for (int i = 0, nb = static_cast<int>(B.size()); i < nb; ++i) {
         B[i] *= BINOM.fac_[i];
       }
       B = B.mulT(tmp).modXnR(k + 1);
-      for (int i = 0, nb = (int)B.size(); i < nb; ++i) {
+      for (int i = 0, nb = static_cast<int>(B.size()); i < nb; ++i) {
         B[i] *= BINOM.ifac_[i];
       }
       A *= B;
@@ -582,7 +583,7 @@ class PolyBase : public std::vector<valT> {
   PolyBase(const std::vector<valT>& a) : std::vector<valT>{a} { standard(); }
   PolyBase(std::vector<valT>&& a) : std::vector<valT>{std::move(a)} { standard(); }
   valT at(int id) const {
-    if (id < 0 || id >= (int)this->size()) {
+    if (id < 0 || id >= static_cast<int>(this->size())) {
       return 0;
     }
     return (*this)[id];

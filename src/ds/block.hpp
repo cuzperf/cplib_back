@@ -103,7 +103,8 @@ class BlockMinus {
 
  public:
   void init(const std::vector<int>& a, int l, int r) {
-    l_ = l, delta_ = 0;
+    l_ = l;
+    delta_ = 0;
     a_ = {a.begin() + l, a.begin() + r};
     mx_ = *std::max_element(a_.begin(), a_.end());
     fa_.resize(mx_ + 1);
@@ -117,14 +118,14 @@ class BlockMinus {
     if (x >= mx_ - delta_) {
       return;
     }
-    if (qr - ql == (int)a_.size()) {
+    if (qr - ql == static_cast<int>(a_.size())) {
       modifyAll(x);
     } else {
       modifyPart(ql - l_, qr - l_, x);
     }
   }
   int query(int ql, int qr, int x) {
-    if (qr - ql == (int)a_.size()) {
+    if (qr - ql == static_cast<int>(a_.size())) {
       return queryAll(x);
     }
     return queryPart(ql - l_, qr - l_, x);

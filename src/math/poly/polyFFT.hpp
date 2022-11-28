@@ -14,7 +14,7 @@ template <typename T>
 class PolyBaseFFT : public PolyBase<T> {
  protected:
   PolyBaseFFT mul(const PolyBaseFFT& rhs) const {
-    int tot = std::max(1, int((int)this->size() + rhs.size() - 1));
+    int tot = std::max(1, static_cast<int>(this->size()) + static_cast<int>(rhs.size()) - 1));
     int sz = 1 << lg2_u32(tot * 2 - 1);
     // Must be split to ensure accuracy (or use skill '3 times to 2 times')
     auto A1(*this), A2(*this), B1(rhs), B2(rhs);
@@ -32,7 +32,7 @@ class PolyBaseFFT : public PolyBase<T> {
       x = int(x) >> bit;
     }
     std::vector<std::complex<double>> A(sz), B(sz), C(sz);
-    for (int i = 0, tSize = (int)this->size(); i < tSize; ++i) {
+    for (int i = 0, tSize = static_cast<int>(this->size()); i < tSize; ++i) {
       A[i] = std::complex<double>((double)A1[i], (double)A2[i]);
     }
     for (int i = 0, rSize = rhs.size(); i < rSize; ++i) {

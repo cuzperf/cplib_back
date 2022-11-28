@@ -1,5 +1,36 @@
 import("//cp.gni")
 
+config("gtest_config") {
+  defines = [
+    # In order to allow regex matches in gtest to be shared between Windows
+    # and other systems, we tell gtest to always use it's internal engine.
+    "GTEST_HAS_POSIX_RE=0",
+    "GTEST_LANG_CXX11=1",
+    "GTEST_HAS_SEH=0"
+  ]
+  include_dirs = [
+    "googletest",
+    "googletest/include",
+    "."
+  ]
+  cflags = []
+  if (is_win) {
+    cflags += [ "/wd4800" ]  # Unused variable warning.
+    cflags += [ "-Wno-nonportable-system-include-path" ]
+    cflags += [ "-Wno-covered-switch-default" ]
+    cflags += [ "-Wno-missing-noreturn" ]
+    cflags += [ "-Wno-used-but-marked-unused" ]
+    cflags += [ "-Wno-switch-enum" ]
+    cflags += [ "-Wlanguage-extension-token" ]
+    cflags += [ "-Wno-suggest-destructor-override" ]
+    cflags += [ "-Wno-unused-member-function" ]
+  }
+  cflags += [
+    "-Wno-suggest-override",
+    "-Wno-zero-as-null-pointer-constant",
+  ]
+}
+
 cp_static_library("gtest") {
   sources = [
     "googletest/include/gtest/internal/custom/gtest-port.h",
@@ -29,25 +60,7 @@ cp_static_library("gtest") {
 
     "googletest/src/gtest-all.cc",
   ]
-  defines = [
-    # In order to allow regex matches in gtest to be shared between Windows
-    # and other systems, we tell gtest to always use it's internal engine.
-    "GTEST_HAS_POSIX_RE=0",
-    "GTEST_LANG_CXX11=1",
-  ]
-  include_dirs = [
-    "googletest",
-    "googletest/include",
-    "."
-  ]
-  cflags = []
-  if (is_win) {
-    cflags += [ "/wd4800" ]  # Unused variable warning.
-  }
-
-  if (is_clang) {
-    cflags += [ "-Wno-undef" ]  # Undefined OS macro.
-  }
+  configs = [ ":gtest_config" ]
 }
 
 cp_executable("gtest_main") {
@@ -61,4 +74,5 @@ cp_executable("gtest_main") {
   deps = [
     ":gtest",
   ]
+  configs = [ ":gtest_config" ]
 }

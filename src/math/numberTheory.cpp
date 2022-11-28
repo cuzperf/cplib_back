@@ -1,6 +1,7 @@
 #include "numberTheory.h"
 
 #include <assert.h>
+#include <random>
 
 #include "base/builtin.h"
 
@@ -34,7 +35,7 @@ std::vector<int> spf(int N) {
     if (sp[i] == i) {
       p.emplace_back(i);
     }
-    for (int j = 2, np = (int)p.size(); j < np && p[j] <= sp[i] && i * p[j] < N; ++j) {
+    for (int j = 2, np = static_cast<int>(p.size()); j < np && p[j] <= sp[i] && i * p[j] < N; ++j) {
       sp[i * p[j]] = p[j];  // Note that sp[x] is assigned only once foreach x
     }
   }
@@ -112,7 +113,8 @@ std::vector<std::pair<int, int>> Factor(int n, const std::vector<int>& sp) {
   while (n > 1) {
     int pn = sp[n], cnt = 0;
     while (n % pn == 0) {
-      n /= pn, ++cnt;
+      n /= pn;
+      ++cnt;
     }
     ans.emplace_back(pn, cnt);
   }
@@ -237,7 +239,7 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp) {
 }
 
 namespace PollardRho {
-std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
+static std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 int64_t powModll(int64_t x, int64_t n, int64_t p) {
   assert(n >= 0);
   int64_t r = 1;
@@ -424,8 +426,8 @@ int sqrtModpS(int a, int p) {
 struct pseudoComplex {
   int x, y;
   static inline int p, m;
-  static void setMod(int _p, int _m) { p = _p, m = _m; }
-  pseudoComplex(int _x = 0, int _y = 0) : x(_x), y(_y){};
+  static void setMod(int _p, int _m) { p = _p; m = _m; }
+  pseudoComplex(int _x = 0, int _y = 0) : x(_x), y(_y) {}
   pseudoComplex operator*(const pseudoComplex& A) const {
     return pseudoComplex((1LL * x * A.x + 1LL * y * A.y % p * m) % p,
                          (1LL * x * A.y + 1LL * y * A.x) % p);

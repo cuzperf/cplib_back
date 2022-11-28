@@ -4,6 +4,8 @@
 #include "math/poly/polyFFT.hpp"
 #include "math/poly/polyMTT.hpp"
 
+#ifdef __GNUC__
+
 namespace cuzperf {
 
 int factorialS(int n, int p) {
@@ -81,5 +83,6 @@ int64_t factorial(int64_t n, int64_t p) {
   }
   return ans;
 }
-
 }  // namespace cuzperf
+
+#endif
