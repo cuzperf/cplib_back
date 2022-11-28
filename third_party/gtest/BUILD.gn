@@ -1,39 +1,5 @@
 import("//cp.gni")
 
-config("gtest_config") {
-  defines = [
-    # In order to allow regex matches in gtest to be shared between Windows
-    # and other systems, we tell gtest to always use it's internal engine.
-    "GTEST_HAS_POSIX_RE=0",
-    "GTEST_LANG_CXX11=1",
-    # "GTEST_HAS_SEH=0"
-  ]
-  include_dirs = [
-    "googletest",
-    "googletest/include",
-    "."
-  ]
-  cflags = []
-  if (is_win) {
-    cflags += [ "/wd4800" ]  # Unused variable warning.
-
-    cflags += [
-      "-Wno-nonportable-system-include-path",
-      "-Wno-covered-switch-default",
-      "-Wno-missing-noreturn",
-      "-Wno-used-but-marked-unused",
-      "-Wno-switch-enum",
-      "-Wlanguage-extension-token",
-      "-Wno-suggest-destructor-override",
-      "-Wno-unused-member-function",
-    ]
-  }
-  cflags += [
-    "-Wno-suggest-override",
-    "-Wno-zero-as-null-pointer-constant",
-  ]
-}
-
 cp_static_library("gtest") {
   sources = [
     "googletest/include/gtest/internal/custom/gtest-port.h",
@@ -63,7 +29,38 @@ cp_static_library("gtest") {
 
     "googletest/src/gtest-all.cc",
   ]
-  configs = [ ":gtest_config" ]
+  defines = [
+    # In order to allow regex matches in gtest to be shared between Windows
+    # and other systems, we tell gtest to always use it's internal engine.
+    "GTEST_HAS_POSIX_RE=0",
+    "GTEST_LANG_CXX11=1",
+    # "GTEST_HAS_SEH=0"
+  ]
+    include_dirs = [
+    "googletest",
+    "googletest/include",
+    "."
+  ]
+  cflags = []
+  if (is_win) {
+    cflags += [ "/wd4800" ]  # Unused variable warning.
+
+    cflags += [
+      "-Wno-nonportable-system-include-path",
+      "-Wno-covered-switch-default",
+      "-Wno-missing-noreturn",
+      "-Wno-used-but-marked-unused",
+      "-Wno-switch-enum",
+      "-Wlanguage-extension-token",
+      "-Wno-suggest-destructor-override",
+      "-Wno-unused-member-function",
+    ]
+  }
+  cflags += [
+    "-Wc++11-extensions",
+    "-Wno-suggest-override",
+    "-Wno-zero-as-null-pointer-constant",
+  ]
 }
 
 cp_executable("gtest_main") {
@@ -77,5 +74,4 @@ cp_executable("gtest_main") {
   deps = [
     ":gtest",
   ]
-  configs = [ ":gtest_config" ]
 }

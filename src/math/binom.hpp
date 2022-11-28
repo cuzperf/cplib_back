@@ -35,25 +35,29 @@ class Binom {
 
 template <typename valT>
 class BinomModp {
-  static inline constexpr int N = 1e6 + 2;
-  BinomModp() { fac_.reserve(N), ifac_.reserve(N), inv_.reserve(N); }
+  BinomModp() {}
   void init(int n) {
     assert(n <= valT::mod());
-    fac_[0] = 1;
-    for (int i = 1; i < n; ++i) {
+    if (n_ >= n) return;
+    fac_.resize(n + 1);
+    ifac_.resize(n + 1);
+    inv_.resize(n + 1);
+    for (int i = n_ + 1; i <= n; ++i) {
       fac_[i] = fac_[i - 1] * valT::raw(i);
     }
-    ifac_[n - 1] = fac_[n - 1].inv();
-    for (int i = n - 1; i > 0; --i) {
+    ifac_[n] = fac_[n].inv();
+    for (int i = n; i > n_; --i) {
       ifac_[i - 1] = ifac_[i] * valT::raw(i);
     }
-    for (int i = 1; i < n; ++i) {
+    for (int i = n_ + 1; i <= n; ++i) {
       inv_[i] = ifac_[i] * fac_[i - 1];
     }
+    n_ = n;
   }
 
  public:
-  std::vector<valT> fac_, ifac_, inv_;
+  int n_ = 0;
+  std::vector<valT> fac_{1}, ifac_{1}, inv_{0};
   BinomModp(const BinomModp&) = delete;
   static BinomModp& Instance(int n = 0) {
     static BinomModp instance_;
