@@ -8,6 +8,7 @@ namespace cuzperf {
 
 TEST(MathTest, binom) {
   auto& binom = Binom::Instance();
+
   EXPECT_EQ(binom(3, 0), 1);
   EXPECT_EQ(binom(3, 1), 3);
   EXPECT_EQ(binom(3, 2), 3);
@@ -28,6 +29,7 @@ using mod = MInt<M>;
 TEST(MathTest, binomModp) {
   constexpr int N = 1003;
   auto& binom = BinomModp<mod>::Instance(N);
+
   EXPECT_EQ(binom(3, 0), mod(1));
   EXPECT_EQ(binom(3, 1), mod(3));
   EXPECT_EQ(binom(3, 2), mod(3));

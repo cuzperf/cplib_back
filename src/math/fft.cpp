@@ -25,7 +25,8 @@ void dft(std::vector<C>& a) {
     int k = ctz_u32(roots.size());
     roots.resize(n);
     while ((1 << k) < n) {
-      C e = std::polar(1.0, PI / (1 << k));
+      // see the definition of https://en.wikipedia.org/wiki/Fast_Fourier_transform
+      C e = std::polar(1.0, -PI / (1 << k));
       for (int i = 1 << (k - 1); i < (1 << k); ++i) {
         roots[2 * i] = roots[i];
         roots[2 * i + 1] = roots[i] * e;

@@ -9,10 +9,15 @@ static constexpr double eps = 1e-6;
 TEST(MathTest, fft) {
   {
     std::vector<FFT::C> a{1, 2, 3, 4};
+    int n = a.size();
     auto b = a;
     FFT::dft(b);
+    std::vector<FFT::C> ffta{10, FFT::C(-2, 2), -2, FFT::C(-2, -2)};
+    for (int i = 0; i < n; ++i) {
+      std::cout << b[i] << '\n';
+      EXPECT_LE(abs(ffta[i] - b[i]), eps);
+    }
     FFT::idft(b);
-    int n = a.size();
     for (int i = 0; i < n; ++i) {
       EXPECT_LE(abs(a[i] - b[i]), eps);
     }
