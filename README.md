@@ -43,6 +43,9 @@ C++17 single-thread template for competitive programming contest, which contains
 - 时间复杂度，空间复杂度，可否多线程，是否缓存友好性，benchmark
 - Gmoke 能否用上?
 - 答案能否和 python 或其它工具得到的答案做对比
+- 各个算法当初别人是如何发明创造的呢？能不能有简单的思路切入呢？
+- 我是否失去了长考的能力
+- 自己的写完之后，再去看看别人怎么写的 <https://github.com/FZRKexEr/Code-Library>，吸收他人的优点
 
 一份想要深耕的工作，谈薪资的时候更要好好谈！找工作不要瞎投递
 
