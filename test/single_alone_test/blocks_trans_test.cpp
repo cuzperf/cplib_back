@@ -86,7 +86,7 @@ int main() {
       // }
     }
     auto mn = std::min_element(times.begin(), times.end());
-    std::cout << "[time] 1-dim " << mn - times.begin() << " blocks: " << *mn << '\n';
+    std::cout << "[time] 1-dim " << mn - times.begin() << " blocks: " << *mn << "ms\n";
   }
   {
     uint64_t mn = INT64_MAX;
@@ -109,7 +109,7 @@ int main() {
         // }
       }
     }
-    std::cout << "[time] 2-dim " << i << ' ' << j << " blocks: " << mn << '\n';
+    std::cout << "[time] 2-dim " << i << ' ' << j << " blocks: " << mn << "ms\n";
   }
   return 0;
 }
