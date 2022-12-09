@@ -27,7 +27,7 @@ class ModInt {
   operator T() const {
     return static_cast<T>(n_);
   }
-  static void setMod(int m [[maybe_unused]]) { assert(M == m); }
+  static void setMod(int m) { M = m; }
   static int mod() { return M; }
   // assume 0 <= x < M
   static ModInt raw(int x) {

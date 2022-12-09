@@ -14,7 +14,6 @@ TEST(MathTest, fft) {
     FFT::dft(b);
     std::vector<FFT::C> ffta{10, FFT::C(-2, 2), -2, FFT::C(-2, -2)};
     for (int i = 0; i < n; ++i) {
-      std::cout << b[i] << '\n';
       EXPECT_LE(abs(ffta[i] - b[i]), eps);
     }
     FFT::idft(b);
