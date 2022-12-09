@@ -26,7 +26,8 @@ C++17 single-thread template for competitive programming contest, which contains
 - 多关注一下空间（内存消耗和内存泄漏）在工作中特别重视
 - 模板的实现对于相同类型只会有一份代码
 - 区间总是左开右闭
-
+- unit_test 的两个作用：保证正确性，使用文档。我们完全可以写一点如何 unit_test 是如何设计的
+- 文档可以介绍如何使用，说明复杂度，说明原理（当然了可以给一个 wiki 的应用，blog 可能不是很推荐）
 
 
 ## To

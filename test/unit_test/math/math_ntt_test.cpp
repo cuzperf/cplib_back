@@ -34,7 +34,7 @@ TEST(MathTest, ntt) {
   {
     static constexpr int M = 754974721;  // 1 +  2^24 * 3^2 * 5
     using ntt = NTT<M>;
-    // you must set this since it is a primitive
+    // you must set this since it is a 3 is not a primitive root if 754974721
     ntt::setPrimitiveRoot(11);
 
     std::vector<MInt<M>> a{1, 2, 3, 4, 5, 6, 7, 8};
