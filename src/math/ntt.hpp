@@ -8,15 +8,15 @@
 
 namespace cuzperf {
 
-// assume M is NTT-friendly and 3 is a primitive root of N
+// assume M is NTT-friendly
 template <int M>
 class NTT {
   using mod = MInt<M>;
   std::vector<int> rev_;
-  std::vector<mod> roots_{0, 1};
-
+  static std::vector<mod> roots_;
+  static inline mod g = 3;  // 3 is a primitive root of M by default
  public:
-  static inline const mod g = 3;
+  static void setPrimitiveRoot(int x) { g = x; }
   void dft(std::vector<mod>& a) {
     int n = static_cast<int>(a.size());
     if (static_cast<int>(rev_.size()) != n) {
@@ -27,6 +27,9 @@ class NTT {
       }
     }
     if (static_cast<int>(roots_.size()) < n) {
+      // if (roots_.empty()) {
+      //   roots_ = std::vector<mod>{0, 1};
+      // }
       int k = ctz_u32(roots_.size());
       roots_.resize(n);
       while ((1 << k) < n) {
@@ -64,5 +67,8 @@ class NTT {
     }
   }
 };
+
+template <int M>
+std::vector<MInt<M>> NTT<M>::roots_{0, 1};
 
 }  // namespace cuzperf

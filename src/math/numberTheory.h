@@ -443,6 +443,9 @@ std::vector<int> spfS(int N);
 // $O(N)$ smallest prime factor
 std::vector<int> spf(int N);
 
+// $O(N)$ smallest prime factor of n
+int spfator(int n);
+
 // $O(N)$ none square factor
 std::vector<int> nsf(int N);
 
@@ -451,6 +454,10 @@ std::vector<int> nsfS(int N);
 
 // init numbers of (multi) prime factors less than N in $O(N)$
 std::pair<std::vector<int>, std::vector<int>> npf(int N);
+
+// list of different prime factors of n
+std::vector<int> factor(int n);
+
 // list of different prime factors of n
 std::vector<int> factor(int n, const std::vector<int>& sp);
 
@@ -458,11 +465,11 @@ std::vector<int> factor(int n, const std::vector<int>& sp);
 std::vector<std::pair<int, int>> Factor(int n, const std::vector<int>& sp);
 
 // smallest primitive root or 0
-int primitiveRoot(int n, const std::vector<int>& sp);
+int primitiveRoot(int n);
 // list of all primitive roots or empty
-std::vector<int> primitiveRootAllS(int n, const std::vector<int>& sp);
+std::vector<int> primitiveRootAllS(int n);
 // list of all primitive roots or empty
-std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp);
+std::vector<int> primitiveRootAll(int n);
 // https://www.luogu.com.cn/problem/P6091
 
 // Probabilistic Method: Miller-Rabin prime test and PollardRho big number Decomposition

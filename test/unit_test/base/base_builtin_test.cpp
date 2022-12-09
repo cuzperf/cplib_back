@@ -160,7 +160,7 @@ TEST(BaseTest, parity) {
   g64(parityMIT_u64);
 }
 
-static constexpr float eps = 6.7e-5f;
+static constexpr float eps = 6.6e-5f;
 
 TEST(BsFastTest, acosFast) {
   std::uniform_real_distribution<float> u(-1, 1);

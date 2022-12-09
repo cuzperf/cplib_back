@@ -42,6 +42,14 @@ std::vector<int> spf(int N) {
   return sp;
 }
 
+int spfator(int n) {
+  if (n % 2 == 0) return 2;
+  for (int i = 3; i * i <= n; i += 2) {
+    if (n % i == 0) return i;
+  }
+  return n;
+}
+
 std::vector<int> nsf(int N) {
   std::vector<int> ans(N);
   std::iota(ans.begin(), ans.end(), 0);
@@ -96,6 +104,28 @@ std::pair<std::vector<int>, std::vector<int>> npf(int N) {
   return {np, nps};
 }
 
+std::vector<int> factor(int n) {
+  std::vector<int> ans;
+  if (n % 2 == 0) {
+    n /= 2;
+    ans.emplace_back(2);
+    while (n % 2 == 0) {
+      n /= 2;
+    }
+  }
+  for (int i = 3; i * i <= n; ++i) {
+    if (n % i == 0) {
+      n /= i;
+      ans.emplace_back(i);
+      while (n % i == 0) {
+        n /= i;
+      }
+    }
+  }
+  if (n > 1) ans.emplace_back(n);
+  return ans;
+}
+
 std::vector<int> factor(int n, const std::vector<int>& sp) {
   std::vector<int> ans;
   while (n > 1) {
@@ -121,7 +151,7 @@ std::vector<std::pair<int, int>> Factor(int n, const std::vector<int>& sp) {
   return ans;
 }
 
-int primitiveRoot(int n, const std::vector<int>& sp) {
+int primitiveRoot(int n) {
   if (n < 2) {
     return 0;
   }
@@ -132,14 +162,14 @@ int primitiveRoot(int n, const std::vector<int>& sp) {
     return 0;
   }
   int n2 = n % 2 == 0 ? n / 2 : n;
-  int pn = sp[n2];
+  int pn = spfator(n2);
   while (n2 % pn == 0) {
     n2 /= pn;
   }
   if (n2 != 1) {
     return 0;
   }
-  auto fp = factor(pn - 1, sp);
+  auto fp = factor(pn - 1);
   auto check = [&](int i) {
     for (auto x : fp) {
       if (powMod(i, (pn - 1) / x, pn) == 1) {
@@ -155,7 +185,7 @@ int primitiveRoot(int n, const std::vector<int>& sp) {
   n2 = n % 2 == 0 ? n / 2 : n;
   if (n2 != pn) {
     int m = n2 / pn * (pn - 1);
-    auto fm = factor(m, sp);
+    auto fm = factor(m);
     for (auto x : fp) {
       if (powMod(ans, m / x, m) == 1) {
         ans += pn;
@@ -169,8 +199,8 @@ int primitiveRoot(int n, const std::vector<int>& sp) {
   return ans;
 }
 
-std::vector<int> primitiveRootAllS(int n, const std::vector<int>& sp) {
-  int g = primitiveRoot(n, sp);
+std::vector<int> primitiveRootAllS(int n) {
+  int g = primitiveRoot(n);
   if (g == 0) {
     return {};
   }
@@ -178,7 +208,7 @@ std::vector<int> primitiveRootAllS(int n, const std::vector<int>& sp) {
     return {n - 1};
   }
   int n2 = n & 1 ? n : n / 2;
-  int pn = sp[n2], m = n2 / pn * (pn - 1), now = g;
+  int pn = spfator(n2), m = n2 / pn * (pn - 1), now = g;
   std::vector<int> ans{g};
   for (int i = 2; i < m; ++i) {
     now = 1LL * now * g % n;
@@ -190,7 +220,7 @@ std::vector<int> primitiveRootAllS(int n, const std::vector<int>& sp) {
   return ans;
 }
 
-std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp) {
+std::vector<int> primitiveRootAll(int n) {
   if (n < 2) {
     return {};
   }
@@ -200,7 +230,7 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp) {
   if (n % 4 == 0) {
     return {};
   }
-  int n2 = n % 2 == 0 ? n / 2 : n, pn = sp[n2];
+  int n2 = n % 2 == 0 ? n / 2 : n, pn = spfator(n2);
   while (n2 % pn == 0) {
     n2 /= pn;
   }
