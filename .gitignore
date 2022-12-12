@@ -1,5 +1,6 @@
 .DS_Store
 .vscode
+.clangd
 .cache
 .gn
 .gnfiles
