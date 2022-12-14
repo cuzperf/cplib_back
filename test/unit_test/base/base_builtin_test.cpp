@@ -2,6 +2,8 @@
 
 #include "test/util.h"
 
+#include "timer.hpp"
+
 namespace cuzperf {
 
 TEST(BaseTest, mulMod) {
@@ -160,12 +162,48 @@ TEST(BaseTest, parity) {
   g64(parityMIT_u64);
 }
 
-static constexpr float eps = 6.6e-5f;
+TEST(BaseTest, sqrt) {
+  std::vector<unsigned> sqrti{0, 1, 1, 1, 2, 2, 2, 2, 2, 3};
+  for (unsigned i = 0; i < sqrti.size(); ++i) {
+    EXPECT_EQ(sqrt_u32(i), sqrti[i]);
+    EXPECT_EQ(sqrt_u64(i), sqrti[i]);
+  }
+
+  for (int i = 0; i < RUN_CNT; ++i) {
+    unsigned x = rnd();
+    EXPECT_EQ(sqrt_u32(x), (unsigned)std::sqrt(x));
+  }
+
+  for (int i = 0; i < RUN_CNT; ++i) {
+    uint64_t x = rnd64();
+    EXPECT_EQ(sqrt_u64(x), (unsigned)std::sqrt(x));
+  }
+
+  std::vector<unsigned> a(BENCH_CNT);
+  for (auto &x : a) x = rnd();
+  uint64_t s1 = 0;
+  {
+    Timer A("sqrt_u32");
+    for (int i = 0; i < BENCH_CNT; ++i) {
+      s1 += sqrt_u32(a[i]);
+    }
+  }
+  uint64_t s2 = 0;
+  {
+    Timer A("std::sqrt");
+    for (int i = 0; i < BENCH_CNT; ++i) {
+      s2 += (unsigned)std::sqrt(a[i]);
+    }
+  }
+  EXPECT_EQ(s1, s2);
+}
+
+static constexpr float eps = 6.8e-5f;
 
 TEST(BsFastTest, acosFast) {
   std::uniform_real_distribution<float> u(-1, 1);
   std::default_random_engine e(time(nullptr));
-  for (int i = 0; i < RUN_TIMES; ++i) {
+  for (int i = 0; i < RUN_CNT; ++i) {
     float x = u(e);
     EXPECT_LE(fabs(acosFast(x) - acos(x)), eps);
   }
@@ -174,7 +212,7 @@ TEST(BsFastTest, acosFast) {
 TEST(BsFastTest, asinFast) {
   std::uniform_real_distribution<float> u(-1, 1);
   std::default_random_engine e(time(nullptr));
-  for (int i = 0; i < RUN_TIMES; ++i) {
+  for (int i = 0; i < RUN_CNT; ++i) {
     float x = u(e);
     EXPECT_LE(fabs(asinFast(x) - asin(x)), eps);
   }

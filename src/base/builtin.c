@@ -85,9 +85,9 @@ int IEE754_lg2_u64(uint64_t x) {
   return (x >> ans) ? ans : ans - 1;
 }
 
-int lg2_u32(unsigned x) {
+inline int lg2_u32(unsigned x) {
 #if defined(__GNUC__)
-  return sizeof(uint64_t) * CHAR_BIT - 1 - clz_u64(x);
+  return sizeof(unsigned) * CHAR_BIT - 1 - clz_u32(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
   return sizeof(unsigned) * CHAR_BIT - 1 - clz_u32(x);
 #else
@@ -227,6 +227,33 @@ bool parityMIT_u32(unsigned n) {
 bool parityMIT_u64(uint64_t n) {
   n = (n ^ n >> 1 ^ n >> 2) & 01111111111111111111111ULL;
   return (((n ^ n >> 3) & 0101010101010101010101ULL) % 63ULL) & 1U;
+}
+
+unsigned sqrt_u32(unsigned n) {
+  int idx = lg2_u32(n) & 0xfffe;
+  unsigned cm = 0;
+  for (unsigned dm = 1U << idx; dm; dm >>= 2) {
+    unsigned ym = cm + dm;
+    cm >>= 1;
+    if (n >= ym) {
+      n -= ym;
+      cm += dm;
+    }
+  }
+  return cm;
+}
+unsigned sqrt_u64(uint64_t n) {
+  int idx = lg2_u64(n) & 0xfffe;
+  uint64_t cm = 0;
+  for (uint64_t dm = 1Ull << idx; dm; dm >>= 2) {
+    uint64_t ym = cm + dm;
+    cm >>= 1;
+    if (n >= ym) {
+      n -= ym;
+      cm += dm;
+    }
+  }
+  return (unsigned)cm;
 }
 
 float acosFast(float x) {

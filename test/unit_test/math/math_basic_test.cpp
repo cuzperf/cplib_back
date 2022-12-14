@@ -76,7 +76,7 @@ TEST(MathTest, powMod) {
   }
 
   // a^{p - 1} mod p = 1
-  for (int i = 0; i < RUN_TIMES; ++i) {
+  for (int i = 0; i < RUN_CNT; ++i) {
     EXPECT_EQ(powMod(std::abs(static_cast<int>(rnd() % (M - 1))) + 1, M - 1, M), 1);
   }
 }
@@ -85,7 +85,7 @@ TEST(MathTest, inv) {
   EXPECT_EQ(inv(1, 2), 1);
   EXPECT_EQ(inv(2, 3), 2);
 
-  for (int i = 0; i < RUN_TIMES; ++i) {
+  for (int i = 0; i < RUN_CNT; ++i) {
     int x = std::abs(static_cast<int>(rnd() % (M - 1)));
     EXPECT_EQ(inv(x, M), powMod(x, M - 2, M));
   }
@@ -95,7 +95,7 @@ TEST(MathTest, gcd) {
   EXPECT_EQ(gcd(2, 3), 1);
   EXPECT_EQ(gcd(6, 8), 2);
 
-  for (int i = 0; i < RUN_TIMES; ++i) {
+  for (int i = 0; i < RUN_CNT; ++i) {
     int64_t x = rnd64(), y = rnd64();
     EXPECT_EQ(gcd(x, y), std::gcd(x, y));
   }
@@ -119,7 +119,7 @@ TEST(MathTest, crt) {
   }
 
   const auto MM = static_cast<int64_t>(M7) * M9;
-  for (int i = 0; i < RUN_TIMES; ++i) {
+  for (int i = 0; i < RUN_CNT; ++i) {
     int64_t xx = rnd64();
     xx = std::abs(xx % M);
     auto [x, y] = crt(xx % M7, M7, xx % M9, M9);
