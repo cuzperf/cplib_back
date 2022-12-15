@@ -52,12 +52,12 @@ bool parityTable_u64(uint64_t n);  // slow than __builtin_parityll
 bool parityMIT_u32(unsigned n);    // slow than parity_u32
 bool parityMIT_u64(uint64_t n);
 
-// 10 times solwer than (unsigned)std::sqrt(double(n))
+// 10 times solwer than (unsigned)std::sqrt(double(n)), never use it
 unsigned sqrt_u32(unsigned n);
 unsigned sqrt_u64(uint64_t n);
 
 // Handbook of Mathematical Functions by M. Abramowitz and I.A. Stegun, Ed.
-// Absolute error <= 6.7e-5
+// Absolute error <= 6.7e-5. Not always faster since std may be computed using hardware
 float acosFast(float x);
 float asinFast(float x);
 // https://developer.download.nvidia.cn/cg

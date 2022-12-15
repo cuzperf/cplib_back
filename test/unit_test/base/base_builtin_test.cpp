@@ -205,7 +205,7 @@ TEST(BsFastTest, acosFast) {
   std::default_random_engine e(time(nullptr));
   for (int i = 0; i < RUN_CNT; ++i) {
     float x = u(e);
-    EXPECT_LE(fabs(acosFast(x) - acos(x)), eps);
+    EXPECT_LE(fabs(acosFast(x) - std::acos(x)), eps);
   }
 }
 
@@ -214,7 +214,7 @@ TEST(BsFastTest, asinFast) {
   std::default_random_engine e(time(nullptr));
   for (int i = 0; i < RUN_CNT; ++i) {
     float x = u(e);
-    EXPECT_LE(fabs(asinFast(x) - asin(x)), eps);
+    EXPECT_LE(fabs(asinFast(x) - std::asin(x)), eps);
   }
 }
 
