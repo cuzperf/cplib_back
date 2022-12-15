@@ -230,7 +230,7 @@ bool parityMIT_u64(uint64_t n) {
 }
 
 unsigned sqrt_u32(unsigned n) {
-  int idx = lg2_u32(n) & 0xfffe;
+  int idx = lg2_u32(n) & 0xfe;
   unsigned cm = 0;
   for (unsigned dm = 1U << idx; dm; dm >>= 2) {
     unsigned ym = cm + dm;
@@ -243,7 +243,7 @@ unsigned sqrt_u32(unsigned n) {
   return cm;
 }
 unsigned sqrt_u64(uint64_t n) {
-  int idx = lg2_u64(n) & 0xfffe;
+  int idx = lg2_u64(n) & 0xfe;
   uint64_t cm = 0;
   for (uint64_t dm = 1Ull << idx; dm; dm >>= 2) {
     uint64_t ym = cm + dm;
