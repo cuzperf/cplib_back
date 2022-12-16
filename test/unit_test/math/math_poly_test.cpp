@@ -14,4 +14,8 @@ TEST(MathTest, PolyS) {
   EXPECT_EQ(c, ab);
 }
 
+TEST(MathTest, Poly) {
+
+}
+
 }  // namespace cuzperf
