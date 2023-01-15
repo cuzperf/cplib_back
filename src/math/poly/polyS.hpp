@@ -29,7 +29,7 @@ class PolyS : public std::vector<int> {
     return uint64_t(rr) * m1inv % m;
   }
   void dft() {
-    int n =static_cast<int>(size());
+    int n = static_cast<int>(size());
     if (static_cast<int>(rev_.size()) != n) {
       int k = ctz_u32(n) - 1;
       rev_.resize(n);
@@ -73,7 +73,7 @@ class PolyS : public std::vector<int> {
     }
   }
   void idft() {
-    int n =static_cast<int>(size());
+    int n = static_cast<int>(size());
     std::reverse(begin() + 1, end());
     dft();
     // not that n is power of 2, and M = 1 + c 2^x
@@ -99,7 +99,7 @@ class PolyS : public std::vector<int> {
   PolyS(const std::vector<int>& a) : std::vector<int>{a} { standard(); }
   PolyS(std::vector<int>&& a) : std::vector<int>(std::move(a)) { standard(); }
   int at(int id) const {
-    if (id < 0 || id >=static_cast<int>(size())) {
+    if (id < 0 || id >= static_cast<int>(size())) {
       return 0;
     }
     return (*this)[id];
@@ -119,7 +119,7 @@ class PolyS : public std::vector<int> {
     return A;
   }
   PolyS modXn(int n) const {
-    if (n >=static_cast<int>(size())) {
+    if (n >= static_cast<int>(size())) {
       return *this;
     }
     return PolyS({begin(), begin() + n});
@@ -129,13 +129,13 @@ class PolyS : public std::vector<int> {
     return PolyS(std::move(*this));
   }
   PolyS divXn(int n) const {
-    if (static_cast<int>(size())<= n) {
+    if (static_cast<int>(size()) <= n) {
       return PolyS();
     }
     return PolyS({begin() + n, end()});
   }
   PolyS& operator+=(const PolyS& rhs) {
-    if (static_cast<int>(size())< static_cast<int>(rhs.size())) {
+    if (static_cast<int>(size()) < static_cast<int>(rhs.size())) {
       resize(rhs.size());
     }
     for (int i = 0, rs = rhs.size(); i < rs; ++i) {
@@ -159,7 +159,7 @@ class PolyS : public std::vector<int> {
     return *this;
   }
   PolyS& operator*=(PolyS&& rhs) {
-    int n =static_cast<int>(size()), m = rhs.size(), tot = std::max(1, n + m - 1);
+    int n = static_cast<int>(size()), m = rhs.size(), tot = std::max(1, n + m - 1);
     int sz = 1 << lg2_u32(tot * 2 - 1);
     resize(sz);
     rhs.resize(sz);
@@ -173,7 +173,7 @@ class PolyS : public std::vector<int> {
     return *this;
   }
   PolyS& operator/=(PolyS&& rhs) {
-    int n =static_cast<int>(size()), m = rhs.size();
+    int n = static_cast<int>(size()), m = rhs.size();
     if (n < m) {
       return (*this) = PolyS();
     }
@@ -214,7 +214,7 @@ class PolyS : public std::vector<int> {
     if (empty()) {
       return PolyS();
     }
-    int n =static_cast<int>(size());
+    int n = static_cast<int>(size());
     std::vector<int> r(n - 1);
     for (int i = 1; i < n; ++i) {
       r[i - 1] = 1LL * (*this)[i] * i % M;
@@ -225,7 +225,7 @@ class PolyS : public std::vector<int> {
     if (empty()) {
       return PolyS();
     }
-    int n =static_cast<int>(size());
+    int n = static_cast<int>(size());
     std::vector<int> r(n + 1), inv(n + 1, 1);
     for (int i = 2; i <= n; ++i) {
       inv[i] = 1LL * (M - M / i) * inv[M % i] % M;
@@ -271,7 +271,7 @@ class PolyS : public std::vector<int> {
   }
   int eval(int x) const {
     int r = 0, t = 1;
-    for (int i = 0, n =static_cast<int>(size()); i < n; ++i) {
+    for (int i = 0, n = static_cast<int>(size()); i < n; ++i) {
       r = (r + 1LL * (*this)[i] * t) % M;
       t = 1LL * t * x % M;
     }

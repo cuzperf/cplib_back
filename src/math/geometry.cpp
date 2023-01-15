@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <bitset>
 #include <cmath>
+#include <functional>
 #include <limits>
 #include <utility>
-#include <functional>
 
 namespace cuzperf {
 

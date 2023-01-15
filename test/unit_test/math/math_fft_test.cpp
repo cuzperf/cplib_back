@@ -1,5 +1,4 @@
 #include "math/fft.h"
-
 #include "test/util.h"
 
 namespace cuzperf {
@@ -22,7 +21,8 @@ TEST(MathTest, fft) {
     }
   }
   {
-    std::vector<FFT::C> a{1, 2, 3, 4, FFT::C(1, 0.5), FFT::C(2, 0.3), FFT::C(0, 0.5), FFT::C(2.1, 3.4)};
+    std::vector<FFT::C> a{
+        1, 2, 3, 4, FFT::C(1, 0.5), FFT::C(2, 0.3), FFT::C(0, 0.5), FFT::C(2.1, 3.4)};
     auto b = a;
     FFT::dft(b);
     FFT::idft(b);

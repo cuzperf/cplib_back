@@ -1,8 +1,7 @@
-#include "ds/listVector.hpp"
-
-#include "util.h"
-
 #include <numeric>
+
+#include "ds/listVector.hpp"
+#include "util.h"
 
 namespace cuzperf {
 

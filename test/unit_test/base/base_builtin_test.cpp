@@ -1,7 +1,5 @@
 #include "base/builtin.h"
-
 #include "test/util.h"
-
 #include "timer.hpp"
 
 namespace cuzperf {
@@ -180,7 +178,9 @@ TEST(BaseTest, sqrt) {
   }
 
   std::vector<unsigned> a(BENCH_CNT);
-  for (auto &x : a) x = rnd();
+  for (auto& x : a) {
+    x = rnd();
+  }
   uint64_t s1 = 0;
   {
     Timer A("sqrt_u32");

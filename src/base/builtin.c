@@ -1,8 +1,8 @@
 #include "base/builtin.h"
 
+#include <assert.h>
 #include <limits.h>
 #include <math.h>
-#include <assert.h>
 
 #if defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
 #include <intrin.h>
@@ -109,7 +109,7 @@ int clz_u32(unsigned x) {
 #if defined(__GNUC__)
   return __builtin_clz(x);
 #elif defined(_MSC_VER) && (defined(_M_X86) || defined(_M_X64))
-  return __lzcnt(x);  // _lzcnt_u32 will cause link error
+  return __lzcnt(x);    // _lzcnt_u32 will cause link error
 #else
   return sizeof(unsigned) * CHAR_BIT - 1 - lg2_u32(x);
 #endif

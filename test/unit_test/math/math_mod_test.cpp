@@ -1,10 +1,9 @@
 #include "math/mod.hpp"
-
 #include "test/util.h"
 
 namespace cuzperf {
 
-template<typename T>
+template <typename T>
 static void fun1123() {
   T A{123}, B{321};
   --A;
@@ -31,8 +30,6 @@ TEST(MathTest, modLL) {
 }
 
 
-TEST(MathTest, mInt) {
-  fun1123<MInt<1123>>();
-}
+TEST(MathTest, mInt) { fun1123<MInt<1123>>(); }
 
 }  // namespace cuzperf

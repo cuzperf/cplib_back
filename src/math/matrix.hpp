@@ -1,23 +1,31 @@
 #pragma once
 
 #include <assert.h>
-#include <vector>
+
 #include <iostream>
+#include <vector>
 
 namespace cuzperf {
 
 template <int N, typename valT>
 class Matrix {
   bool check() {
-    if (a_.size() != N) return false;
-    for (auto &x : a_) if (x.size() != N) return false;
+    if (a_.size() != N) {
+      return false;
+    }
+    for (auto& x : a_) {
+      if (x.size() != N) {
+        return false;
+      }
+    }
     return true;
   }
+
  public:
   std::vector<std::vector<valT>> a_;
   Matrix(const std::vector<std::vector<valT>>& a) : a_(a) { assert(check()); }
   Matrix(std::vector<std::vector<valT>>&& a) : a_(std::move(a)) { assert(check()); }
-  std::vector<std::vector<valT>> getOrigin() const { return a_;}
+  std::vector<std::vector<valT>> getOrigin() const { return a_; }
   Matrix(valT x = 0) : a_(N, std::vector<valT>(N)) {
     for (int i = 0; i < N; ++i) {
       a_[i][i] = x;

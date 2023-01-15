@@ -1,5 +1,4 @@
 #include "math/binom.hpp"
-
 #include "math/mod.hpp"
 #include "math/numberTheory.h"
 #include "test/util.h"

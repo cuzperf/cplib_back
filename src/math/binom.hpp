@@ -38,7 +38,9 @@ class BinomModp {
   BinomModp() {}
   void init(int n) {
     assert(n <= valT::mod());
-    if (n_ >= n) return;
+    if (n_ >= n) {
+      return;
+    }
     fac_.resize(n + 1);
     ifac_.resize(n + 1);
     inv_.resize(n + 1);

@@ -1,8 +1,7 @@
-#include "ds/fenwick.hpp"
-
-#include "test/util.h"
-
 #include <numeric>
+
+#include "ds/fenwick.hpp"
+#include "test/util.h"
 
 namespace cuzperf {
 

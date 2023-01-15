@@ -66,8 +66,8 @@ auto FMTxor = [](std::vector<int>& a, bool isRev) {
     }
   }
 };
-auto fun = [](std::function<void(std::vector<int>&, bool)> f
-              , std::vector<int> a, std::vector<int> b) {
+auto fun = [](std::function<void(std::vector<int>&, bool)> f, std::vector<int> a,
+              std::vector<int> b) {
   int n = extend(std::max(a.size(), b.size()));
   a.resize(1 << n);
   b.resize(1 << n);

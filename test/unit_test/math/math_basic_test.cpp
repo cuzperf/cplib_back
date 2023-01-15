@@ -1,9 +1,9 @@
-#include "math/basic.h"
-
-#include "test/util.h"
-
 #include <stdio.h>
+
 #include <numeric>
+
+#include "math/basic.h"
+#include "test/util.h"
 
 namespace cuzperf {
 

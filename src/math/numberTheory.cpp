@@ -1,6 +1,7 @@
 #include "numberTheory.h"
 
 #include <assert.h>
+
 #include <random>
 
 #include "base/builtin.h"
@@ -43,9 +44,13 @@ std::vector<int> spf(int N) {
 }
 
 int spfator(int n) {
-  if (n % 2 == 0) return 2;
+  if (n % 2 == 0) {
+    return 2;
+  }
   for (int i = 3; i * i <= n; i += 2) {
-    if (n % i == 0) return i;
+    if (n % i == 0) {
+      return i;
+    }
   }
   return n;
 }
@@ -122,7 +127,9 @@ std::vector<int> factor(int n) {
       }
     }
   }
-  if (n > 1) ans.emplace_back(n);
+  if (n > 1) {
+    ans.emplace_back(n);
+  }
   return ans;
 }
 
@@ -456,7 +463,10 @@ int sqrtModpS(int a, int p) {
 struct pseudoComplex {
   int x, y;
   static inline int p, m;
-  static void setMod(int _p, int _m) { p = _p; m = _m; }
+  static void setMod(int _p, int _m) {
+    p = _p;
+    m = _m;
+  }
   pseudoComplex(int _x = 0, int _y = 0) : x(_x), y(_y) {}
   pseudoComplex operator*(const pseudoComplex& A) const {
     return pseudoComplex((1LL * x * A.x + 1LL * y * A.y % p * m) % p,

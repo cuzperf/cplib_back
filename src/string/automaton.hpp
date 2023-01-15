@@ -2,8 +2,8 @@
 
 #include <array>
 #include <queue>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace cuzperf {
 
