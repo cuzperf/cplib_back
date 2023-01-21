@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include <queue>
+#include <limits>
 
 namespace cuzperf {
 

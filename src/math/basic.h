@@ -1,7 +1,9 @@
 #pragma once
 
+#include <stdint.h>
 #include <stdio.h>
 
+#include <algorithm>
 #include <tuple>
 #include <utility>
 #include <vector>
