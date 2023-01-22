@@ -169,12 +169,12 @@ TEST(BaseTest, sqrt) {
 
   for (int i = 0; i < RUN_CNT; ++i) {
     unsigned x = rnd();
-    EXPECT_EQ(sqrt_u32(x), (unsigned)std::sqrt(x));
+    EXPECT_EQ(sqrt_u32(x), static_cast<unsigned>(std::sqrt(x)));
   }
 
   for (int i = 0; i < RUN_CNT; ++i) {
     uint64_t x = rnd64();
-    EXPECT_EQ(sqrt_u64(x), (unsigned)std::sqrt(x));
+    EXPECT_EQ(sqrt_u64(x), static_cast<unsigned>(std::sqrt(x)));
   }
 
   std::vector<unsigned> a(BENCH_CNT);
@@ -192,7 +192,7 @@ TEST(BaseTest, sqrt) {
   {
     Timer A("std::sqrt");
     for (int i = 0; i < BENCH_CNT; ++i) {
-      s2 += (unsigned)std::sqrt(a[i]);
+      s2 += static_cast<unsigned>(std::sqrt(a[i]));
     }
   }
   EXPECT_EQ(s1, s2);
