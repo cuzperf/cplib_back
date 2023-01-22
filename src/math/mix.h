@@ -3,8 +3,8 @@
 #include <time.h>
 
 #include <functional>
-#include <vector>
 #include <limits>
+#include <vector>
 
 namespace cuzperf {
 

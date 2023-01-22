@@ -3,8 +3,8 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <queue>
 #include <limits>
+#include <queue>
 
 namespace cuzperf {
 

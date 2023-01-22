@@ -1,4 +1,5 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
 BasedOnStyle: Google
 Language: Cpp
 ColumnLimit: 100
@@ -26,4 +27,4 @@ IndentCaseLabels: false
 AlignConsecutiveAssignments: None
 
 # find dir -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' | xargs clang-format -i -style=file
-# don't apply to third_party and interface!
+# don't apply to third_party and interface! At least clang-format-15 should be installed
