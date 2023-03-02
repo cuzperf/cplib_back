@@ -29,7 +29,7 @@ class ThreadSafeQueue {
     cv_.notify_one();
   }
   bool pop(T& ans, int wait_ms = -1) {
-    std::unique_lock<std::mutex> _(mtx_);
+    std::unique_lock _(mtx_);
     bool wait_success = true;
     if (wait_ms < 0) {
       cv_.wait(_, [this]() { return !Q_.empty(); });
