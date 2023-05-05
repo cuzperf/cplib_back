@@ -30,15 +30,8 @@ class PolyS : public std::vector<int> {
   }
   void dft() {
     int n = static_cast<int>(size());
-    if (static_cast<int>(rev_.size()) != n) {
-      int k = ctz_u32(n) - 1;
-      rev_.resize(n);
-      for (int i = 0; i < n; ++i) {
-        rev_[i] = rev_[i >> 1] >> 1 | (i & 1) << k;
-      }
-    }
     if (static_cast<int>(roots_.size()) < n) {
-      int k = ctz_u32(roots_.size());
+      int k = __builtin_ctz(roots_.size());
       roots_.resize(n);
       while ((1 << k) < n) {
         int e = powMod(G, (M - 1) >> (k + 1));
@@ -49,39 +42,42 @@ class PolyS : public std::vector<int> {
         ++k;
       }
     }
+    if (static_cast<int>(rev_.size()) != n) {
+      int k = __builtin_ctz(n) - 1;
+      rev_.resize(n);
+      for (int i = 0, i1 = 0; i < n; i += 2, ++i1) {
+        rev_[i] = rev_[i1] >> 1;
+        rev_[i + 1] = rev_[i1] >> 1 | 1 << k;
+      }
+    }
     for (int i = 0; i < n; ++i) {
       if (rev_[i] < i) {
         std::swap((*this)[i], (*this)[rev_[i]]);
       }
     }
     for (int k = 1; k < n; k *= 2) {
-      for (int i = 0; i < n; i += 2 * k) {
+      for (int i = 0; i < n; i += k * 2) {
         for (int j = 0; j < k; ++j) {
           int u = (*this)[i + j];
-          int v = 1LL * (*this)[i + j + k] * roots_[k + j] % M;
+          int v = 1LL * (*this)[i + j + k] * roots_[j + k] % M;
           int x = u + v, y = u - v;
-          if (x >= M) {
-            x -= M;
-          }
-          if (y < 0) {
-            y += M;
-          }
-          (*this)[i + j] = x;
-          (*this)[i + j + k] = y;
+          (*this)[i + j] = x >= M ? x - M : x;
+          (*this)[i + j + k] = y < 0 ? y + M : y;
         }
       }
     }
   }
   void idft() {
-    int n = static_cast<int>(size());
+    const int n = static_cast<int>(size());
     std::reverse(begin() + 1, end());
     dft();
     // not that n is power of 2, and M = 1 + c 2^x
-    int invN = M - (M - 1) / n;
+    const int invN = M - (M - 1) / n;
     for (int i = 0; i < n; ++i) {
       (*this)[i] = 1LL * (*this)[i] * invN % M;
     }
   }
+
   void standard() {
     while (!empty() && !back()) {
       pop_back();
@@ -160,7 +156,7 @@ class PolyS : public std::vector<int> {
   }
   PolyS& operator*=(PolyS&& rhs) {
     int n = static_cast<int>(size()), m = rhs.size(), tot = std::max(1, n + m - 1);
-    int sz = 1 << lg2_u32(tot * 2 - 1);
+    int sz = 1 << std::__lg(tot * 2 - 1);
     resize(sz);
     rhs.resize(sz);
     dft();
@@ -208,7 +204,7 @@ class PolyS : public std::vector<int> {
     for (int i = 0; i < n; ++i) {
       r = (r + 1LL * (*this)[i] * rhs[i]) % M;
     }
-    return r;
+    return (r % M + M) % M;
   }
   PolyS derivation() const {
     if (empty()) {
@@ -319,6 +315,22 @@ class PolyS : public std::vector<int> {
     solve(0, n, 1, mulT(g[1].inv(size())).modXnR(n));
     return ans;
   }  // https://www.luogu.com.cn/problem/P5050
+
+  // $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$: https://oi-wiki.org/math/linear-recurrence/
+  // find n-th term of The recursive formula for the constant coefficient of order k in $O(k \log k
+  // \log n)$
+  static int linearRecursion(const std::vector<int>& a, std::vector<int> f, int64_t n) {
+    if (n < static_cast<int>(a.size())) {
+      return (a[n] % M + M) % M;
+    }
+    int m = static_cast<int>(f.size());
+    std::reverse(f.begin(), f.end());
+    std::vector<int> g(m);
+    g.emplace_back(1);
+    PolyS A = PolyS({0, 1}), p = PolyS(std::move(g)) - PolyS(std::move(f));
+    PolyS R = A.powModPoly(n, p);
+    return R.inner(a);
+  }  // https://www.luogu.com.cn/problem/P4723
 };   // https://www.luogu.com.cn/training/3015#information
 
 }  // namespace cuzperf
