@@ -32,6 +32,11 @@ C++17 single-thread template for competitive programming contest, which contains
 
 ## To
 
+- 添加 CMAKE，形成双编译系统
+- 添加 standalone 分支版本：standalone 版本只针对 g++，不必也的过于通用，也不讲究极端的性能，尽量简洁，能快速复制使用，能够快速测试。
+- mint 重新设置，看看 Atcode 怎么做
+- FFT 支持 AVX2。多项式再加强！
+- main 版本的效率不应低于 standalone 版本
 - 更新 Gtest（GTest 要不要拓展时间 呢？），本质上是保证正确性
 - 各个版本性能比较怎么做呢？ std::any ? 对应不同的 type 应该怎么搞呢？难道用模板？（貌似也不是不行）
 - 递归版本 fft
