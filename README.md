@@ -16,6 +16,8 @@ C++17 single-thread template for competitive programming contest, which contains
 
 ## 中文（以下内容在 release 时候会删掉）
 
+有模板能更进一步，写模板的过程就是一个细细品尝的过程，但是不能形成依赖，搞得没有模板不会写代码了。记忆记忆记忆
+
 我不是一个优秀的 icpcer，很多代码都是从其它选手那里复刻（并不是复制，全量测试覆盖，全量 sanitizer）过来的，特别是 03年的 jiangly
 
 - 中文可以表露一下心扉
@@ -29,10 +31,14 @@ C++17 single-thread template for competitive programming contest, which contains
 - unit_test 的两个作用：保证正确性，使用文档。我们完全可以写一点如何 unit_test 是如何设计的
 - 文档可以介绍如何使用，说明复杂度，说明原理（当然了可以给一个 wiki 的应用，blog 可能不是很推荐）
 
+> 发布第一个 release 版本后，开始以 PR 的形式更新！2023 国庆假期完成，然后开始打 codeforces！zly 过生日后开始搞。后来的 release 分阶段完成 ToDo 的事情
 
 ## To
 
-- 添加 CMAKE，形成双编译系统
+- 稀疏矩阵和《矩阵计算六讲》和 《Hacker's Delight》的知识没有搞，可能还要引入 boost 矩阵库。
+- 看看 Atcoder 和 cp-algorithm 是怎么做的
+- 架构图，函数和类依赖关系图（工具自动生成）
+- 添加 CMAKE，形成双编译系统（这样可以不依赖外部 gn）
 - 添加 standalone 分支版本：standalone 版本只针对 g++，不必也的过于通用，也不讲究极端的性能，尽量简洁，能快速复制使用，能够快速测试。
 - mint 重新设置，看看 Atcode 怎么做
 - FFT 支持 AVX2。多项式再加强！
