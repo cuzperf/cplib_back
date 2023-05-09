@@ -8,76 +8,75 @@
 #include "base/builtin.h"
 
 namespace cuzperf {
+static inline constexpr int G = 3, M = 998244353;  // 1 +  2^23 * 7 * 17
+static inline std::vector<int> rev_, roots_{0, 1};
+static unsigned powMod(unsigned x, unsigned n) {
+  static const unsigned m = 998244353U;
+  static const unsigned mr = 998244351U;
+  static const unsigned m1 = 301989884U;
+  static const unsigned m1inv = 232013824U;
+  unsigned xx = (uint64_t(x) << 32) % m, rr = m1;
+  while (n) {
+    if (n & 1) {
+      uint64_t t = uint64_t(rr) * xx;
+      rr = (t + uint64_t(unsigned(t) * mr) * m) >> 32;
+    }
+    uint64_t t = uint64_t(xx) * xx;
+    xx = (t + uint64_t(unsigned(t) * mr) * m) >> 32;
+    n >>= 1;
+  }
+  return uint64_t(rr) * m1inv % m;
+}
+void dft(std::vector<int>& a) {
+  int n = static_cast<int>(a.size());
+  if (static_cast<int>(roots_.size()) < n) {
+    int k = __builtin_ctz(roots_.size());
+    roots_.resize(n);
+    while ((1 << k) < n) {
+      int e = powMod(G, (M - 1) >> (k + 1));
+      for (int i = 1 << (k - 1); i < (1 << k); ++i) {
+        roots_[2 * i] = roots_[i];
+        roots_[2 * i + 1] = 1LL * roots_[i] * e % M;
+      }
+      ++k;
+    }
+  }
+  if (static_cast<int>(rev_.size()) != n) {
+    int k = __builtin_ctz(n) - 1;
+    rev_.resize(n);
+    for (int i = 0, i1 = 0; i < n; i += 2, ++i1) {
+      rev_[i] = rev_[i1] >> 1;
+      rev_[i + 1] = rev_[i1] >> 1 | 1 << k;
+    }
+  }
+  for (int i = 0; i < n; ++i) {
+    if (rev_[i] < i) {
+      std::swap(a[i], a[rev_[i]]);
+    }
+  }
+  for (int k = 1; k < n; k *= 2) {
+    for (int i = 0; i < n; i += k * 2) {
+      for (int j = 0; j < k; ++j) {
+        int u = a[i + j];
+        int v = 1LL * a[i + j + k] * roots_[j + k] % M;
+        int x = u + v, y = u - v;
+        a[i + j] = x >= M ? x - M : x;
+        a[i + j + k] = y < 0 ? y + M : y;
+      }
+    }
+  }
+}
+void idft(std::vector<int>& a) {
+  std::reverse(a.begin() + 1, a.end());
+  dft(a);
+  // not that n is power of 2, and M = 1 + c 2^x
+  const int invN = M - (M - 1) / static_cast<int>(a.size());
+  for (auto &x : a) {
+    x = 1LL * x * invN % M;
+  }
+}
 
 class PolyS : public std::vector<int> {
-  static inline std::vector<int> rev_, roots_{0, 1};
-  static unsigned powMod(unsigned x, unsigned n) {
-    static const unsigned m = 998244353U;
-    static const unsigned mr = 998244351U;
-    static const unsigned m1 = 301989884U;
-    static const unsigned m1inv = 232013824U;
-    unsigned xx = (uint64_t(x) << 32) % m, rr = m1;
-    while (n) {
-      if (n & 1) {
-        uint64_t t = uint64_t(rr) * xx;
-        rr = (t + uint64_t(unsigned(t) * mr) * m) >> 32;
-      }
-      uint64_t t = uint64_t(xx) * xx;
-      xx = (t + uint64_t(unsigned(t) * mr) * m) >> 32;
-      n >>= 1;
-    }
-    return uint64_t(rr) * m1inv % m;
-  }
-  void dft() {
-    int n = static_cast<int>(size());
-    if (static_cast<int>(roots_.size()) < n) {
-      int k = __builtin_ctz(roots_.size());
-      roots_.resize(n);
-      while ((1 << k) < n) {
-        int e = powMod(G, (M - 1) >> (k + 1));
-        for (int i = 1 << (k - 1); i < (1 << k); ++i) {
-          roots_[2 * i] = roots_[i];
-          roots_[2 * i + 1] = 1LL * roots_[i] * e % M;
-        }
-        ++k;
-      }
-    }
-    if (static_cast<int>(rev_.size()) != n) {
-      int k = __builtin_ctz(n) - 1;
-      rev_.resize(n);
-      for (int i = 0, i1 = 0; i < n; i += 2, ++i1) {
-        rev_[i] = rev_[i1] >> 1;
-        rev_[i + 1] = rev_[i1] >> 1 | 1 << k;
-      }
-    }
-    for (int i = 0; i < n; ++i) {
-      if (rev_[i] < i) {
-        std::swap((*this)[i], (*this)[rev_[i]]);
-      }
-    }
-    for (int k = 1; k < n; k *= 2) {
-      for (int i = 0; i < n; i += k * 2) {
-        for (int j = 0; j < k; ++j) {
-          int u = (*this)[i + j];
-          int v = 1LL * (*this)[i + j + k] * roots_[j + k] % M;
-          int x = u + v, y = u - v;
-          (*this)[i + j] = x >= M ? x - M : x;
-          (*this)[i + j + k] = y < 0 ? y + M : y;
-        }
-      }
-    }
-  }
-  void idft() {
-    const int n = static_cast<int>(size());
-    std::reverse(begin() + 1, end());
-    dft();
-    // not that n is power of 2, and M = 1 + c 2^x
-    const int invN = M - (M - 1) / n;
-    for (int i = 0; i < n; ++i) {
-      (*this)[i] = 1LL * (*this)[i] * invN % M;
-    }
-  }
-
   void standard() {
     while (!empty() && !back()) {
       pop_back();
@@ -89,7 +88,6 @@ class PolyS : public std::vector<int> {
   }
 
  public:
-  static inline constexpr int G = 3, M = 998244353;  // 1 +  2^23 * 7 * 17
   PolyS() {}
   PolyS(const int& x) : std::vector<int>{x} { standard(); }
   PolyS(const std::vector<int>& a) : std::vector<int>{a} { standard(); }
@@ -159,12 +157,12 @@ class PolyS : public std::vector<int> {
     int sz = 1 << std::__lg(tot * 2 - 1);
     resize(sz);
     rhs.resize(sz);
-    dft();
-    rhs.dft();
+    dft(*this);
+    dft(rhs);
     for (int i = 0; i < sz; ++i) {
       (*this)[i] = 1LL * (*this)[i] * rhs[i] % M;
     }
-    idft();
+    idft(*this);
     standard();
     return *this;
   }
@@ -331,6 +329,24 @@ class PolyS : public std::vector<int> {
     PolyS R = A.powModPoly(n, p);
     return R.inner(a);
   }  // https://www.luogu.com.cn/problem/P4723
+  //
+  static std::vector<int> MPFFT(std::vector<int> a, std::vector<int> b) {
+    // assert(b.size() == 2 * (a.size() - 1));
+    int d = a.size() - 1;
+    int sz = 1 << std::__lg(d * 2 - 1);
+    std::reverse(a.begin(), a.end());
+    a.resize(sz);
+    b.resize(sz);
+    dft(a);
+    idft(b);
+    for (int i = 0; i < sz; ++i) a[i] = 1LL * a[i] * b[i] % M;
+    a.resize(d);
+    const int invN = M - (M - 1) / sz;
+    for (auto &x : a) {
+      x = 1LL * x * invN % M;
+    }
+    return a;
+  }
 };   // https://www.luogu.com.cn/training/3015#information
 
 }  // namespace cuzperf
