@@ -8,8 +8,14 @@
 #include "base/builtin.h"
 
 namespace cuzperf {
-static inline constexpr int G = 3, M = 998244353;  // 1 +  2^23 * 7 * 17
-static inline std::vector<int> rev_, roots_{0, 1};
+static constexpr int G = 3, M = 998244353;  // 1 +  2^23 * 7 * 17
+
+// 这里为了方便，用一维数组而非二维数组
+// $roots[2^k + j] = e^{2\pi \mathrm{i} \frac{j}{2^k}}, 0 \leq j < 2^k$
+static std::vector<int> roots_{0};
+// $rev[2^k + j] = bitReverse(j)$ of length $k$, $0 \leq j < 2^k$
+static std::vector<int> rev_{0, 0};
+
 static unsigned powMod(unsigned x, unsigned n) {
   static const unsigned m = 998244353U;
   static const unsigned mr = 998244351U;
@@ -27,31 +33,35 @@ static unsigned powMod(unsigned x, unsigned n) {
   }
   return uint64_t(rr) * m1inv % m;
 }
+void init(int n) {
+  int k = static_cast<int>(roots_.size());
+  if (k < n) {
+    roots_.resize(n);
+    int e = powMod(G, (M - 1) / n);
+    int n2 = n / 2;
+    roots_[n2] = 1;
+    for (int i = n2 + 1; i < n; ++i) {
+      roots_[i] = 1LL * roots_[i - 1] * e % M;
+    }
+    for (int i = n2 - 1; i >= k; --i) {
+      roots_[i] = roots_[i << 1];
+    }
+    rev_.resize(n * 2);
+    for (k *= 2; k <= n; k *= 2) {
+      for (int i = 0; i < k; i += 2) {
+        rev_[k + i] = rev_[k + (i >> 1)] >> 1;
+        rev_[k + i + 1] = (rev_[k + (i >> 1)] | k) >> 1;
+      }
+    }
+  }
+}
+
 void dft(std::vector<int>& a) {
   int n = static_cast<int>(a.size());
-  if (static_cast<int>(roots_.size()) < n) {
-    int k = __builtin_ctz(roots_.size());
-    roots_.resize(n);
-    while ((1 << k) < n) {
-      int e = powMod(G, (M - 1) >> (k + 1));
-      for (int i = 1 << (k - 1); i < (1 << k); ++i) {
-        roots_[2 * i] = roots_[i];
-        roots_[2 * i + 1] = 1LL * roots_[i] * e % M;
-      }
-      ++k;
-    }
-  }
-  if (static_cast<int>(rev_.size()) != n) {
-    int k = __builtin_ctz(n) - 1;
-    rev_.resize(n);
-    for (int i = 0, i1 = 0; i < n; i += 2, ++i1) {
-      rev_[i] = rev_[i1] >> 1;
-      rev_[i + 1] = rev_[i1] >> 1 | 1 << k;
-    }
-  }
+  init(n);
   for (int i = 0; i < n; ++i) {
-    if (rev_[i] < i) {
-      std::swap(a[i], a[rev_[i]]);
+    if (rev_[n + i] < i) {
+      std::swap(a[i], a[rev_[n + i]]);
     }
   }
   for (int k = 1; k < n; k *= 2) {
@@ -69,7 +79,7 @@ void dft(std::vector<int>& a) {
 void idft(std::vector<int>& a) {
   std::reverse(a.begin() + 1, a.end());
   dft(a);
-  // not that n is power of 2, and M = 1 + c 2^x
+  // note that n is power of 2, and M = 1 + c 2^x
   const int invN = M - (M - 1) / static_cast<int>(a.size());
   for (auto &x : a) {
     x = 1LL * x * invN % M;
@@ -89,8 +99,11 @@ class PolyS : public std::vector<int> {
 
  public:
   PolyS() {}
-  PolyS(const int& x) : std::vector<int>{x} { standard(); }
-  PolyS(const std::vector<int>& a) : std::vector<int>{a} { standard(); }
+  PolyS(const int& x) : std::vector<int>{(x % M + M) % M} { standard(); }
+  PolyS(const std::vector<int>& a) : std::vector<int>{a} {
+    standard();
+    for (auto &x : *this) x = (x % M + M) % M;
+  }
   PolyS(std::vector<int>&& a) : std::vector<int>(std::move(a)) { standard(); }
   int at(int id) const {
     if (id < 0 || id >= static_cast<int>(size())) {
@@ -202,7 +215,7 @@ class PolyS : public std::vector<int> {
     for (int i = 0; i < n; ++i) {
       r = (r + 1LL * (*this)[i] * rhs[i]) % M;
     }
-    return (r % M + M) % M;
+    return r;
   }
   PolyS derivation() const {
     if (empty()) {
