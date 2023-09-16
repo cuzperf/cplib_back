@@ -83,4 +83,4 @@ using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 
 }  // namespace cuzperf
 
-#endif
+#endif  // __GNUC__

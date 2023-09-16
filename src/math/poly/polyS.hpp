@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <functional>
 
 #include "base/builtin.h"
 
@@ -33,7 +34,7 @@ static unsigned powMod(unsigned x, unsigned n) {
   }
   return uint64_t(rr) * m1inv % m;
 }
-void init(int n) {
+static void init(int n) {
   int k = static_cast<int>(roots_.size());
   if (k < n) {
     roots_.resize(n);
@@ -56,7 +57,7 @@ void init(int n) {
   }
 }
 
-void dft(std::vector<int>& a) {
+static void dft(std::vector<int>& a) {
   int n = static_cast<int>(a.size());
   init(n);
   for (int i = 0; i < n; ++i) {
@@ -76,7 +77,7 @@ void dft(std::vector<int>& a) {
     }
   }
 }
-void idft(std::vector<int>& a) {
+static void idft(std::vector<int>& a) {
   std::reverse(a.begin() + 1, a.end());
   dft(a);
   // note that n is power of 2, and M = 1 + c 2^x
@@ -167,7 +168,7 @@ class PolyS : public std::vector<int> {
   }
   PolyS& operator*=(PolyS&& rhs) {
     int n = static_cast<int>(size()), m = rhs.size(), tot = std::max(1, n + m - 1);
-    int sz = 1 << std::__lg(tot * 2 - 1);
+    int sz = 1 << lg2_u32(tot * 2 - 1);
     resize(sz);
     rhs.resize(sz);
     dft(*this);
@@ -346,7 +347,7 @@ class PolyS : public std::vector<int> {
   static std::vector<int> MPFFT(std::vector<int> a, std::vector<int> b) {
     // assert(b.size() == 2 * (a.size() - 1));
     int d = a.size() - 1;
-    int sz = 1 << std::__lg(d * 2 - 1);
+    int sz = 1 << lg2_u32(d * 2 - 1);
     std::reverse(a.begin(), a.end());
     a.resize(sz);
     b.resize(sz);

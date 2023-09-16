@@ -85,4 +85,4 @@ int64_t factorial(int64_t n, int64_t p) {
 }
 }  // namespace cuzperf
 
-#endif
+#endif  // __GNUC__
