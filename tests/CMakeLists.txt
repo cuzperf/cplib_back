@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.19.7)
-
 project(test)
 enable_testing()
 
@@ -17,7 +15,7 @@ include_directories("${CMAKE_SOURCE_DIR}")
 # unit_test
 add_executable(unit_test
   ${CMAKE_SOURCE_DIR}/3rdparty/googletest/googletest/src/gtest_main.cc
-  unit_test/util.cpp
+  unit_test/test_util.cpp
   # unit_test/*.h
   test_util.h
 )

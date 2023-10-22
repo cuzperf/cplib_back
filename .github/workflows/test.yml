@@ -1,0 +1,66 @@
+name: TEST
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+      - oldmaster
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Cplib and CMake
+      run: |
+        git submodule update --init --recursive
+
+        if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+          sudo apt-get update
+          sudo apt-get install -y cmake
+        elif [ "${{ matrix.os }}" = "macos-latest" ]; then
+          brew update
+          brew install cmake
+        fi
+      shell: bash
+
+    - name: Build project with CMake and Test
+      run: |
+        rm -rf build
+        cmake -B build
+        cmake --build build
+        build/unit_test
+      shell: bash
+
+    - name: Run Google Test
+      run: |
+
+      shell: bash
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Cplib and CMake
+      run: |
+        git submodule update --init --recursive
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+      shell: powershell
+
+    - name: Build project with CMake and Test
+      run: |
+        rmdir /s /q build
+        cmake -B build
+        cmake --build build --config Release
+        build\Release\unit_test.exe
+      shell: cmd

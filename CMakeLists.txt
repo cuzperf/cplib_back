@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19.7)  # enable Apple Silicon
+cmake_minimum_required(VERSION 3.16)
 
 project(
   cplib
@@ -12,9 +12,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 17)
 
-# add test
-add_subdirectory(tests)
-
 include(${CMAKE_SOURCE_DIR}/cmake/clang-format.cmake)
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/3rdparty/googletest" "3rdparty/googletest")
+# add test
+add_subdirectory(3rdparty/googletest)
+add_subdirectory(tests)
