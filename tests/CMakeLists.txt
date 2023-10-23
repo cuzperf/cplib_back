@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.19.7)
-
 project(test)
 enable_testing()
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19.7)  # enable Apple Silicon
+cmake_minimum_required(VERSION 3.16)
 
 project(
   cplib
