@@ -5,7 +5,6 @@ code_to_write = """
 rm -rf build
 cmake -B build
 cmake --build build --target clang-format
-echo "Run clang-format done"
 """
 
 with open(file_name, "w") as file:
